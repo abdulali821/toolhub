@@ -35,7 +35,7 @@ export const load: PageServerLoad = async ({ url }) => {
 		{
 			title: `${site.name} — Free online tools that stay private`,
 			description:
-				'ToolHub is a fast collection of free online tools for text, developers, images, and PDFs. Runs in your browser. No installs. No clutter.',
+				'Privacy-first online tools that run in your browser. Format text, convert files, edit PDFs—no sign-up required. Free forever.',
 			canonicalPath: '/'
 		},
 		siteUrl

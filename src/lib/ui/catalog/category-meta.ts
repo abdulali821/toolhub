@@ -16,16 +16,7 @@ export const categoryAccent: Record<CategoryId, string> = {
 };
 
 export type CategoryIconKind =
-	| 'code'
-	| 'type'
-	| 'braces'
-	| 'image'
-	| 'pdf'
-	| 'palette'
-	| 'encode'
-	| 'swap'
-	| 'spark'
-	| 'calc';
+	'code' | 'type' | 'braces' | 'image' | 'pdf' | 'palette' | 'encode' | 'swap' | 'spark' | 'calc';
 
 export const categoryIconKind: Record<CategoryId, CategoryIconKind> = {
 	developer: 'code',

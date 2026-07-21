@@ -59,7 +59,7 @@
 {#if href}
 	<a
 		href={hrefFor(href)}
-		class="inline-flex items-center justify-center rounded-md font-medium no-underline transition-colors duration-200 ease-out {variants[
+		class="inline-flex items-center justify-center rounded-md font-medium no-underline transition-[color,background-color,border-color,transform,opacity] duration-[var(--duration-fast)] ease-[var(--ease-out)] active:scale-[0.98] {variants[
 			variant
 		]} {sizes[size]} {className}"
 		{...rest as HTMLAnchorAttributes}
@@ -70,7 +70,7 @@
 	<button
 		{type}
 		{disabled}
-		class="inline-flex items-center justify-center rounded-md font-medium no-underline transition-colors duration-200 ease-out {variants[
+		class="inline-flex items-center justify-center rounded-md font-medium no-underline transition-[color,background-color,border-color,transform,opacity] duration-[var(--duration-fast)] ease-[var(--ease-out)] active:scale-[0.98] disabled:active:scale-100 {variants[
 			variant
 		]} {sizes[size]} {className}"
 		{...rest as HTMLButtonAttributes}

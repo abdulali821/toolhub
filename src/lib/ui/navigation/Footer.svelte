@@ -22,7 +22,7 @@
 		<div>
 			<p class="font-display text-2xl font-semibold tracking-tight text-fg">{brand}</p>
 			<p class="mt-2 max-w-sm text-sm text-pretty text-muted">
-				Fast, private online tools. No installs. No clutter. Just get the job done.
+				Privacy-first tools that run in your browser. No installs. No clutter.
 			</p>
 		</div>
 		<nav aria-label="Footer">
@@ -30,8 +30,9 @@
 			<ul class="mt-3 grid gap-2 text-sm">
 				{#each links as link (link.href)}
 					<li>
-						<a href={resolve(link.href)} class="text-fg no-underline hover:text-accent"
-							>{link.label}</a
+						<a
+							href={resolve(link.href)}
+							class="text-fg no-underline transition-colors hover:text-accent">{link.label}</a
 						>
 					</li>
 				{/each}

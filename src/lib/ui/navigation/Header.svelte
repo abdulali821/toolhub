@@ -28,13 +28,21 @@
 		void page.url.pathname;
 		open = false;
 	});
+
+	function isActive(href: string) {
+		const path = page.url.pathname;
+		if (href === '/') return path === '/';
+		return path === href || path.startsWith(`${href}/`);
+	}
 </script>
 
-<header class="sticky top-0 z-40 border-b border-border/80 bg-bg-elevated/75 backdrop-blur-xl">
+<header
+	class="sticky top-0 z-40 border-b border-border/80 bg-bg-elevated/80 backdrop-blur-xl transition-[border-color,background-color] duration-[var(--duration-base)]"
+>
 	<Container class="flex h-14 items-center justify-between gap-4 sm:h-16">
 		<a
 			href={resolve('/')}
-			class="font-display text-xl font-semibold tracking-tight text-fg no-underline sm:text-2xl"
+			class="font-display text-xl font-semibold tracking-tight text-fg no-underline transition-opacity hover:opacity-80 sm:text-2xl"
 		>
 			{brand}
 		</a>
@@ -42,11 +50,14 @@
 		<nav aria-label="Primary" class="hidden items-center gap-1 md:flex">
 			<ul class="flex items-center gap-1 text-sm font-medium">
 				{#each links as link (link.href)}
+					{@const active = isActive(link.href)}
 					<li>
 						<a
 							href={resolve(link.href)}
-							class="rounded-md px-3 py-2 text-muted transition-colors hover:bg-bg hover:text-fg"
-							>{link.label}</a
+							aria-current={active ? 'page' : undefined}
+							class="rounded-md px-3 py-2 transition-[color,background-color] duration-[var(--duration-fast)] {active
+								? 'bg-bg text-fg shadow-sm ring-1 ring-border/80'
+								: 'text-muted hover:bg-bg hover:text-fg'}">{link.label}</a
 						>
 					</li>
 				{/each}
@@ -54,7 +65,7 @@
 			<div class="ml-3 flex items-center gap-2 border-l border-border pl-3">
 				<button
 					type="button"
-					class="inline-flex h-9 items-center gap-2 rounded-md border border-border px-2.5 text-xs font-medium text-muted transition-colors hover:bg-bg hover:text-fg"
+					class="pressable inline-flex h-9 items-center gap-2 rounded-md border border-border bg-bg/50 px-2.5 text-xs font-medium text-muted transition-colors hover:border-accent/35 hover:bg-bg hover:text-fg"
 					onclick={() => openCommandPalette()}
 					aria-keyshortcuts="Control+K Meta+K"
 				>
@@ -67,14 +78,17 @@
 				{#if user}
 					<a
 						href={resolve('/account')}
-						class="rounded-md px-3 py-2 text-sm font-medium text-muted transition-colors hover:bg-bg hover:text-fg"
+						aria-current={isActive('/account') ? 'page' : undefined}
+						class="rounded-md px-3 py-2 text-sm font-medium transition-colors {isActive('/account')
+							? 'bg-bg text-fg'
+							: 'text-muted hover:bg-bg hover:text-fg'}"
 					>
 						Account
 					</a>
 					<form method="POST" action={resolve('/logout')}>
 						<button
 							type="submit"
-							class="rounded-md px-3 py-2 text-sm font-medium text-muted transition-colors hover:bg-bg hover:text-fg"
+							class="pressable rounded-md px-3 py-2 text-sm font-medium text-muted transition-colors hover:bg-bg hover:text-fg"
 						>
 							Sign out
 						</button>
@@ -82,7 +96,7 @@
 				{:else}
 					<a
 						href={resolve('/login')}
-						class="rounded-md bg-accent px-3.5 py-2 text-sm font-medium text-accent-fg no-underline transition-colors hover:bg-accent-hover"
+						class="pressable rounded-md bg-accent px-3.5 py-2 text-sm font-medium text-accent-fg no-underline transition-colors hover:bg-accent-hover"
 					>
 						Sign in
 					</a>
@@ -93,14 +107,14 @@
 		<div class="flex items-center gap-2 md:hidden">
 			<button
 				type="button"
-				class="inline-flex h-10 items-center rounded-md border border-border px-3 text-sm text-fg"
+				class="pressable inline-flex h-10 items-center rounded-md border border-border px-3 text-sm text-fg transition-colors hover:border-accent/35"
 				onclick={() => openCommandPalette()}
 			>
 				Search
 			</button>
 			<button
 				type="button"
-				class="inline-flex h-10 w-10 items-center justify-center rounded-md border border-border text-fg"
+				class="pressable inline-flex h-10 w-10 items-center justify-center rounded-md border border-border text-fg transition-colors hover:border-accent/35"
 				aria-expanded={open}
 				aria-controls="mobile-nav"
 				onclick={() => (open = !open)}
@@ -133,14 +147,17 @@
 		<nav
 			id="mobile-nav"
 			aria-label="Mobile"
-			class="border-t border-border bg-bg-elevated md:hidden"
+			class="animate-fade border-t border-border bg-bg-elevated md:hidden"
 		>
 			<Container class="flex flex-col gap-1 py-3">
 				{#each links as link (link.href)}
+					{@const active = isActive(link.href)}
 					<a
 						href={resolve(link.href)}
-						class="rounded-md px-3 py-2.5 text-sm font-medium text-fg no-underline hover:bg-bg"
-						>{link.label}</a
+						aria-current={active ? 'page' : undefined}
+						class="rounded-md px-3 py-2.5 text-sm font-medium no-underline transition-colors {active
+							? 'bg-bg text-fg'
+							: 'text-fg hover:bg-bg'}">{link.label}</a
 					>
 				{/each}
 				{#if user}

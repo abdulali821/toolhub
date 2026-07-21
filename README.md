@@ -6,13 +6,14 @@ Format, convert, generate, and transform text, data, images, and PDFs—mostly *
 
 **v1.0.0** ships **76 tools**, a plugin architecture, image & PDF toolkits, SEO categories, and an accessibility-minded shared shell.
 
-| Doc | Purpose |
-| --- | ------- |
-| [RELEASE_NOTES.md](./RELEASE_NOTES.md) | v1.0.0 highlights |
-| [CHANGELOG.md](./CHANGELOG.md) | Keep a Changelog history |
-| [CONTRIBUTING.md](./CONTRIBUTING.md) | How to contribute and add tools |
-| [SECURITY.md](./SECURITY.md) | Vulnerability reporting |
-| [docs/architecture.md](./docs/architecture.md) | Layers, UX capabilities, constraints |
+| Doc                                              | Purpose                                   |
+| ------------------------------------------------ | ----------------------------------------- |
+| [RELEASE_NOTES.md](./RELEASE_NOTES.md)           | v1.0.0 highlights                         |
+| [CHANGELOG.md](./CHANGELOG.md)                   | Keep a Changelog history                  |
+| [CONTRIBUTING.md](./CONTRIBUTING.md)             | How to contribute and add tools           |
+| [SECURITY.md](./SECURITY.md)                     | Vulnerability reporting                   |
+| [docs/architecture.md](./docs/architecture.md)   | Layers, UX capabilities, constraints      |
+| [docs/design-system.md](./docs/design-system.md) | Colors, type, spacing, components, motion |
 
 ## Requirements
 
@@ -35,17 +36,17 @@ For local tool browsing you can leave Supabase unset. Set `PUBLIC_SITE_URL` to m
 
 Copy `.env.example` → `.env`. Never commit real secrets. Only `PUBLIC_*` values are exposed to the client.
 
-| Variable | Required | Description |
-| -------- | -------- | ----------- |
-| `PUBLIC_SITE_URL` | **Production yes** | Absolute site origin, **no trailing slash** (e.g. `https://toolhub.example`). Drives canonicals, OG URLs, sitemap `<loc>`, and robots `Sitemap:`. |
-| `PUBLIC_SUPABASE_URL` | For auth | Supabase project URL |
-| `PUBLIC_SUPABASE_ANON_KEY` | For auth | Supabase anon / publishable key |
-| `SUPABASE_SERVICE_ROLE_KEY` | Server-only if used | **Never** expose to the browser; keep commented/local only |
-| `LOG_LEVEL` | No | `debug` \| `info` \| `warn` \| `error` (default `info`) |
-| `PUBLIC_FF_AUTH` | No | Feature flag for auth UI (`true` / `false`) |
-| `PUBLIC_PLAUSIBLE_DOMAIN` | No | Enables Plausible when set |
-| `PUBLIC_SA_DOMAIN` | No | Enables Simple Analytics when set |
-| `PUBLIC_ADS_ENABLED` | No | Shows ad placeholder slots when `true` |
+| Variable                    | Required            | Description                                                                                                                                       |
+| --------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `PUBLIC_SITE_URL`           | **Production yes**  | Absolute site origin, **no trailing slash** (e.g. `https://toolhub.example`). Drives canonicals, OG URLs, sitemap `<loc>`, and robots `Sitemap:`. |
+| `PUBLIC_SUPABASE_URL`       | For auth            | Supabase project URL                                                                                                                              |
+| `PUBLIC_SUPABASE_ANON_KEY`  | For auth            | Supabase anon / publishable key                                                                                                                   |
+| `SUPABASE_SERVICE_ROLE_KEY` | Server-only if used | **Never** expose to the browser; keep commented/local only                                                                                        |
+| `LOG_LEVEL`                 | No                  | `debug` \| `info` \| `warn` \| `error` (default `info`)                                                                                           |
+| `PUBLIC_FF_AUTH`            | No                  | Feature flag for auth UI (`true` / `false`)                                                                                                       |
+| `PUBLIC_PLAUSIBLE_DOMAIN`   | No                  | Enables Plausible when set                                                                                                                        |
+| `PUBLIC_SA_DOMAIN`          | No                  | Enables Simple Analytics when set                                                                                                                 |
+| `PUBLIC_ADS_ENABLED`        | No                  | Shows ad placeholder slots when `true`                                                                                                            |
 
 Pick at most one analytics provider. Leave both unset for local development.
 

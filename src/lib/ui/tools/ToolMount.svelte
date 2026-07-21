@@ -35,7 +35,14 @@
 {#if loadError}
 	<Alert variant="danger" title="Tool failed to load">{loadError}</Alert>
 {:else if ToolUi}
-	<ToolUi />
+	<div class="animate-fade">
+		<ToolUi />
+	</div>
 {:else}
-	<p class="text-sm text-muted" aria-live="polite">Loading tool…</p>
+	<div class="space-y-3 py-1" aria-live="polite" aria-busy="true">
+		<p class="sr-only">Loading tool…</p>
+		<div class="animate-pulse-soft h-10 rounded-md bg-border/50"></div>
+		<div class="animate-pulse-soft h-28 rounded-md bg-border/40"></div>
+		<div class="animate-pulse-soft h-10 w-2/5 rounded-md bg-border/45"></div>
+	</div>
 {/if}

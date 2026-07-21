@@ -7,7 +7,7 @@
  */
 export const site = {
 	name: 'ToolHub',
-	tagline: 'Fast, focused online tools',
+	tagline: 'Privacy-first tools that stay in your browser',
 	defaultTitleTemplate: '%s | ToolHub'
 } as const;
 

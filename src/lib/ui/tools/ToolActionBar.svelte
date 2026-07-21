@@ -76,10 +76,12 @@
 			goto(url.pathname + url.search, { replaceState: true, keepFocus: true, noScroll: true });
 		}
 	}
+
+	const primaryIsDownload = $derived(has('download') && !has('copy'));
 </script>
 
 {#if presets.length}
-	<div class="mb-4 flex flex-wrap gap-2" role="group" aria-label="Presets">
+	<div class="mb-5 flex flex-wrap gap-2" role="group" aria-label="Presets">
 		{#each presets as preset (preset.id)}
 			<Button type="button" variant="ghost" size="sm" onclick={() => applyPreset(preset)}>
 				{preset.label}
@@ -90,14 +92,14 @@
 
 {#if capabilities.length}
 	<div
-		class="mb-4 flex flex-wrap items-center gap-2 border-b border-border pb-4"
+		class="mb-5 flex flex-wrap items-center gap-2 rounded-lg border border-border/70 bg-bg/40 px-3 py-2.5"
 		role="toolbar"
 		aria-label="Tool actions"
 	>
 		{#if has('copy')}
 			<Button
 				type="button"
-				variant="secondary"
+				variant="primary"
 				size="sm"
 				onclick={onCopy}
 				disabled={!actions.copyValue}
@@ -109,13 +111,17 @@
 		{#if has('download')}
 			<Button
 				type="button"
-				variant="ghost"
+				variant={primaryIsDownload ? 'primary' : 'secondary'}
 				size="sm"
 				onclick={onDownload}
 				disabled={!(actions.downloadValue ?? actions.copyValue)}
 			>
 				Download
 			</Button>
+		{/if}
+
+		{#if has('copy') || has('download')}
+			<span class="mx-0.5 hidden h-5 w-px bg-border sm:block" aria-hidden="true"></span>
 		{/if}
 
 		{#if has('reset')}
@@ -137,7 +143,9 @@
 					</Button>
 				</form>
 			{:else}
-				<a href={loginHref} class="text-sm text-muted hover:text-fg">Sign in to favorite</a>
+				<a href={loginHref} class="text-sm text-muted transition-colors hover:text-fg"
+					>Sign in to favorite</a
+				>
 			{/if}
 		{/if}
 	</div>

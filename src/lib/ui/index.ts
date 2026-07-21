@@ -1,5 +1,7 @@
 export { default as ToolCard } from './catalog/ToolCard.svelte';
 export { default as EmptyState } from './catalog/EmptyState.svelte';
+export { default as CategoryBadge } from './catalog/CategoryBadge.svelte';
+export { default as CategoryIcon } from './catalog/CategoryIcon.svelte';
 export { default as Button } from './primitives/Button.svelte';
 export { default as Input } from './primitives/Input.svelte';
 export { default as Textarea } from './primitives/Textarea.svelte';

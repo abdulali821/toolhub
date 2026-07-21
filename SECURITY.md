@@ -6,8 +6,8 @@ ToolHub is a free online tools platform. Most tool workloads run in the browser;
 
 | Version | Supported |
 | ------- | --------- |
-| 1.0.x | Yes |
-| Pre-1.0 | No |
+| 1.0.x   | Yes       |
+| Pre-1.0 | No        |
 
 Only the latest **1.0.x** release line receives security fixes. Please upgrade before reporting issues against older builds.
 

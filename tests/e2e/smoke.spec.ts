@@ -2,9 +2,11 @@ import { expect, test } from '@playwright/test';
 
 test('home shows brand and featured tools', async ({ page }) => {
 	await page.goto('/');
-	await expect(page.getByRole('heading', { level: 1 })).toHaveText('ToolHub');
-	await expect(page.getByText('Fast, focused online tools')).toBeVisible();
-	await expect(page.getByRole('link', { name: 'Browse tools' }).first()).toBeVisible();
+	await expect(page.getByRole('heading', { level: 1 })).toHaveText(
+		'Privacy-first tools that stay in your browser'
+	);
+	await expect(page.getByRole('button', { name: /Search tools, packs/i })).toBeVisible();
+	await expect(page.getByRole('link', { name: 'Search tools' }).first()).toBeVisible();
 	await expect(page.getByRole('heading', { name: 'Popular tools' })).toBeVisible();
 });
 

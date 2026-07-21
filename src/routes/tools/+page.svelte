@@ -24,7 +24,7 @@
 
 		<form
 			method="GET"
-			class="mt-8 flex flex-col gap-3 rounded-lg border border-border bg-bg-elevated p-4 sm:flex-row sm:items-center"
+			class="mt-8 flex flex-col gap-3 rounded-xl border border-border bg-bg-elevated p-4 shadow-sm sm:flex-row sm:items-center"
 			action={resolve('/tools')}
 		>
 			<label class="sr-only" for="tool-search">Search tools</label>
@@ -33,7 +33,7 @@
 				name="q"
 				value={data.q}
 				placeholder="Search tools…"
-				class="h-11 min-w-0 flex-1 rounded-md border border-border bg-bg px-3 text-fg"
+				class="h-11 min-w-0 flex-1 rounded-md border border-border bg-bg px-3 text-fg transition-[border-color,box-shadow] focus:border-accent/50 focus:shadow-[var(--shadow-ring)] focus:outline-none"
 			/>
 			<label class="sr-only" for="tool-category">Category</label>
 			<select

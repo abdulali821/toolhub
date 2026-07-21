@@ -20,7 +20,7 @@
 
 		<form
 			method="GET"
-			class="mt-8 flex flex-col gap-3 rounded-lg border border-border bg-bg-elevated p-4 sm:flex-row sm:items-center"
+			class="mt-8 flex flex-col gap-3 rounded-xl border border-border bg-bg-elevated p-4 shadow-sm sm:flex-row sm:items-center"
 			action={resolve('/search')}
 		>
 			<label class="sr-only" for="search-q">Search</label>
@@ -29,7 +29,7 @@
 				name="q"
 				value={data.q}
 				placeholder="e.g. base64, jwt, password…"
-				class="h-11 min-w-0 flex-1 rounded-md border border-border bg-bg px-3 text-fg"
+				class="h-11 min-w-0 flex-1 rounded-md border border-border bg-bg px-3 text-fg transition-[border-color,box-shadow] focus:border-accent/50 focus:shadow-[var(--shadow-ring)] focus:outline-none"
 			/>
 			<label class="sr-only" for="search-category">Category</label>
 			<select

@@ -68,7 +68,7 @@
 </script>
 
 <main id="main">
-	<Container class="py-10 sm:py-14">
+	<Container class="py-8 sm:py-12">
 		<Breadcrumb
 			items={[
 				{ label: 'Home', href: '/' },
@@ -78,14 +78,15 @@
 			]}
 		/>
 
-		<header class="mt-8 flex max-w-3xl flex-wrap items-start justify-between gap-4">
+		<header class="mt-6 flex max-w-3xl flex-wrap items-start justify-between gap-4 sm:mt-8">
 			<div class="animate-rise">
+				<p class="text-xs font-semibold tracking-[0.1em] text-muted uppercase">{categoryLabel}</p>
 				<h1
-					class="font-display text-3xl font-semibold tracking-tight text-balance sm:text-4xl md:text-5xl"
+					class="mt-2 font-display text-3xl font-semibold tracking-tight text-balance sm:text-4xl md:text-5xl"
 				>
 					{name}
 				</h1>
-				<p class="mt-4 text-lg text-pretty text-muted">{description}</p>
+				<p class="mt-3 text-base text-pretty text-muted sm:mt-4 sm:text-lg">{description}</p>
 			</div>
 
 			{#if showHeaderFavorite}
@@ -97,13 +98,15 @@
 						</Button>
 					</form>
 				{:else}
-					<a href={loginHref} class="text-sm text-muted hover:text-fg">Sign in to favorite</a>
+					<a href={loginHref} class="text-sm text-muted transition-colors hover:text-fg"
+						>Sign in to favorite</a
+					>
 				{/if}
 			{/if}
 		</header>
 
 		<section
-			class="animate-rise-delay-1 mt-10 rounded-xl border border-border bg-bg-elevated p-4 shadow-sm sm:p-6"
+			class="animate-rise-delay-1 mt-8 rounded-xl border border-border bg-bg-elevated p-4 shadow-sm sm:mt-10 sm:p-6"
 			aria-label="Tool"
 		>
 			<ToolActionBar
@@ -121,25 +124,25 @@
 		<AdSlot enabled={adsEnabled} placement="in-content" class="mt-10" />
 
 		{#if howTo.length}
-			<div class="mt-14">
+			<div class="mt-12 border-t border-border/70 pt-10 sm:mt-14 sm:pt-12">
 				<ToolHowTo steps={howTo} />
 			</div>
 		{/if}
 
 		{#if workflowNext.length}
-			<div class="mt-14">
+			<div class="mt-12 border-t border-border/70 pt-10 sm:mt-14 sm:pt-12">
 				<RelatedTools tools={workflowNext} title="Next step" />
 			</div>
 		{/if}
 
 		{#if faq.length}
-			<div class="mt-14">
+			<div class="mt-12 border-t border-border/70 pt-10 sm:mt-14 sm:pt-12">
 				<ToolFaq items={faq} />
 			</div>
 		{/if}
 
 		{#if related.length}
-			<div class="mt-14">
+			<div class="mt-12 border-t border-border/70 pt-10 sm:mt-14 sm:pt-12">
 				<RelatedTools tools={related} />
 			</div>
 		{/if}

@@ -6,22 +6,22 @@ Please read [docs/architecture.md](./docs/architecture.md) before large changes.
 
 ## Project structure
 
-| Path | Purpose |
-| ---- | ------- |
-| `src/routes` | Thin SvelteKit pages and endpoints (HTTP only) |
-| `src/lib/engine` | Plugin contracts, registry helpers, share-state |
-| `src/lib/tools/<id>/` | One folder per tool (`index.ts`, `ui.svelte`) |
-| `src/lib/seo` | Metadata and JSON-LD builders |
-| `src/lib/ui` | Shared design-system components |
-| `src/lib/features` | Favorites / history (Supabase-backed) |
-| `src/lib/supabase` | Auth clients |
-| `src/lib/server` | Env validation, logging |
-| `src/lib/utils` | Pure helpers (encoding, color, PDF, files, …) |
-| `src/lib/config` | Site name, categories, platform collections |
-| `tests/tools` | Vitest tests per tool (and shared helpers) |
-| `tests/e2e` | Playwright smoke tests |
-| `scripts/new-tool.mjs` | Tool scaffold CLI |
-| `docs/` | Architecture and deeper design notes |
+| Path                   | Purpose                                         |
+| ---------------------- | ----------------------------------------------- |
+| `src/routes`           | Thin SvelteKit pages and endpoints (HTTP only)  |
+| `src/lib/engine`       | Plugin contracts, registry helpers, share-state |
+| `src/lib/tools/<id>/`  | One folder per tool (`index.ts`, `ui.svelte`)   |
+| `src/lib/seo`          | Metadata and JSON-LD builders                   |
+| `src/lib/ui`           | Shared design-system components                 |
+| `src/lib/features`     | Favorites / history (Supabase-backed)           |
+| `src/lib/supabase`     | Auth clients                                    |
+| `src/lib/server`       | Env validation, logging                         |
+| `src/lib/utils`        | Pure helpers (encoding, color, PDF, files, …)   |
+| `src/lib/config`       | Site name, categories, platform collections     |
+| `tests/tools`          | Vitest tests per tool (and shared helpers)      |
+| `tests/e2e`            | Playwright smoke tests                          |
+| `scripts/new-tool.mjs` | Tool scaffold CLI                               |
+| `docs/`                | Architecture and deeper design notes            |
 
 **Path aliases:** `$lib`, `$engine`, `$tools`, `$seo`, `$ui`, `$server`.
 
