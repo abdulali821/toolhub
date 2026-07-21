@@ -90,29 +90,33 @@ Details: [docs/architecture.md](./docs/architecture.md). Contributing & `pnpm ne
 
 ## Production build & deployment
 
-Uses **`@sveltejs/adapter-node`**. Output lives in `build/` (Node server).
+### Vercel (recommended)
+
+This project uses **`@sveltejs/adapter-vercel`**. Deploy from the GitHub repo; leave the Output Directory blank (the adapter configures it).
+
+1. Import the repo in Vercel
+2. Framework preset: **SvelteKit** (or Other — build command `pnpm build`)
+3. Set env vars (at least `PUBLIC_SITE_URL=https://your-deployment.vercel.app` or your custom domain)
+4. Deploy — do **not** set Output Directory to `public` or `build`
 
 ```sh
-pnpm build
-node build
+pnpm build   # locally verifies the Vercel adapter output under .vercel/output
 ```
-
-Typical layout: Node/PM2 (or similar) behind **Nginx** or **Caddy**.
 
 ### Required production env
 
-- `PUBLIC_SITE_URL=https://your-canonical-host` — must match the public origin users and crawlers see.
+- `PUBLIC_SITE_URL=https://your-canonical-host` — must match the public origin users and crawlers see (custom domain preferred).
+- Optional: Supabase, analytics, and ads vars from `.env.example`
 
 ### HTTPS / host policy (v1)
 
-- Terminate **HTTPS** at the edge; redirect HTTP → HTTPS (301).
-- Choose **one** canonical host (`apex` or `www`) and 301 the other; keep it identical to `PUBLIC_SITE_URL`.
-- Enable **HSTS** at the reverse proxy (the app also sets `Strict-Transport-Security` on HTTPS responses).
+- On Vercel, HTTPS is automatic; point your custom domain and set `PUBLIC_SITE_URL` to that HTTPS origin.
+- Prefer one canonical host (`apex` or `www`) and redirect the other in the Vercel domain settings.
 - After go-live: verify share previews (home, one category, one tool) and Rich Results on home + sample tools.
 
-### What ships in the Node process
+### Security headers
 
-Security-minded response headers include `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options`, and HSTS when the request is HTTPS. Configure TLS and host redirects at the edge—do not rely on local `pnpm preview` for production hardening.
+The app sets `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options`, and HSTS on HTTPS responses via `hooks.server.ts`.
 
 ## Stack
 

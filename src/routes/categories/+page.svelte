@@ -25,7 +25,7 @@
 				<li>
 					<a
 						href={resolve(`/categories/${category.id}`)}
-						class="group relative block h-full overflow-hidden rounded-lg border border-border bg-bg-elevated p-6 no-underline shadow-sm transition-[border-color,transform,box-shadow] duration-[var(--duration-base)] ease-[var(--ease-out)] hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-md"
+						class="group relative block h-full overflow-hidden rounded-lg border border-border bg-bg-elevated p-6 no-underline shadow-sm transition-[border-color,transform,box-shadow] duration-(--duration-base) ease-out hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-md"
 					>
 						<span
 							class="pointer-events-none absolute inset-y-0 left-0 w-0.5 opacity-80"

@@ -29,7 +29,7 @@
 				name="q"
 				value={data.q}
 				placeholder="e.g. base64, jwt, password…"
-				class="h-11 min-w-0 flex-1 rounded-md border border-border bg-bg px-3 text-fg transition-[border-color,box-shadow] focus:border-accent/50 focus:shadow-[var(--shadow-ring)] focus:outline-none"
+				class="h-11 min-w-0 flex-1 rounded-md border border-border bg-bg px-3 text-fg transition-[border-color,box-shadow] focus:border-accent/50 focus:shadow-(--shadow-ring) focus:outline-none"
 			/>
 			<label class="sr-only" for="search-category">Category</label>
 			<select

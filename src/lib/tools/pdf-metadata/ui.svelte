@@ -95,7 +95,7 @@
 			{#each fields as field (field.key)}
 				<div class="grid gap-1 px-4 py-3 sm:grid-cols-3">
 					<dt class="text-sm font-medium text-muted">{field.key}</dt>
-					<dd class="text-sm break-words sm:col-span-2">{field.value}</dd>
+					<dd class="text-sm wrap-break-word sm:col-span-2">{field.value}</dd>
 				</div>
 			{/each}
 		</dl>

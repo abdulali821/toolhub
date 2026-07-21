@@ -37,7 +37,7 @@
 </script>
 
 <header
-	class="sticky top-0 z-40 border-b border-border/80 bg-bg-elevated/80 backdrop-blur-xl transition-[border-color,background-color] duration-[var(--duration-base)]"
+	class="sticky top-0 z-40 border-b border-border/80 bg-bg-elevated/80 backdrop-blur-xl transition-[border-color,background-color] duration-(--duration-base)"
 >
 	<Container class="flex h-14 items-center justify-between gap-4 sm:h-16">
 		<a
@@ -55,7 +55,7 @@
 						<a
 							href={resolve(link.href)}
 							aria-current={active ? 'page' : undefined}
-							class="rounded-md px-3 py-2 transition-[color,background-color] duration-[var(--duration-fast)] {active
+							class="rounded-md px-3 py-2 transition-[color,background-color] duration-(--duration-fast) {active
 								? 'bg-bg text-fg shadow-sm ring-1 ring-border/80'
 								: 'text-muted hover:bg-bg hover:text-fg'}">{link.label}</a
 						>

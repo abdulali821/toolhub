@@ -72,7 +72,7 @@
 <p class="mt-4 text-sm text-muted">{output.summary}</p>
 
 <pre
-	class="mt-3 max-h-[28rem] overflow-auto rounded-md border border-border bg-bg p-3 font-mono text-sm leading-6"
+	class="mt-3 max-h-112 overflow-auto rounded-md border border-border bg-bg p-3 font-mono text-sm leading-6"
 	aria-label="Diff result">{#each output.lines as line, i (i)}<span
 			class={line.type === 'add'
 				? 'block bg-success-bg text-success'

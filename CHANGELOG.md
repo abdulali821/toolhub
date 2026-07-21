@@ -28,7 +28,7 @@ First public release candidate of ToolHub: a free, SEO-first online tools platfo
 - Env-flagged Plausible / Simple Analytics and ads placeholder slots
 - Scaffold script: `pnpm new-tool`
 - Vitest unit tests and Playwright smoke e2e
-- Node production adapter (`@sveltejs/adapter-node`)
+- Vercel production adapter (`@sveltejs/adapter-vercel`)
 
 ### Changed
 
@@ -37,6 +37,7 @@ First public release candidate of ToolHub: a free, SEO-first online tools platfo
 - History writes throttled (update recent row within 30 minutes instead of unbounded inserts)
 - Production docs and env contract centered on `PUBLIC_SITE_URL` (no trailing slash)
 - Security response headers: `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options`, HSTS on HTTPS
+- Deploy target switched from Node (`adapter-node`) to **Vercel** (`adapter-vercel`)
 
 ### Fixed
 
@@ -53,6 +54,7 @@ First public release candidate of ToolHub: a free, SEO-first online tools platfo
 
 - Unused uploads Storage/API path from application code (image/PDF tools remain browser-only in v1)
 - Dependency on bare `adapter-auto` guesswork for production deploys
+- `@sveltejs/adapter-node` in favor of `@sveltejs/adapter-vercel` for Vercel hosting
 
 [Unreleased]: https://github.com/YOUR_ORG/toolhub/compare/v1.0.0...HEAD
 [1.0.0]: https://github.com/YOUR_ORG/toolhub/releases/tag/v1.0.0

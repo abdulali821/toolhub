@@ -17,7 +17,7 @@
 	<ul class="mt-6 grid gap-3 sm:grid-cols-2">
 		{#each tools as tool (tool.id)}
 			<li
-				class="rounded-lg border border-border bg-bg-elevated p-4 shadow-sm transition-[border-color,box-shadow,transform] duration-[var(--duration-base)] ease-[var(--ease-out)] hover:-translate-y-0.5 hover:border-accent/30 hover:shadow-md"
+				class="rounded-lg border border-border bg-bg-elevated p-4 shadow-sm transition-[border-color,box-shadow,transform] duration-(--duration-base) ease-out hover:-translate-y-0.5 hover:border-accent/30 hover:shadow-md"
 			>
 				<a
 					href={resolve(`/tools/${tool.id}`)}

@@ -80,7 +80,7 @@
 
 		<header class="mt-6 flex max-w-3xl flex-wrap items-start justify-between gap-4 sm:mt-8">
 			<div class="animate-rise">
-				<p class="text-xs font-semibold tracking-[0.1em] text-muted uppercase">{categoryLabel}</p>
+				<p class="text-xs font-semibold tracking-widest text-muted uppercase">{categoryLabel}</p>
 				<h1
 					class="mt-2 font-display text-3xl font-semibold tracking-tight text-balance sm:text-4xl md:text-5xl"
 				>

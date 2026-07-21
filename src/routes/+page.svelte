@@ -47,7 +47,7 @@
 			aria-hidden="true"
 		></div>
 		<div
-			class="pointer-events-none absolute inset-0 [background-image:url('data:image/svg+xml,%3Csvg_viewBox=%270_0_256_256%27_xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cfilter_id=%27n%27%3E%3CfeTurbulence_type=%27fractalNoise%27_baseFrequency=%270.85%27_numOctaves=%274%27_stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect_width=%27100%25%27_height=%27100%25%27_filter=%27url(%23n)%27/%3E%3C/svg%3E')] opacity-[0.04]"
+			class="pointer-events-none absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg_viewBox=%270_0_256_256%27_xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cfilter_id=%27n%27%3E%3CfeTurbulence_type=%27fractalNoise%27_baseFrequency=%270.85%27_numOctaves=%274%27_stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect_width=%27100%25%27_height=%27100%25%27_filter=%27url(%23n)%27/%3E%3C/svg%3E')] opacity-[0.04]"
 			aria-hidden="true"
 		></div>
 
@@ -166,7 +166,7 @@
 				{#each data.collections as pack (pack.id)}
 					<li
 						id="pack-{pack.id}"
-						class="surface-card flex scroll-mt-24 flex-col p-5 transition-[border-color,box-shadow,transform] duration-[var(--duration-base)] ease-[var(--ease-out)] hover:-translate-y-0.5 hover:border-accent/30 hover:shadow-md"
+						class="surface-card flex scroll-mt-24 flex-col p-5 transition-[border-color,box-shadow,transform] duration-(--duration-base) ease-out hover:-translate-y-0.5 hover:border-accent/30 hover:shadow-md"
 					>
 						<div class="flex items-start gap-3">
 							<CategoryBadge kind={packIcons[pack.id] ?? 'spark'} size="md" />

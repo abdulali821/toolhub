@@ -262,7 +262,7 @@
 				src={sourceDataUrl}
 				alt=""
 				draggable="false"
-				class="pointer-events-none absolute inset-0 h-full w-full object-contain object-left-top"
+				class="pointer-events-none absolute inset-0 h-full w-full object-contain object-top-left"
 				style={displayWidth ? `width:${displayWidth}px;height:${displayHeight}px;` : undefined}
 			/>
 
