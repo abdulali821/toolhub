@@ -2,18 +2,35 @@ import type { RequestHandler } from './$types';
 import { listTools } from '$tools';
 import { getPublicEnv } from '$server/env';
 
+type Entry = {
+	path: string;
+	changefreq: 'daily' | 'weekly' | 'monthly' | 'yearly';
+	priority: string;
+};
+
 export const GET: RequestHandler = async ({ url }) => {
 	const siteUrl = (getPublicEnv().PUBLIC_SITE_URL ?? url.origin).replace(/\/$/, '');
-	const staticPaths = ['/', '/tools', '/search', '/privacy', '/request-tool'];
-	const toolPaths = listTools().map((t) => `/tools/${t.id}`);
 
-	const urls = [...staticPaths, ...toolPaths]
+	const pages: Entry[] = [
+		{ path: '/', changefreq: 'weekly', priority: '1.0' },
+		{ path: '/tools', changefreq: 'daily', priority: '0.9' },
+		{ path: '/search', changefreq: 'weekly', priority: '0.8' },
+		{ path: '/request-tool', changefreq: 'monthly', priority: '0.5' },
+		{ path: '/privacy', changefreq: 'yearly', priority: '0.3' },
+		...listTools().map((t) => ({
+			path: `/tools/${t.id}`,
+			changefreq: 'weekly' as const,
+			priority: '0.7'
+		}))
+	];
+
+	const urls = pages
 		.map(
-			(path) => `  <url>
-    <loc>${siteUrl}${path}</loc>
-    <changefreq>weekly</changefreq>
-    <priority>${path === '/' ? '1.0' : '0.7'}</priority>
-  </url>`
+			(p) => `<url>
+<loc>${siteUrl}${p.path}</loc>
+<changefreq>${p.changefreq}</changefreq>
+<priority>${p.priority}</priority>
+</url>`
 		)
 		.join('\n');
 
