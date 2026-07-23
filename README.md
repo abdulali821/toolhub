@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 # HeyTools
-=======
-# ToolHub 
->>>>>>> 8f62d71e59e44d450f7a3ad0559ca0d679ce7611
 
 Free, SEO-first **online tools** platform. Not a SaaS.
 
