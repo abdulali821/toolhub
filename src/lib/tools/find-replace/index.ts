@@ -68,7 +68,7 @@ export const findReplace: ToolDefinition<FindReplaceInput, FindReplaceOutput> = 
 			id: 'spaces',
 			label: 'Collapse spaces',
 			params: {
-				text: 'hello   world   toolhub',
+				text: 'hello   world   heytools',
 				find: '  ',
 				replace: ' ',
 				ignoreCase: 'false'

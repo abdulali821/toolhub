@@ -68,7 +68,7 @@ export function run(input: TextDiffInput): TextDiffOutput {
 }
 
 const DEFAULT_LEFT = 'hello\nworld\nfoo';
-const DEFAULT_RIGHT = 'hello\nToolHub\nfoo\nbar';
+const DEFAULT_RIGHT = 'hello\nHeyTools\nfoo\nbar';
 
 export const textDiff: ToolDefinition<TextDiffInput, TextDiffOutput> = {
 	id: 'text-diff',

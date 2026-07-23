@@ -3,8 +3,8 @@ import { run, whitespaceCleaner } from '../../src/lib/tools/whitespace-cleaner';
 
 describe('whitespace-cleaner', () => {
 	it('collapses multiple spaces within each line', () => {
-		expect(run({ text: 'hello   world   toolhub', mode: 'collapse' }).result).toBe(
-			'hello world toolhub'
+		expect(run({ text: 'hello   world   heytools', mode: 'collapse' }).result).toBe(
+			'hello world heytools'
 		);
 	});
 

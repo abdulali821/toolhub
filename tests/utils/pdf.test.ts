@@ -19,7 +19,7 @@ async function createMultiPagePdf(pages: string[]): Promise<Uint8Array> {
 		page.drawText(label, { x: 50, y: 100, size: 12 });
 	}
 	doc.setTitle('Test PDF');
-	doc.setAuthor('ToolHub Tests');
+	doc.setAuthor('HeyTools Tests');
 	return doc.save();
 }
 
@@ -151,6 +151,6 @@ describe('readPdfMetadata', () => {
 		const out = await readPdfMetadata(pdf);
 		expect(out.pageCount).toBe(1);
 		expect(out.fields.find((f) => f.key === 'Title')?.value).toBe('Test PDF');
-		expect(out.fields.find((f) => f.key === 'Author')?.value).toBe('ToolHub Tests');
+		expect(out.fields.find((f) => f.key === 'Author')?.value).toBe('HeyTools Tests');
 	});
 });

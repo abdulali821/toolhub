@@ -1,14 +1,14 @@
 /**
  * Site configuration (public, non-secret).
- * ToolHub is a free online tools platform (SEO-first), not a SaaS.
+ * HeyTools is a free online tools platform (SEO-first), not a SaaS.
  * Environment-specific values come from `$env` via `$server/env`.
  *
  * Categories are catalog filters on /tools (and used for tool metadata).
  */
 export const site = {
-	name: 'ToolHub',
+	name: 'HeyTools',
 	tagline: 'Premium tools for focused work.',
-	defaultTitleTemplate: '%s | ToolHub'
+	defaultTitleTemplate: '%s | HeyTools'
 } as const;
 
 export const categories = [

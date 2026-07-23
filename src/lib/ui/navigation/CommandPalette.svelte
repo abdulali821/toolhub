@@ -43,8 +43,22 @@
 		{
 			id: 'nav-home',
 			label: 'Home',
-			description: 'ToolHub homepage',
+			description: 'HeyTools homepage',
 			href: '/',
+			group: 'Navigate'
+		},
+		{
+			id: 'nav-privacy',
+			label: 'Privacy',
+			description: 'Trust & privacy policy',
+			href: '/privacy',
+			group: 'Navigate'
+		},
+		{
+			id: 'nav-request-tool',
+			label: 'Request a tool',
+			description: 'Suggest a new utility',
+			href: '/request-tool',
 			group: 'Navigate'
 		},
 		...categories.map((c) => ({

@@ -32,7 +32,7 @@ export function run(input: WordCounterInput): WordCounterOutput {
 }
 
 const SAMPLE_PARAGRAPH =
-	'ToolHub runs every utility in your browser. Paste text here to count words, characters, lines, and sentences without uploading anything.';
+	'HeyTools runs every utility in your browser. Paste text here to count words, characters, lines, and sentences without uploading anything.';
 
 export const wordCounter: ToolDefinition<WordCounterInput, WordCounterOutput> = {
 	id: 'word-counter',

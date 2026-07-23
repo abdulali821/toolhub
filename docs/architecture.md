@@ -1,4 +1,4 @@
-# ToolHub Architecture
+# HeyTools Architecture
 
 **Philosophy:** Build the best **free online tools** platform—not a SaaS.
 
@@ -180,7 +180,7 @@ Use `localStorage` for lightweight client UX:
 - Draft text (when not shareable via URL)
 - Tool-specific preferences
 
-Use the namespaced helper in `$lib/utils/local-prefs.ts` (`toolhub:<toolId>:<key>`).
+Use the namespaced helper in `$lib/utils/local-prefs.ts` (`heytools:<toolId>:<key>`).
 
 **Do not** store temporary UI state in Supabase.
 

@@ -10,7 +10,7 @@
 	import { slugify, run } from './index';
 
 	const shareKeys = slugify.share!.params;
-	const DEFAULT_TEXT = 'Hello ToolHub World';
+	const DEFAULT_TEXT = 'Hello HeyTools World';
 
 	function fromUrl() {
 		const sp = urlSearchParams();

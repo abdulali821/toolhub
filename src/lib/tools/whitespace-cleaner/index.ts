@@ -52,7 +52,7 @@ export const whitespaceCleaner: ToolDefinition<WhitespaceCleanerInput, Whitespac
 		{
 			id: 'collapse',
 			label: 'Collapse spaces',
-			params: { text: 'hello   world   toolhub', mode: 'collapse' }
+			params: { text: 'hello   world   heytools', mode: 'collapse' }
 		},
 		{
 			id: 'newlines',

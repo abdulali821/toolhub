@@ -7,7 +7,7 @@ describe('rot13', () => {
 	});
 
 	it('is self-inverse', () => {
-		const encoded = run({ text: 'ToolHub' }).result;
-		expect(run({ text: encoded }).result).toBe('ToolHub');
+		const encoded = run({ text: 'HeyTools' }).result;
+		expect(run({ text: encoded }).result).toBe('HeyTools');
 	});
 });

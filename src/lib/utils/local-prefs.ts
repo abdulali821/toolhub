@@ -1,4 +1,4 @@
-const PREFIX = 'toolhub';
+const PREFIX = 'heytools';
 
 function key(toolId: string, name: string) {
 	return `${PREFIX}:${toolId}:${name}`;

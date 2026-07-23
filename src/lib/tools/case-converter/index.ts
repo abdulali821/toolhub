@@ -56,7 +56,7 @@ export function run(input: CaseConverterInput): CaseConverterOutput {
 	return { result };
 }
 
-const SAMPLE_TEXT = 'Hello ToolHub World';
+const SAMPLE_TEXT = 'Hello HeyTools World';
 
 export const caseConverter: ToolDefinition<CaseConverterInput, CaseConverterOutput> = {
 	id: 'case-converter',

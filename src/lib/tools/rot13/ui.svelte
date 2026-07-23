@@ -10,7 +10,7 @@
 	import { rot13, run } from './index';
 
 	const shareKeys = rot13.share!.params;
-	const DEFAULT_TEXT = 'Hello ToolHub';
+	const DEFAULT_TEXT = 'Hello HeyTools';
 
 	function fromUrl() {
 		const sp = urlSearchParams();

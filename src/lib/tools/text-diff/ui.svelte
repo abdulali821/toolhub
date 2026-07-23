@@ -12,7 +12,7 @@
 	const shareKeys = textDiff.share!.params;
 	const maxParamBytes = textDiff.share!.maxParamBytes;
 	const DEFAULT_LEFT = 'hello\nworld\nfoo';
-	const DEFAULT_RIGHT = 'hello\nToolHub\nfoo\nbar';
+	const DEFAULT_RIGHT = 'hello\nHeyTools\nfoo\nbar';
 
 	function fromUrl() {
 		const sp = urlSearchParams();

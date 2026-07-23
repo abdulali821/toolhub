@@ -38,7 +38,7 @@ export const slugify: ToolDefinition<SlugifyInput, SlugifyOutput> = {
 		{
 			id: 'product',
 			label: 'Product launch',
-			params: { text: 'Introducing ToolHub: Instant Browser Utilities' }
+			params: { text: 'Introducing HeyTools: Instant Browser Utilities' }
 		}
 	],
 	workflow: {

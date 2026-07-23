@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Scaffold a new ToolHub plugin.
+ * Scaffold a new HeyTools plugin.
  *
  * Usage:
  *   pnpm new-tool --id word-counter --name "Word Counter" --category text

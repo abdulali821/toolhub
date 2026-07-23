@@ -9,7 +9,7 @@ export const inputSchema = v.object({
 export type HashInput = v.InferOutput<typeof inputSchema>;
 export type HashOutput = { hash: string };
 
-const DEFAULT_TEXT = 'ToolHub';
+const DEFAULT_TEXT = 'HeyTools';
 
 function toHex(buffer: ArrayBuffer) {
 	return [...new Uint8Array(buffer)].map((b) => b.toString(16).padStart(2, '0')).join('');

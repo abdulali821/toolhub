@@ -62,7 +62,7 @@ export const regexTester: ToolDefinition<RegexTesterInput, RegexTesterOutput> = 
 			params: {
 				pattern: '\\b[A-Z][a-z]+\\b',
 				flags: 'g',
-				text: 'Hello ToolHub from Ada and Grace.'
+				text: 'Hello HeyTools from Ada and Grace.'
 			}
 		},
 		{
@@ -71,7 +71,7 @@ export const regexTester: ToolDefinition<RegexTesterInput, RegexTesterOutput> = 
 			params: {
 				pattern: '[\\w.+-]+@[\\w-]+\\.[\\w.]+',
 				flags: 'g',
-				text: 'Contact ada@example.com or grace@toolhub.dev for details.'
+				text: 'Contact ada@example.com or grace@example.com for details.'
 			}
 		},
 		{

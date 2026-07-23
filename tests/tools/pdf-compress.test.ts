@@ -6,7 +6,7 @@ async function createPdf(): Promise<Uint8Array> {
 	const doc = await PDFDocument.create();
 	doc.addPage([100, 100]);
 	doc.setTitle('Test');
-	doc.setAuthor('ToolHub');
+	doc.setAuthor('HeyTools');
 	return doc.save();
 }
 

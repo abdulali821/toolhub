@@ -1,6 +1,6 @@
-# Contributing to ToolHub
+# Contributing to HeyTools
 
-Thanks for helping improve ToolHub. This project is a **free online tools** platform: prefer shipping better tools and UX over SaaS features.
+Thanks for helping improve HeyTools. This project is a **free online tools** platform: prefer shipping better tools and UX over SaaS features.
 
 Please read [docs/architecture.md](./docs/architecture.md) before large changes.
 

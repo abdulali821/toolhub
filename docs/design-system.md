@@ -1,6 +1,6 @@
-# ToolHub Design System (Goforit visual language)
+# HeyTools Design System (Goforit visual language)
 
-Visual system aligned to the Goforit mockups. Product name remains **ToolHub**. Tokens live in `src/routes/layout.css`.
+Visual system aligned to the Goforit mockups. Product name is **HeyTools**. Tokens live in `src/routes/layout.css`.
 
 ## Color palette
 

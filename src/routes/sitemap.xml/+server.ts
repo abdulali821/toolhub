@@ -4,7 +4,7 @@ import { getPublicEnv } from '$server/env';
 
 export const GET: RequestHandler = async ({ url }) => {
 	const siteUrl = (getPublicEnv().PUBLIC_SITE_URL ?? url.origin).replace(/\/$/, '');
-	const staticPaths = ['/', '/tools', '/search'];
+	const staticPaths = ['/', '/tools', '/search', '/privacy', '/request-tool'];
 	const toolPaths = listTools().map((t) => `/tools/${t.id}`);
 
 	const urls = [...staticPaths, ...toolPaths]

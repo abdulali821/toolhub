@@ -1,6 +1,6 @@
 import { getContext, setContext } from 'svelte';
 
-const KEY = Symbol('toolhub.field');
+const KEY = Symbol('heytools.field');
 
 export type FieldContext = {
 	getDescribedBy: () => string | undefined;

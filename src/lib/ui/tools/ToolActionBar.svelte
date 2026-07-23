@@ -52,7 +52,7 @@
 		const value = actions.downloadValue ?? actions.copyValue ?? '';
 		if (!value) return;
 		downloadText(
-			actions.downloadFilename ?? 'toolhub-output.txt',
+			actions.downloadFilename ?? 'heytools-output.txt',
 			value,
 			actions.downloadMime ?? 'text/plain;charset=utf-8'
 		);

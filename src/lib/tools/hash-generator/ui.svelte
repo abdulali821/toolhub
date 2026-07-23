@@ -10,7 +10,7 @@
 	import { hashGenerator, run, type HashInput } from './index';
 
 	const shareKeys = hashGenerator.share!.params;
-	const DEFAULT_TEXT = 'ToolHub';
+	const DEFAULT_TEXT = 'HeyTools';
 	const DEFAULT_ALGORITHM: HashInput['algorithm'] = 'SHA-256';
 	const ALGORITHMS: HashInput['algorithm'][] = ['SHA-1', 'SHA-256', 'SHA-384', 'SHA-512'];
 

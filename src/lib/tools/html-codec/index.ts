@@ -9,8 +9,8 @@ export const inputSchema = v.object({
 export type HtmlCodecInput = v.InferOutput<typeof inputSchema>;
 export type HtmlCodecOutput = { result: string };
 
-const DEFAULT_TEXT = '<div class="hello">ToolHub & friends</div>';
-const SAMPLE_ENCODED = '&lt;div class=&quot;hello&quot;&gt;ToolHub &amp; friends&lt;/div&gt;';
+const DEFAULT_TEXT = '<div class="hello">HeyTools & friends</div>';
+const SAMPLE_ENCODED = '&lt;div class=&quot;hello&quot;&gt;HeyTools &amp; friends&lt;/div&gt;';
 
 const ENTITIES: Record<string, string> = {
 	'&': '&amp;',

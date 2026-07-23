@@ -12,6 +12,15 @@
 	let { data }: PageProps = $props();
 
 	const user = $derived(page.data.user as { id: string; email?: string } | null | undefined);
+
+	let filtersOpen = $state(false);
+
+	const activeLabel = $derived(
+		data.category
+			? (categories.find((c) => c.id === data.category)?.label.replace(' Tools', '') ??
+					'Category')
+			: 'All Tools'
+	);
 </script>
 
 <svelte:head>
@@ -22,88 +31,133 @@
 	<Container class="py-10 sm:py-14">
 		<div class="flex flex-col gap-8 lg:flex-row lg:gap-10">
 			<aside
-				class="w-full shrink-0 rounded-2xl border border-border bg-white p-5 shadow-premium lg:w-56"
+				class="w-full shrink-0 overflow-hidden rounded-2xl border border-border bg-white shadow-premium lg:sticky lg:top-24 lg:w-56 lg:self-start"
 				aria-label="Catalog filters"
 			>
-				<p class="text-[11px] font-semibold tracking-wider text-muted uppercase">Categories</p>
-				<ul class="mt-3 space-y-0.5">
-					<li>
-						<a
-							href={resolve('/tools')}
-							class="flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm no-underline transition-colors {!data.category
-								? 'bg-bg font-medium text-fg'
-								: 'text-muted hover:bg-bg hover:text-fg'}"
-							aria-current={!data.category ? 'page' : undefined}
+				<button
+					type="button"
+					class="flex w-full items-center justify-between gap-3 px-5 py-4 text-left lg:hidden"
+					aria-expanded={filtersOpen}
+					aria-controls="tools-filters-panel"
+					onclick={() => (filtersOpen = !filtersOpen)}
+				>
+					<span class="min-w-0">
+						<span class="block text-[11px] font-semibold tracking-wider text-muted uppercase"
+							>Categories</span
 						>
-							<span class="text-muted" aria-hidden="true">
-								<svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-									><path
-										d="M4 6h16M4 12h16M4 18h10"
-										stroke="currentColor"
-										stroke-width="1.75"
-										stroke-linecap="round"
-									/></svg
-								>
-							</span>
-							All Tools
-						</a>
-					</li>
-					{#each categories as category (category.id)}
-						{@const kind = isCategoryId(category.id) ? categoryIconKind[category.id] : 'spark'}
-						{@const active = data.category === category.id}
+						<span class="mt-0.5 block truncate text-sm font-medium text-fg">{activeLabel}</span>
+					</span>
+					<span
+						class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-border text-muted transition-transform duration-200 {filtersOpen
+							? 'rotate-180'
+							: ''}"
+						aria-hidden="true"
+					>
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+							<path
+								d="M6 9l6 6 6-6"
+								stroke="currentColor"
+								stroke-width="1.75"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							/>
+						</svg>
+					</span>
+				</button>
+
+				<p
+					class="hidden px-5 pt-5 text-[11px] font-semibold tracking-wider text-muted uppercase lg:block"
+				>
+					Categories
+				</p>
+
+				<div
+					id="tools-filters-panel"
+					class="border-t border-border px-5 pt-3 pb-5 lg:block lg:border-t-0 lg:pt-3 {filtersOpen
+						? 'block'
+						: 'hidden'}"
+				>
+					<ul class="space-y-0.5">
 						<li>
 							<a
-								href={resolve(`/tools?category=${category.id}`)}
-								class="flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm no-underline transition-colors {active
+								href={resolve('/tools')}
+								class="flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm no-underline transition-colors {!data.category
 									? 'bg-bg font-medium text-fg'
 									: 'text-muted hover:bg-bg hover:text-fg'}"
-								aria-current={active ? 'page' : undefined}
+								aria-current={!data.category ? 'page' : undefined}
+								onclick={() => (filtersOpen = false)}
 							>
-								<CategoryBadge {kind} size="sm" />
-								<span class="truncate">{category.label.replace(' Tools', '')}</span>
+								<span class="text-muted" aria-hidden="true">
+									<svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+										><path
+											d="M4 6h16M4 12h16M4 18h10"
+											stroke="currentColor"
+											stroke-width="1.75"
+											stroke-linecap="round"
+										/></svg
+									>
+								</span>
+								All Tools
 							</a>
 						</li>
-					{/each}
-				</ul>
+						{#each categories as category (category.id)}
+							{@const kind = isCategoryId(category.id) ? categoryIconKind[category.id] : 'spark'}
+							{@const active = data.category === category.id}
+							<li>
+								<a
+									href={resolve(`/tools?category=${category.id}`)}
+									class="flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm no-underline transition-colors {active
+										? 'bg-bg font-medium text-fg'
+										: 'text-muted hover:bg-bg hover:text-fg'}"
+									aria-current={active ? 'page' : undefined}
+									onclick={() => (filtersOpen = false)}
+								>
+									<CategoryBadge {kind} size="sm" />
+									<span class="truncate">{category.label.replace(' Tools', '')}</span>
+								</a>
+							</li>
+						{/each}
+					</ul>
 
-				<p class="mt-6 text-[11px] font-semibold tracking-wider text-muted uppercase">
-					Collections
-				</p>
-				<ul class="mt-3 space-y-0.5">
-					<li>
-						<a
-							href={resolve(user ? '/account/favorites' : '/login')}
-							class="flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm text-muted no-underline transition-colors hover:bg-bg hover:text-fg"
-						>
-							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-								<path
-									d="M12 3.5l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 15.9 7.2 18.4l.9-5.4L4.2 9.2l5.4-.8L12 3.5z"
-									stroke="currentColor"
-									stroke-width="1.5"
-									stroke-linejoin="round"
-								/>
-							</svg>
-							Starred
-						</a>
-					</li>
-					<li>
-						<a
-							href={resolve(user ? '/account/history' : '/login')}
-							class="flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm text-muted no-underline transition-colors hover:bg-bg hover:text-fg"
-						>
-							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-								<circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.5" />
-								<path
-									d="M12 8v4l3 2"
-									stroke="currentColor"
-									stroke-width="1.5"
-									stroke-linecap="round"
-								/>
-							</svg>
-							Recent
-						</a>
-					</li>
-				</ul>
+					<p class="mt-6 text-[11px] font-semibold tracking-wider text-muted uppercase">
+						Collections
+					</p>
+					<ul class="mt-3 space-y-0.5">
+						<li>
+							<a
+								href={resolve(user ? '/account/favorites' : '/login')}
+								class="flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm text-muted no-underline transition-colors hover:bg-bg hover:text-fg"
+							>
+								<svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+									<path
+										d="M12 3.5l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 15.9 7.2 18.4l.9-5.4L4.2 9.2l5.4-.8L12 3.5z"
+										stroke="currentColor"
+										stroke-width="1.5"
+										stroke-linejoin="round"
+									/>
+								</svg>
+								Starred
+							</a>
+						</li>
+						<li>
+							<a
+								href={resolve(user ? '/account/history' : '/login')}
+								class="flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm text-muted no-underline transition-colors hover:bg-bg hover:text-fg"
+							>
+								<svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+									<circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.5" />
+									<path
+										d="M12 8v4l3 2"
+										stroke="currentColor"
+										stroke-width="1.5"
+										stroke-linecap="round"
+									/>
+								</svg>
+								Recent
+							</a>
+						</li>
+					</ul>
+				</div>
 			</aside>
 
 			<div class="min-w-0 flex-1">

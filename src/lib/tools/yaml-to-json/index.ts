@@ -50,7 +50,7 @@ export const yamlToJson: ToolDefinition<YamlToJsonInput, YamlToJsonOutput> = {
 			id: 'config',
 			label: 'Config sample',
 			params: {
-				yaml: 'app: ToolHub\nfeatures:\n  share: true\n  offline: true'
+				yaml: 'app: HeyTools\nfeatures:\n  share: true\n  offline: true'
 			}
 		}
 	],

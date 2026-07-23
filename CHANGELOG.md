@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0] - 2026-07-21
 
-First public release candidate of ToolHub: a free, SEO-first online tools platform with a plugin tool engine, browser-local processing for most workloads, and lean optional auth for favorites and history.
+First public release candidate of HeyTools: a free, SEO-first online tools platform with a plugin tool engine, browser-local processing for most workloads, and lean optional auth for favorites and history.
 
 ### Added
 
@@ -56,5 +56,5 @@ First public release candidate of ToolHub: a free, SEO-first online tools platfo
 - Dependency on bare `adapter-auto` guesswork for production deploys
 - `@sveltejs/adapter-node` in favor of `@sveltejs/adapter-vercel` for Vercel hosting
 
-[Unreleased]: https://github.com/YOUR_ORG/toolhub/compare/v1.0.0...HEAD
-[1.0.0]: https://github.com/YOUR_ORG/toolhub/releases/tag/v1.0.0
+[Unreleased]: https://github.com/YOUR_ORG/heytools/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/YOUR_ORG/heytools/releases/tag/v1.0.0

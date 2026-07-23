@@ -1,6 +1,6 @@
 import { getContext, setContext } from 'svelte';
 
-const KEY = Symbol('toolhub.tool-shell');
+const KEY = Symbol('heytools.tool-shell');
 
 export type ToolShellActions = {
 	/** Value used by the Copy action. */

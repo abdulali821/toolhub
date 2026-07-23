@@ -175,6 +175,36 @@
 		background: #e4e4e7;
 		color: var(--color-fg);
 	}
+
+	/* Thin brand scrollbar (Firefox + WebKit) */
+	* {
+		scrollbar-width: thin;
+		scrollbar-color: #d4d4d8 transparent;
+	}
+
+	*::-webkit-scrollbar {
+		width: 6px;
+		height: 6px;
+	}
+
+	*::-webkit-scrollbar-track {
+		background: transparent;
+	}
+
+	*::-webkit-scrollbar-thumb {
+		background-color: #d4d4d8;
+		border-radius: 9999px;
+		border: 1px solid transparent;
+		background-clip: padding-box;
+	}
+
+	*::-webkit-scrollbar-thumb:hover {
+		background-color: #a1a1aa;
+	}
+
+	*::-webkit-scrollbar-corner {
+		background: transparent;
+	}
 }
 
 @layer utilities {

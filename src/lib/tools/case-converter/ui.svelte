@@ -10,7 +10,7 @@
 	import { caseConverter, run, type CaseConverterInput } from './index';
 
 	const shareKeys = caseConverter.share!.params;
-	const DEFAULT_TEXT = 'Hello ToolHub World';
+	const DEFAULT_TEXT = 'Hello HeyTools World';
 	const DEFAULT_MODE: CaseConverterInput['mode'] = 'title';
 	const MODES = new Set<CaseConverterInput['mode']>([
 		'upper',

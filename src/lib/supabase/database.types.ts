@@ -91,6 +91,47 @@ export type Database = {
 					}
 				];
 			};
+			tool_requests: {
+				Row: {
+					category: string | null;
+					created_at: string;
+					description: string;
+					email: string | null;
+					id: string;
+					status: string;
+					tool_name: string;
+					user_id: string | null;
+				};
+				Insert: {
+					category?: string | null;
+					created_at?: string;
+					description: string;
+					email?: string | null;
+					id?: string;
+					status?: string;
+					tool_name: string;
+					user_id?: string | null;
+				};
+				Update: {
+					category?: string | null;
+					created_at?: string;
+					description?: string;
+					email?: string | null;
+					id?: string;
+					status?: string;
+					tool_name?: string;
+					user_id?: string | null;
+				};
+				Relationships: [
+					{
+						foreignKeyName: 'tool_requests_user_id_fkey';
+						columns: ['user_id'];
+						isOneToOne: false;
+						referencedRelation: 'profiles';
+						referencedColumns: ['id'];
+					}
+				];
+			};
 			uploads: {
 				Row: {
 					bucket: string;

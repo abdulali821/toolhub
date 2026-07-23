@@ -13,7 +13,7 @@
 	const maxParamBytes = regexTester.share!.maxParamBytes;
 	const DEFAULT_PATTERN = '\\b[A-Z][a-z]+\\b';
 	const DEFAULT_FLAGS = 'g';
-	const DEFAULT_TEXT = 'Hello ToolHub from Ada and Grace.';
+	const DEFAULT_TEXT = 'Hello HeyTools from Ada and Grace.';
 
 	function fromUrl() {
 		const sp = urlSearchParams();

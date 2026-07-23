@@ -11,7 +11,7 @@
 
 	const shareKeys = markdownPreview.share!.params;
 	const maxParamBytes = markdownPreview.share!.maxParamBytes;
-	const DEFAULT_MARKDOWN = `# ToolHub
+	const DEFAULT_MARKDOWN = `# HeyTools
 
 Write **Markdown** on the left.
 

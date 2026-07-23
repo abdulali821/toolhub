@@ -53,7 +53,7 @@ describe('encoding utils', () => {
 	it('rot13 is self-inverse for letters', () => {
 		expect(rot13('Hello')).toBe('Uryyb');
 		expect(rot13('Uryyb')).toBe('Hello');
-		expect(rot13('ToolHub123')).toBe('GbbyUho123');
+		expect(rot13('HeyTools123')).toBe('UrlGbbyf123');
 	});
 
 	it('encodeMorse and decodeMorse round-trip', () => {

@@ -1,8 +1,8 @@
 # Goforit design mockups
 
-Source: UX Pilot HTML prototypes shared for the ToolHub visual restyle (2026-07).
+Source: UX Pilot HTML prototypes shared for the HeyTools visual restyle (2026-07).
 
-These mockups define the target visual language. The live product keeps **ToolHub** naming and existing routes; visuals follow Goforit.
+These mockups define the target visual language. The live product uses **HeyTools** naming (`https://heytools.app`); visuals follow Goforit.
 
 ## Screens (PNG references)
 
@@ -17,9 +17,9 @@ These mockups define the target visual language. The live product keeps **ToolHu
 | `07-tool-packs.png`       | homepage packs section       |
 | `08-pack-detail.png`      | reference only — not shipped |
 | `09-workflow-detail.png`  | reference only — not shipped |
-| `10-trust-privacy.png`    | reference only — not shipped |
+| `10-trust-privacy.png`    | `/privacy`                   |
 
-Pack / workflow / trust mockups are reference-only — **not shipped** (no new routes).
+Pack / workflow mockups remain reference-only. Trust & privacy ships at `/privacy`; tool requests at `/request-tool`.
 
 ## Token extract
 

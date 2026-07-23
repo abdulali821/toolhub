@@ -22,7 +22,7 @@ export const load: PageServerLoad = async ({ url }) => {
 	const seo = buildSeo(
 		{
 			title: q ? `Search: ${q}` : 'Search tools',
-			description: 'Search ToolHub’s catalog of free online tools by name, tag, or task.',
+			description: 'Search HeyTools’s catalog of free online tools by name, tag, or task.',
 			canonicalPath: '/search',
 			robots: 'noindex,follow'
 		},

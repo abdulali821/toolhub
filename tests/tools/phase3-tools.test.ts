@@ -16,7 +16,7 @@ describe('phase 3 tools', () => {
 	});
 
 	it('slugifies text', () => {
-		expect(slugRun({ text: 'Hello ToolHub!' }).slug).toBe('hello-toolhub');
+		expect(slugRun({ text: 'Hello HeyTools!' }).slug).toBe('hello-heytools');
 	});
 
 	it('encodes and decodes base64', () => {
@@ -32,9 +32,9 @@ describe('phase 3 tools', () => {
 
 	it('decodes jwt payload', () => {
 		const token =
-			'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0IiwibmFtZSI6IlRvb2xIdWIifQ.sig';
+			'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0IiwibmFtZSI6IkhleVRvb2xzIn0.sig';
 		const out = jwtRun({ token });
 		expect(out.error).toBeUndefined();
-		expect(out.payload).toContain('ToolHub');
+		expect(out.payload).toContain('HeyTools');
 	});
 });

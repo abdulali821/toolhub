@@ -82,7 +82,7 @@ function inline(text: string) {
 		.replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g, '<a href="$2" rel="noopener noreferrer">$1</a>');
 }
 
-const DEFAULT_MARKDOWN = `# ToolHub
+const DEFAULT_MARKDOWN = `# HeyTools
 
 Write **Markdown** on the left.
 

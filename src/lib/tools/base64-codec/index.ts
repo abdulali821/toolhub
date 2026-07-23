@@ -9,7 +9,7 @@ export const inputSchema = v.object({
 export type Base64Input = v.InferOutput<typeof inputSchema>;
 export type Base64Output = { result: string; error?: string };
 
-const DEFAULT_TEXT = 'Hello ToolHub';
+const DEFAULT_TEXT = 'Hello HeyTools';
 const SAMPLE_ENCODED = 'SGVsbG8gVG9vbEh1Yg==';
 
 function encode(text: string) {

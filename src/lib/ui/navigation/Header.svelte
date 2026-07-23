@@ -21,7 +21,7 @@
 	};
 
 	let {
-		brand = 'ToolHub',
+		brand = 'HeyTools',
 		links = [
 			{ href: '/tools', label: 'All Tools', match: 'exact' },
 			{ href: '/tools?category=developer', label: 'Developer Tools', category: 'developer' },
@@ -135,7 +135,7 @@
 				class="flex h-8 w-8 items-center justify-center rounded bg-gray-900 text-white"
 				aria-hidden="true"
 			>
-				<span class="font-display text-lg leading-none font-bold">T</span>
+				<span class="font-display text-lg leading-none font-bold">H</span>
 			</span>
 			<span class="font-display text-xl font-semibold tracking-tight text-gray-900">{brand}</span>
 		</a>

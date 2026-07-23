@@ -10,7 +10,7 @@
 	import { htmlCodec, run, type HtmlCodecInput } from './index';
 
 	const shareKeys = htmlCodec.share!.params;
-	const DEFAULT_TEXT = '<div class="hello">ToolHub & friends</div>';
+	const DEFAULT_TEXT = '<div class="hello">HeyTools & friends</div>';
 	const DEFAULT_MODE: HtmlCodecInput['mode'] = 'encode';
 
 	function fromUrl() {

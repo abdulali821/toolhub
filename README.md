@@ -1,4 +1,4 @@
-# ToolHub
+# HeyTools
 
 Free, SEO-first **online tools** platform. Not a SaaS.
 
@@ -38,7 +38,7 @@ Copy `.env.example` → `.env`. Never commit real secrets. Only `PUBLIC_*` value
 
 | Variable                    | Required            | Description                                                                                                                                       |
 | --------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `PUBLIC_SITE_URL`           | **Production yes**  | Absolute site origin, **no trailing slash** (e.g. `https://toolhub.example`). Drives canonicals, OG URLs, sitemap `<loc>`, and robots `Sitemap:`. |
+| `PUBLIC_SITE_URL`           | **Production yes**  | Absolute site origin, **no trailing slash** (e.g. `https://heytools.app`). Drives canonicals, OG URLs, sitemap `<loc>`, and robots `Sitemap:`. |
 | `PUBLIC_SUPABASE_URL`       | For auth            | Supabase project URL                                                                                                                              |
 | `PUBLIC_SUPABASE_ANON_KEY`  | For auth            | Supabase anon / publishable key                                                                                                                   |
 | `SUPABASE_SERVICE_ROLE_KEY` | Server-only if used | **Never** expose to the browser; keep commented/local only                                                                                        |
@@ -72,7 +72,7 @@ pnpm check && pnpm lint && pnpm test && pnpm build
 
 ## Architecture overview
 
-ToolHub keeps layers strict so tools stay easy to add:
+HeyTools keeps layers strict so tools stay easy to add:
 
 ```text
 routes (thin) → engine (registry / contracts) → tools (plugins)
@@ -96,7 +96,7 @@ This project uses **`@sveltejs/adapter-vercel`**. Deploy from the GitHub repo; l
 
 1. Import the repo in Vercel
 2. Framework preset: **SvelteKit** (or Other — build command `pnpm build`)
-3. Set env vars (at least `PUBLIC_SITE_URL=https://your-deployment.vercel.app` or your custom domain)
+3. Set env vars (at least `PUBLIC_SITE_URL=https://heytools.app`)
 4. Deploy — do **not** set Output Directory to `public` or `build`
 
 ```sh
@@ -105,7 +105,7 @@ pnpm build   # locally verifies the Vercel adapter output under .vercel/output
 
 ### Required production env
 
-- `PUBLIC_SITE_URL=https://your-canonical-host` — must match the public origin users and crawlers see (custom domain preferred).
+- `PUBLIC_SITE_URL=https://heytools.app` — must match the public origin users and crawlers see.
 - Optional: Supabase, analytics, and ads vars from `.env.example`
 
 ### HTTPS / host policy (v1)

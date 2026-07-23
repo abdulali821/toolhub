@@ -1,6 +1,6 @@
 # Security Policy
 
-ToolHub is a free online tools platform. Most tool workloads run in the browser; optional account features use Supabase. We take reports that could affect user privacy, session integrity, or production deployments seriously.
+HeyTools is a free online tools platform. Most tool workloads run in the browser; optional account features use Supabase. We take reports that could affect user privacy, session integrity, or production deployments seriously.
 
 ## Supported versions
 
@@ -26,7 +26,7 @@ Good-faith research that follows this policy will not result in legal action fro
 
 **Preferred:** use GitHub’s private [Security Advisories](https://docs.github.com/en/code-security/security-advisories/guidance-on-reporting-and-writing/privately-reporting-a-security-vulnerability) for this repository (“Report a vulnerability”).
 
-**Alternative:** email the maintainers at **security@example.com** (replace with the project’s real security contact before publishing the repo) with subject line `[ToolHub Security]`.
+**Alternative:** submit details via the in-app [Request a tool](https://heytools.app/request-tool) form and mark the message as a security concern (do not include exploit payloads that could harm others).
 
 Please include:
 
@@ -53,4 +53,4 @@ Out of scope / lower priority (unless chained into a real exploit):
 
 ## Thank you
 
-Responsible disclosure helps keep ToolHub users safe. We appreciate your effort.
+Responsible disclosure helps keep HeyTools users safe. We appreciate your effort.

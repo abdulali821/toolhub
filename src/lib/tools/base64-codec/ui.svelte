@@ -10,7 +10,7 @@
 	import { base64Codec, run, type Base64Input } from './index';
 
 	const shareKeys = base64Codec.share!.params;
-	const DEFAULT_TEXT = 'Hello ToolHub';
+	const DEFAULT_TEXT = 'Hello HeyTools';
 	const DEFAULT_MODE: Base64Input['mode'] = 'encode';
 
 	function fromUrl() {

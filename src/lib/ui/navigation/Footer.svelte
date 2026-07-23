@@ -6,7 +6,7 @@
 		brand?: string;
 	};
 
-	let { brand = 'ToolHub' }: Props = $props();
+	let { brand = 'HeyTools' }: Props = $props();
 	const year = new Date().getFullYear();
 </script>
 
@@ -17,7 +17,7 @@
 				class="flex h-6 w-6 items-center justify-center rounded bg-gray-900 text-white"
 				aria-hidden="true"
 			>
-				<span class="font-display text-xs leading-none font-bold">T</span>
+				<span class="font-display text-xs leading-none font-bold">H</span>
 			</span>
 			<span class="font-display text-lg font-semibold tracking-tight text-gray-900">{brand}</span>
 		</a>
@@ -25,10 +25,11 @@
 		<p class="text-sm text-gray-500">&copy; {year} {brand}. Premium Browser Tools.</p>
 
 		<nav aria-label="Legal" class="flex gap-6 text-sm font-medium text-gray-500">
-			<a href="#privacy" class="no-underline transition-colors hover:text-gray-900">Privacy</a>
-			<a href="#terms" class="no-underline transition-colors hover:text-gray-900">Terms</a>
-			<a href="mailto:hello@toolhub.app" class="no-underline transition-colors hover:text-gray-900"
-				>Contact</a
+			<a href={resolve('/privacy')} class="no-underline transition-colors hover:text-gray-900"
+				>Privacy</a
+			>
+			<a href={resolve('/request-tool')} class="no-underline transition-colors hover:text-gray-900"
+				>Request a tool</a
 			>
 		</nav>
 	</Container>

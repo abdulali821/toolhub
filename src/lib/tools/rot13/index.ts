@@ -9,7 +9,7 @@ export const inputSchema = v.object({
 export type Rot13Input = v.InferOutput<typeof inputSchema>;
 export type Rot13Output = { result: string };
 
-const DEFAULT_TEXT = 'Hello ToolHub';
+const DEFAULT_TEXT = 'Hello HeyTools';
 
 export function run(input: Rot13Input): Rot13Output {
 	return { result: rot13Transform(input.text) };

@@ -17,7 +17,7 @@ export const load: PageServerLoad = async ({ url }) => {
 		{
 			title: 'Tools',
 			description:
-				'Browse free online tools on ToolHub — formatters, generators, converters, image and PDF utilities, and developer helpers.',
+				'Browse free online tools on HeyTools — formatters, generators, converters, image and PDF utilities, and developer helpers.',
 			canonicalPath: '/tools'
 		},
 		siteUrl

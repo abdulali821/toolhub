@@ -1,6 +1,6 @@
-# ToolHub v1.0.0 — Release Notes
+# HeyTools v1.0.0 — Release Notes
 
-**ToolHub** is a free, SEO-first collection of online tools—not a SaaS. Version **1.0.0** is the first production-ready release candidate: fast pages, private-by-default processing, and a maintainable plugin architecture for shipping new tools without redesigning the platform.
+**HeyTools** is a free, SEO-first collection of online tools—not a SaaS. Version **1.0.0** is the first production-ready release candidate: fast pages, private-by-default processing, and a maintainable plugin architecture for shipping new tools without redesigning the platform.
 
 ## Highlights
 

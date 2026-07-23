@@ -8,7 +8,7 @@
 	import { qrCodeGenerator, run } from './index';
 
 	const shareKeys = qrCodeGenerator.share!.params;
-	const DEFAULT_TEXT = 'https://toolhub.example';
+	const DEFAULT_TEXT = 'https://heytools.app';
 	const DEFAULT_SIZE = 256;
 
 	function optionsFromUrl() {
