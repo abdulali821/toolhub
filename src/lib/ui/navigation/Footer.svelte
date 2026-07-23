@@ -14,10 +14,10 @@
 	<Container class="flex flex-col items-center justify-between gap-6 md:flex-row">
 		<a href={resolve('/')} class="flex items-center gap-2 no-underline">
 			<span
-				class="flex h-6 w-6 items-center justify-center rounded bg-gray-900 text-white"
+				class="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded bg-gray-900"
 				aria-hidden="true"
 			>
-				<span class="font-display text-xs leading-none font-bold">H</span>
+				<img src="/logo-1.png" alt="" width="20" height="20" class="object-cover" />
 			</span>
 			<span class="font-display text-lg font-semibold tracking-tight text-gray-900">{brand}</span>
 		</a>

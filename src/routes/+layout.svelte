@@ -1,6 +1,5 @@
 <script lang="ts">
 	import './layout.css';
-	import favicon from '$lib/assets/favicon.svg';
 	import { Footer, Header, SkipLink } from '$ui';
 	import AdSlot from '$ui/marketing/AdSlot.svelte';
 	import CommandPalette from '$ui/navigation/CommandPalette.svelte';
@@ -13,7 +12,8 @@
 </script>
 
 <svelte:head>
-	<link rel="icon" href={favicon} />
+	<link rel="icon" href="/logo-1.png" type="image/png" />
+	<link rel="apple-touch-icon" href="/logo-1.png" />
 	<meta name="theme-color" content="#18181b" />
 </svelte:head>
 

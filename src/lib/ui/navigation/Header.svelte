@@ -132,10 +132,10 @@
 	<Container class="relative flex h-16 items-center justify-between gap-4">
 		<a href={resolve('/')} class="flex shrink-0 items-center gap-2 no-underline">
 			<span
-				class="flex h-8 w-8 items-center justify-center rounded bg-gray-900 text-white"
+				class="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded bg-gray-900"
 				aria-hidden="true"
 			>
-				<span class="font-display text-lg leading-none font-bold">H</span>
+				<img src="/logo-1.png" alt="" width="22" height="22" class=" object-cover" />
 			</span>
 			<span class="font-display text-xl font-semibold tracking-tight text-gray-900">{brand}</span>
 		</a>
