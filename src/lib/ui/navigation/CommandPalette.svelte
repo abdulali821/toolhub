@@ -34,13 +34,6 @@
 			group: 'Navigate'
 		},
 		{
-			id: 'nav-categories',
-			label: 'Categories',
-			description: 'SEO category landings',
-			href: '/categories',
-			group: 'Navigate'
-		},
-		{
 			id: 'nav-search',
 			label: 'Search',
 			description: 'Full-page search',
@@ -58,7 +51,7 @@
 			id: `cat-${c.id}`,
 			label: c.label,
 			description: c.description,
-			href: `/categories/${c.id}`,
+			href: `/tools?category=${c.id}`,
 			group: 'Categories'
 		})),
 		...packs.map((p) => ({
@@ -233,39 +226,59 @@
 <svelte:window onkeydown={onKeydown} />
 
 {#if open}
-	<div class="fixed inset-0 z-50 flex items-start justify-center px-4 pt-[12vh]">
+	<div class="fixed inset-0 z-60 flex items-start justify-center px-4 pt-[12vh]">
 		<button
 			type="button"
-			class="absolute inset-0 bg-fg/40 backdrop-blur-[2px]"
+			class="absolute inset-0 bg-black/50 backdrop-blur-[2px]"
 			aria-label="Close command palette"
 			onclick={closePalette}
 		></button>
 
 		<div
 			bind:this={dialogEl}
-			class="relative z-10 flex max-h-[min(70vh,32rem)] w-full max-w-xl flex-col overflow-hidden rounded-xl border border-border bg-bg-elevated shadow-2xl"
+			class="relative z-10 flex max-h-[min(70vh,32rem)] w-full max-w-xl flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#1c1c1e] text-white shadow-2xl"
 			role="dialog"
 			aria-modal="true"
 			aria-label="Command palette"
 			tabindex="-1"
 			onkeydown={onDialogKeydown}
 		>
-			<div class="border-b border-border px-3 py-2">
+			<div class="flex items-center gap-3 border-b border-white/10 px-4 py-3">
+				<svg
+					width="18"
+					height="18"
+					viewBox="0 0 24 24"
+					fill="none"
+					aria-hidden="true"
+					class="shrink-0 text-white/40"
+				>
+					<circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.75" />
+					<path
+						d="M20 20l-3.5-3.5"
+						stroke="currentColor"
+						stroke-width="1.75"
+						stroke-linecap="round"
+					/>
+				</svg>
 				<label class="sr-only" for="command-palette-input">Search tools and pages</label>
 				<input
 					id="command-palette-input"
 					bind:this={inputEl}
 					bind:value={query}
-					class="h-11 w-full bg-transparent text-base text-fg outline-none placeholder:text-muted"
-					placeholder="Search tools, categories, packs…"
+					class="h-10 w-full bg-transparent text-base text-white outline-none placeholder:text-white/40"
+					placeholder="Type a command or search tools..."
 					autocomplete="off"
 					autocorrect="off"
 					spellcheck="false"
 				/>
+				<kbd
+					class="hidden rounded border border-white/15 bg-white/5 px-1.5 py-0.5 font-mono text-[10px] text-white/45 sm:inline"
+					>⌘K</kbd
+				>
 			</div>
 
 			{#if flat.length === 0}
-				<p class="px-4 py-8 text-center text-sm text-muted">No matches for “{query}”.</p>
+				<p class="px-4 py-8 text-center text-sm text-white/45">No matches for “{query}”.</p>
 			{:else}
 				<ul
 					bind:this={listEl}
@@ -274,7 +287,9 @@
 					aria-label="Results"
 				>
 					{#each grouped as [group, items] (group)}
-						<li class="px-2 pt-2 pb-1 text-xs font-semibold tracking-wide text-muted uppercase">
+						<li
+							class="px-2 pt-3 pb-1 text-[11px] font-semibold tracking-wider text-white/35 uppercase"
+						>
 							{group}
 						</li>
 						{#each items as item (item.id)}
@@ -282,21 +297,20 @@
 							<li role="option" aria-selected={index === activeIndex} data-index={index}>
 								<button
 									type="button"
-									class="flex w-full flex-col gap-0.5 rounded-lg px-3 py-2 text-left transition-colors {index ===
+									class="flex w-full items-center justify-between gap-3 rounded-lg px-3 py-2.5 text-left transition-colors {index ===
 									activeIndex
-										? 'bg-accent text-accent-fg'
-										: 'hover:bg-bg'}"
+										? 'bg-white/10'
+										: 'hover:bg-white/5'}"
 									onmouseenter={() => (activeIndex = index)}
 									onclick={() => select(item)}
 								>
-									<span class="text-sm font-medium">{item.label}</span>
-									<span
-										class="line-clamp-1 text-xs {index === activeIndex
-											? 'text-accent-fg/80'
-											: 'text-muted'}"
-									>
-										{item.description}
+									<span class="min-w-0">
+										<span class="block text-sm font-medium text-white">{item.label}</span>
+										<span class="mt-0.5 line-clamp-1 block text-xs text-white/45">
+											{item.description}
+										</span>
 									</span>
+									<span class="shrink-0 text-white/30" aria-hidden="true">→</span>
 								</button>
 							</li>
 						{/each}
@@ -305,10 +319,10 @@
 			{/if}
 
 			<div
-				class="flex items-center justify-between gap-2 border-t border-border px-3 py-2 text-xs text-muted"
+				class="flex items-center justify-between gap-2 border-t border-white/10 px-4 py-2.5 text-xs text-white/40"
 			>
-				<span>↑↓ navigate · Enter open · Esc close</span>
-				<span class="hidden sm:inline">Ctrl/⌘ K</span>
+				<span>↵ select · ↑↓ navigate</span>
+				<span>esc close</span>
 			</div>
 		</div>
 	</div>

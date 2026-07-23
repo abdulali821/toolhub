@@ -1,36 +1,17 @@
-import { error, redirect } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import { categories, legacyCategoryRedirects } from '$lib/config/site';
-import { listTools } from '$tools';
-import { buildSeo } from '$seo';
-import { getPublicEnv } from '$server/env';
+import { categories, legacyCategoryRedirects, type CategoryId } from '$lib/config/site';
 
+/** Category landings removed — filter on /tools instead. */
 export const load: PageServerLoad = async ({ params, url }) => {
 	const legacy = legacyCategoryRedirects[params.slug];
-	if (legacy && legacy !== params.slug) {
-		const next = new URL(url);
-		next.pathname = `/categories/${legacy}`;
-		redirect(301, `${next.pathname}${next.search}`);
-	}
+	const slug = (legacy && legacy !== params.slug ? legacy : params.slug) as string;
+	const known = categories.some((c) => c.id === slug);
 
-	const category = categories.find((item) => item.id === params.slug);
-	if (!category) error(404, 'Category not found');
+	const next = new URL('/tools', url.origin);
+	if (known) next.searchParams.set('category', slug as CategoryId);
+	const q = url.searchParams.get('q');
+	if (q) next.searchParams.set('q', q);
 
-	const q = url.searchParams.get('q') ?? '';
-	const tools = listTools({
-		category: category.id,
-		q: q || undefined
-	});
-
-	const siteUrl = getPublicEnv().PUBLIC_SITE_URL ?? url.origin;
-	const seo = buildSeo(
-		{
-			title: category.label,
-			description: category.description,
-			canonicalPath: `/categories/${category.id}`
-		},
-		siteUrl
-	);
-
-	return { category, tools, q, seo };
+	redirect(301, `${next.pathname}${next.search}`);
 };

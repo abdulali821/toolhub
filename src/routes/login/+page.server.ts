@@ -19,7 +19,39 @@ const credentialsSchema = v.object({
 });
 
 export const actions: Actions = {
-	signin: async ({ request, locals }) => {
+	google: async ({ locals, url }) => {
+		const next = url.searchParams.get('next') ?? '/account';
+		const redirectTo = `${url.origin}/auth/callback?next=${encodeURIComponent(next)}`;
+
+		const { data, error } = await locals.supabase.auth.signInWithOAuth({
+			provider: 'google',
+			options: {
+				redirectTo,
+				queryParams: {
+					access_type: 'offline',
+					prompt: 'consent'
+				}
+			}
+		});
+
+		if (error) {
+			return fail(400, {
+				mode: 'google',
+				message: error.message
+			});
+		}
+
+		if (!data.url) {
+			return fail(500, {
+				mode: 'google',
+				message: 'Could not start Google sign-in.'
+			});
+		}
+
+		redirect(303, data.url);
+	},
+
+	signin: async ({ request, locals, url }) => {
 		const form = Object.fromEntries(await request.formData());
 		const parsed = v.safeParse(credentialsSchema, form);
 		if (!parsed.success) {
@@ -39,7 +71,8 @@ export const actions: Actions = {
 			});
 		}
 
-		redirect(303, '/account');
+		const next = url.searchParams.get('next') ?? '/account';
+		redirect(303, next.startsWith('/') ? next : '/account');
 	},
 
 	signup: async ({ request, locals, url }) => {
@@ -74,37 +107,6 @@ export const actions: Actions = {
 			success: true,
 			message: 'Check your email to confirm your account, or sign in if confirmation is disabled.',
 			email: parsed.output.email
-		};
-	},
-
-	magic: async ({ request, locals, url }) => {
-		const form = Object.fromEntries(await request.formData());
-		const email = String(form.email ?? '');
-		const parsed = v.safeParse(v.pipe(v.string(), v.email()), email);
-		if (!parsed.success) {
-			return fail(400, {
-				mode: 'magic',
-				message: 'Enter a valid email',
-				email
-			});
-		}
-
-		const { error } = await locals.supabase.auth.signInWithOtp({
-			email: parsed.output,
-			options: {
-				emailRedirectTo: `${url.origin}/auth/callback`
-			}
-		});
-
-		if (error) {
-			return fail(400, { mode: 'magic', message: error.message, email });
-		}
-
-		return {
-			mode: 'magic',
-			success: true,
-			message: 'Magic link sent — check your email.',
-			email
 		};
 	}
 };

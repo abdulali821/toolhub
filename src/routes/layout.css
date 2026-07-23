@@ -1,38 +1,39 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
 
-@import '@fontsource-variable/source-sans-3';
-@import '@fontsource-variable/fraunces';
+@import '@fontsource-variable/inter';
+@import '@fontsource/playfair-display/400.css';
+@import '@fontsource/playfair-display/500.css';
+@import '@fontsource/playfair-display/600.css';
+@import '@fontsource/playfair-display/700.css';
+@import '@fontsource/playfair-display/400-italic.css';
 
 /* -------------------------------------------------------------------------- */
-/* Design tokens                                                              */
+/* Design tokens — Goforit visual language                                    */
 /* -------------------------------------------------------------------------- */
 
 :root {
-	/* Color — cool ink + teal accent (semantic) */
-	--color-bg: #f4f7f8;
+	--color-bg: #fafafa;
 	--color-bg-elevated: #ffffff;
-	--color-fg: #0f1c1f;
-	--color-muted: #5b6b70;
-	--color-border: #d5dee1;
-	--color-accent: #0f766e;
+	--color-fg: #18181b;
+	--color-muted: #71717a;
+	--color-border: #e4e4e7;
+	--color-accent: #18181b;
 	--color-accent-fg: #ffffff;
-	--color-accent-hover: #0d9488;
+	--color-accent-hover: #27272a;
 	--color-danger: #b42318;
 	--color-danger-bg: #fef3f2;
 	--color-success: #067647;
 	--color-success-bg: #ecfdf3;
 	--color-warning: #b54708;
 	--color-warning-bg: #fffaeb;
-	--color-info: #175cd3;
-	--color-info-bg: #eff8ff;
-	--color-focus: #0f766e;
+	--color-info: #3f3f46;
+	--color-info-bg: #f4f4f5;
+	--color-focus: #18181b;
 
-	/* Typography */
-	--font-sans: 'Source Sans 3 Variable', 'Source Sans 3', ui-sans-serif, sans-serif;
-	--font-display: 'Fraunces Variable', Fraunces, ui-serif, Georgia, serif;
+	--font-sans: 'Inter Variable', Inter, ui-sans-serif, system-ui, sans-serif;
+	--font-display: 'Playfair Display', ui-serif, Georgia, serif;
 
-	/* Spacing (4px base) */
 	--space-1: 0.25rem;
 	--space-2: 0.5rem;
 	--space-3: 0.75rem;
@@ -46,50 +47,51 @@
 	--space-20: 5rem;
 	--space-24: 6rem;
 
-	/* Radius */
 	--radius-none: 0;
 	--radius-sm: 0.25rem;
 	--radius-md: 0.5rem;
 	--radius-lg: 0.75rem;
+	--radius-xl: 1rem;
 	--radius-full: 9999px;
 
-	/* Shadow */
-	--shadow-sm: 0 1px 2px rgb(15 28 31 / 0.05);
-	--shadow-md: 0 8px 24px rgb(15 28 31 / 0.08);
-	--shadow-lg: 0 20px 48px rgb(15 28 31 / 0.1);
-	--shadow-ring: 0 0 0 1px color-mix(in oklab, var(--color-accent) 18%, transparent);
+	--shadow-sm: 0 1px 2px rgb(0 0 0 / 0.04);
+	--shadow-md: 0 4px 20px -2px rgb(0 0 0 / 0.05);
+	--shadow-lg: 0 10px 30px -4px rgb(0 0 0 / 0.08);
+	--shadow-premium: 0 4px 20px -2px rgb(0 0 0 / 0.05);
+	--shadow-premium-hover: 0 10px 30px -4px rgb(0 0 0 / 0.08);
+	--shadow-ring: 0 0 0 1px rgb(24 24 27 / 0.12);
 
-	/* Motion */
 	--ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 	--ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
 	--duration-fast: 150ms;
 	--duration-base: 220ms;
 	--duration-slow: 400ms;
 
-	/* Layout */
-	--container-max: 72rem;
+	--container-max: 80rem;
 }
 
 .dark {
-	--color-bg: #0b1416;
-	--color-bg-elevated: #132022;
-	--color-fg: #e8f0f2;
-	--color-muted: #9aadb3;
-	--color-border: #2a3b3f;
-	--color-accent: #2dd4bf;
-	--color-accent-fg: #042f2e;
-	--color-accent-hover: #5eead4;
+	--color-bg: #09090b;
+	--color-bg-elevated: #18181b;
+	--color-fg: #fafafa;
+	--color-muted: #a1a1aa;
+	--color-border: #27272a;
+	--color-accent: #fafafa;
+	--color-accent-fg: #18181b;
+	--color-accent-hover: #e4e4e7;
 	--color-danger: #f97066;
 	--color-danger-bg: #3b1511;
 	--color-success: #47cd89;
 	--color-success-bg: #053321;
 	--color-warning: #fdb022;
 	--color-warning-bg: #3b2a05;
-	--color-info: #84caff;
-	--color-info-bg: #102a56;
-	--color-focus: #2dd4bf;
+	--color-info: #a1a1aa;
+	--color-info-bg: #27272a;
+	--color-focus: #fafafa;
 	--shadow-sm: 0 1px 2px rgb(0 0 0 / 0.35);
 	--shadow-md: 0 4px 12px rgb(0 0 0 / 0.45);
+	--shadow-premium: 0 4px 20px -2px rgb(0 0 0 / 0.4);
+	--shadow-premium-hover: 0 10px 30px -4px rgb(0 0 0 / 0.5);
 }
 
 @theme {
@@ -117,10 +119,14 @@
 	--radius-sm: var(--radius-sm);
 	--radius-md: var(--radius-md);
 	--radius-lg: var(--radius-lg);
+	--radius-xl: var(--radius-xl);
 
 	--shadow-sm: var(--shadow-sm);
 	--shadow-md: var(--shadow-md);
 	--shadow-lg: var(--shadow-lg);
+	--shadow-premium: var(--shadow-premium);
+	--shadow-premium-hover: var(--shadow-premium-hover);
+	--shadow-ring: var(--shadow-ring);
 }
 
 @layer base {
@@ -150,12 +156,13 @@
 	body {
 		margin: 0;
 		min-height: 100dvh;
-		background: var(--color-bg);
+		background: #ffffff;
 		color: var(--color-fg);
 		font-family: var(--font-sans);
 		font-optical-sizing: auto;
 		line-height: 1.5;
 		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
 		text-rendering: optimizeLegibility;
 	}
 
@@ -165,7 +172,7 @@
 	}
 
 	::selection {
-		background: color-mix(in oklab, var(--color-accent) 28%, transparent);
+		background: #e4e4e7;
 		color: var(--color-fg);
 	}
 }
@@ -206,9 +213,18 @@
 
 	.surface-card {
 		border: 1px solid var(--color-border);
-		border-radius: var(--radius-lg);
+		border-radius: var(--radius-xl);
 		background: var(--color-bg-elevated);
-		box-shadow: var(--shadow-sm);
+		box-shadow: var(--shadow-premium);
+	}
+
+	.no-scrollbar::-webkit-scrollbar {
+		display: none;
+	}
+
+	.no-scrollbar {
+		-ms-overflow-style: none;
+		scrollbar-width: none;
 	}
 }
 

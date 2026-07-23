@@ -11,14 +11,20 @@ Account features exist only to improve tool usage (favorites + recent history). 
 
 ## Routes
 
-| Path                 | Purpose                                     |
-| -------------------- | ------------------------------------------- |
-| `/login`             | Email/password sign-in, sign-up, magic link |
-| `/auth/callback`     | OAuth / magic-link code exchange            |
-| `/logout`            | Sign out (POST)                             |
-| `/account`           | Account overview (auth-gated)               |
-| `/account/favorites` | Starred tools                               |
-| `/account/history`   | Recent tool visits                          |
+| Path                 | Purpose                                           |
+| -------------------- | ------------------------------------------------- |
+| `/login`             | Google OAuth + email/password sign-in and sign-up |
+| `/auth/callback`     | OAuth code exchange                               |
+| `/logout`            | Sign out (POST)                                   |
+| `/account`           | Account overview (auth-gated)                     |
+| `/account/favorites` | Starred tools                                     |
+| `/account/history`   | Recent tool visits                                |
+
+## Google OAuth setup
+
+1. Enable **Google** under Supabase → Authentication → Providers.
+2. Add authorized redirect URL: `https://<your-project>.supabase.co/auth/v1/callback`
+3. Site URL / additional redirects should include your app origin and `…/auth/callback`.
 
 ## Tables (intentionally small)
 
@@ -26,7 +32,7 @@ Account features exist only to improve tool usage (favorites + recent history). 
 
 Storage buckets: `avatars`, `uploads`.
 
-**Not planned:** user-owned bookmarks, user collections, saved sessions, API keys, subscriptions, analytics_events.
+**Not planned:** magic links, user-owned bookmarks, user collections, saved sessions, API keys, subscriptions.
 
 **Platform collections** (static curated packs, no accounts) are defined in code—see [architecture.md](./architecture.md#12-platform-collections).
 

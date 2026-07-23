@@ -18,8 +18,9 @@
 					<span aria-hidden="true">/</span>
 				{/if}
 				{#if item.href && index < items.length - 1}
-					<a href={resolve(item.href as '/')} class="transition-colors hover:text-fg"
-						>{item.label}</a
+					<a
+						href={item.href.includes('?') ? item.href : resolve(item.href as '/')}
+						class="transition-colors hover:text-fg">{item.label}</a
 					>
 				{:else}
 					<span class="text-fg" aria-current={index === items.length - 1 ? 'page' : undefined}

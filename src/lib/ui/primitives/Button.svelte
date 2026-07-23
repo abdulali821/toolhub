@@ -29,18 +29,18 @@
 
 	const variants: Record<Variant, string> = {
 		primary:
-			'bg-accent text-accent-fg hover:bg-accent-hover disabled:opacity-50 disabled:pointer-events-none',
+			'bg-fg text-white shadow-sm hover:bg-accent-hover disabled:opacity-50 disabled:pointer-events-none',
 		secondary:
-			'bg-bg-elevated text-fg border border-border hover:bg-bg disabled:opacity-50 disabled:pointer-events-none',
+			'bg-white text-fg border border-border hover:bg-bg disabled:opacity-50 disabled:pointer-events-none',
 		ghost:
-			'bg-transparent text-fg hover:bg-bg-elevated disabled:opacity-50 disabled:pointer-events-none',
+			'bg-transparent text-fg hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none',
 		danger: 'bg-danger text-white hover:opacity-90 disabled:opacity-50 disabled:pointer-events-none'
 	};
 
 	const sizes: Record<Size, string> = {
 		sm: 'h-8 px-3 text-sm gap-1.5',
-		md: 'h-10 px-4 text-base gap-2',
-		lg: 'h-12 px-5 text-lg gap-2'
+		md: 'h-10 px-4 text-sm gap-2',
+		lg: 'h-12 px-5 text-base gap-2'
 	};
 
 	function hrefFor(value: string) {
@@ -51,7 +51,6 @@
 		) {
 			return value;
 		}
-		// Design-system primitive accepts app paths; cast for typed resolve().
 		return resolve(value as '/');
 	}
 </script>
@@ -59,7 +58,7 @@
 {#if href}
 	<a
 		href={hrefFor(href)}
-		class="inline-flex items-center justify-center rounded-md font-medium no-underline transition-[color,background-color,border-color,transform,opacity] duration-(--duration-fast) ease-out active:scale-[0.98] {variants[
+		class="pressable inline-flex items-center justify-center rounded-lg font-medium no-underline transition-[color,background-color,border-color,box-shadow,transform,opacity] duration-(--duration-fast) ease-out {variants[
 			variant
 		]} {sizes[size]} {className}"
 		{...rest as HTMLAnchorAttributes}
@@ -70,7 +69,7 @@
 	<button
 		{type}
 		{disabled}
-		class="inline-flex items-center justify-center rounded-md font-medium no-underline transition-[color,background-color,border-color,transform,opacity] duration-(--duration-fast) ease-out active:scale-[0.98] disabled:active:scale-100 {variants[
+		class="pressable inline-flex items-center justify-center rounded-lg font-medium no-underline transition-[color,background-color,border-color,box-shadow,transform,opacity] duration-(--duration-fast) ease-out disabled:active:scale-100 {variants[
 			variant
 		]} {sizes[size]} {className}"
 		{...rest as HTMLButtonAttributes}

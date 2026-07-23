@@ -3,11 +3,11 @@
  * ToolHub is a free online tools platform (SEO-first), not a SaaS.
  * Environment-specific values come from `$env` via `$server/env`.
  *
- * Categories are SEO landing pages — prefer clear, cluster-aligned labels.
+ * Categories are catalog filters on /tools (and used for tool metadata).
  */
 export const site = {
 	name: 'ToolHub',
-	tagline: 'Privacy-first tools that stay in your browser',
+	tagline: 'Premium tools for focused work.',
 	defaultTitleTemplate: '%s | ToolHub'
 } as const;
 

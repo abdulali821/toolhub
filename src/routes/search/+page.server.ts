@@ -1,16 +1,22 @@
 import type { PageServerLoad } from './$types';
-import { listTools } from '$tools';
-import { categories, type CategoryId } from '$lib/config/site';
+import { categories } from '$lib/config/site';
 import { buildSeo } from '$seo';
 import { getPublicEnv } from '$server/env';
+
+/** Same featured set as homepage — used for “popular” empty state. */
+const SEARCH_POPULAR_IDS = [
+	'json-formatter',
+	'password-generator',
+	'word-counter',
+	'base64-codec',
+	'color-converter',
+	'regex-tester'
+] as const;
 
 export const load: PageServerLoad = async ({ url }) => {
 	const q = url.searchParams.get('q') ?? '';
 	const category = url.searchParams.get('category') ?? '';
-	const tools = listTools({
-		q: q || undefined,
-		category: (category || undefined) as CategoryId | undefined
-	});
+	const sort = url.searchParams.get('sort') ?? 'relevance';
 
 	const siteUrl = getPublicEnv().PUBLIC_SITE_URL ?? url.origin;
 	const seo = buildSeo(
@@ -23,5 +29,12 @@ export const load: PageServerLoad = async ({ url }) => {
 		siteUrl
 	);
 
-	return { q, category, tools, categories, seo };
+	return {
+		q,
+		category,
+		sort,
+		categories,
+		popularIds: [...SEARCH_POPULAR_IDS],
+		seo
+	};
 };

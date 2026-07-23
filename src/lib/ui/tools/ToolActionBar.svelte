@@ -36,8 +36,6 @@
 			if (value === '') url.searchParams.delete(key);
 			else url.searchParams.set(key, value);
 		}
-		// goto (unlike shallow replaceState) updates the reactive page.url,
-		// which tool UIs watch to apply preset values to their fields.
 		goto(`${url.pathname}${url.search}`, { replaceState: true, keepFocus: true, noScroll: true });
 	}
 
@@ -81,7 +79,7 @@
 </script>
 
 {#if presets.length}
-	<div class="mb-5 flex flex-wrap gap-2" role="group" aria-label="Presets">
+	<div class="mb-4 flex flex-wrap gap-2" role="group" aria-label="Presets">
 		{#each presets as preset (preset.id)}
 			<Button type="button" variant="ghost" size="sm" onclick={() => applyPreset(preset)}>
 				{preset.label}
@@ -92,7 +90,7 @@
 
 {#if capabilities.length}
 	<div
-		class="mb-5 flex flex-wrap items-center gap-2 rounded-lg border border-border/70 bg-bg/40 px-3 py-2.5"
+		class="mb-5 flex flex-wrap items-center gap-2 rounded-xl border border-border bg-bg px-3 py-2.5"
 		role="toolbar"
 		aria-label="Tool actions"
 	>
@@ -139,12 +137,12 @@
 				<form method="POST" action="?/toggleFavorite" class="inline">
 					<input type="hidden" name="favorited" value={favorited ? '1' : '0'} />
 					<Button type="submit" variant={favorited ? 'secondary' : 'ghost'} size="sm">
-						{favorited ? 'Favorited' : 'Favorite'}
+						{favorited ? 'Starred' : 'Star'}
 					</Button>
 				</form>
 			{:else}
 				<a href={loginHref} class="text-sm text-muted transition-colors hover:text-fg"
-					>Sign in to favorite</a
+					>Sign in to star</a
 				>
 			{/if}
 		{/if}

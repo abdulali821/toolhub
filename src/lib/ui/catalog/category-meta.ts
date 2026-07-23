@@ -1,18 +1,18 @@
 import type { CategoryId } from '$lib/config/site';
 import { categories } from '$lib/config/site';
 
-/** Subtle category accents — muted, never neon. */
+/** Muted zinc washes — Goforit grayscale language. */
 export const categoryAccent: Record<CategoryId, string> = {
-	developer: '#0f766e',
-	text: '#4338ca',
-	data: '#0369a1',
-	image: '#a16207',
-	pdf: '#b91c1c',
-	color: '#c026d3',
-	encoders: '#0e7490',
-	converters: '#4f46e5',
-	generators: '#047857',
-	calculators: '#b45309'
+	developer: '#3f3f46',
+	text: '#52525b',
+	data: '#27272a',
+	image: '#71717a',
+	pdf: '#3f3f46',
+	color: '#52525b',
+	encoders: '#27272a',
+	converters: '#3f3f46',
+	generators: '#52525b',
+	calculators: '#71717a'
 };
 
 export type CategoryIconKind =

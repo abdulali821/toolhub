@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Homepage - Goforit (design archive)</title>
+		<script src="https://cdn.tailwindcss.com"></script>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+			rel="stylesheet"
+		/>
+		<script>
+			tailwind.config = {
+				theme: {
+					extend: {
+						fontFamily: {
+							sans: ['Inter', 'sans-serif'],
+							serif: ['Playfair Display', 'serif']
+						},
+						colors: {
+							gray: {
+								50: '#fafafa',
+								100: '#f4f4f5',
+								200: '#e4e4e7',
+								300: '#d4d4d8',
+								400: '#a1a1aa',
+								500: '#71717a',
+								600: '#52525b',
+								700: '#3f3f46',
+								800: '#27272a',
+								900: '#18181b',
+								950: '#09090b'
+							}
+						},
+						boxShadow: {
+							premium: '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+							'premium-hover': '0 10px 30px -4px rgba(0, 0, 0, 0.08)'
+						}
+					}
+				}
+			};
+		</script>
+	</head>
+	<body class="m-0 bg-white p-0 font-sans text-gray-900">
+		<!-- Full mockup source provided by design; live app implements this in src/routes/+page.svelte with ToolHub branding and inline SVGs (no Font Awesome). -->
+		<header class="fixed top-0 z-50 w-full border-b border-gray-100 bg-white/80 backdrop-blur-md">
+			<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+				<div class="flex h-16 items-center justify-between">
+					<div class="flex shrink-0 items-center gap-2">
+						<div
+							class="flex h-8 w-8 items-center justify-center rounded bg-gray-900 font-serif text-lg font-bold text-white"
+						>
+							G
+						</div>
+						<span class="font-serif text-xl font-semibold tracking-tight">Goforit</span>
+					</div>
+					<div class="flex items-center gap-4">
+						<a href="#" class="hidden text-sm font-medium text-gray-600 sm:block">Log in</a>
+						<a
+							href="#"
+							class="rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white shadow-sm"
+							>Get Started</a
+						>
+					</div>
+				</div>
+			</div>
+		</header>
+		<main class="pt-24 pb-20">
+			<section class="relative mx-auto max-w-5xl px-4 pt-16 pb-12 text-center sm:px-6 lg:px-8">
+				<div
+					class="mb-8 inline-flex items-center gap-2 rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-xs font-medium text-gray-600"
+				>
+					<span class="flex h-2 w-2 rounded-full bg-gray-900"></span>
+					Introducing Curated Tool Packs
+				</div>
+				<h1
+					class="mb-6 font-serif text-5xl leading-[1.1] font-medium tracking-tight text-gray-900 md:text-7xl"
+				>
+					Premium tools for <br class="hidden md:block" />
+					<span class="text-gray-600 italic">focused</span> work.
+				</h1>
+				<p class="mx-auto mt-4 mb-10 max-w-2xl text-lg font-light text-gray-500 md:text-xl">
+					A carefully curated suite of browser-based utilities. Fast, privacy-first, and completely
+					free. Run everything locally without leaving your tab.
+				</p>
+				<div class="relative mx-auto max-w-2xl">
+					<input
+						type="text"
+						class="block w-full rounded-2xl border border-gray-200 bg-white py-4 pr-4 pl-12 placeholder-gray-400 shadow-premium sm:text-lg md:py-5"
+						placeholder="Search for formatting, conversion, or generation tools..."
+					/>
+				</div>
+				<div
+					class="mt-12 flex flex-wrap justify-center gap-8 text-sm font-medium text-gray-500 md:gap-16"
+				>
+					<div>Local & Fast</div>
+					<div>Privacy First</div>
+					<div>Free Forever</div>
+					<div>Browser Based</div>
+				</div>
+			</section>
+			<section class="mx-auto mb-24 max-w-7xl px-4 sm:px-6 lg:px-8">
+				<h2 class="font-serif text-3xl text-gray-900">Explore by Category</h2>
+				<p class="mt-2 font-light text-gray-500">Find exactly what you need.</p>
+			</section>
+		</main>
+		<footer class="border-t border-gray-100 bg-gray-50 py-12">
+			<div class="mx-auto max-w-7xl px-4 text-center text-sm text-gray-500">
+				&copy; 2024 Goforit. Premium Browser Tools.
+			</div>
+		</footer>
+	</body>
+</html>

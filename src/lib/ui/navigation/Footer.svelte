@@ -8,38 +8,28 @@
 
 	let { brand = 'ToolHub' }: Props = $props();
 	const year = new Date().getFullYear();
-
-	const links = [
-		{ href: '/tools' as const, label: 'All tools' },
-		{ href: '/categories' as const, label: 'Categories' },
-		{ href: '/search' as const, label: 'Search' },
-		{ href: '/login' as const, label: 'Sign in' }
-	];
 </script>
 
-<footer class="mt-auto border-t border-border bg-bg-elevated/40">
-	<Container class="grid gap-10 py-12 sm:grid-cols-[1.4fr_1fr]">
-		<div>
-			<p class="font-display text-2xl font-semibold tracking-tight text-fg">{brand}</p>
-			<p class="mt-2 max-w-sm text-sm text-pretty text-muted">
-				Privacy-first tools that run in your browser. No installs. No clutter.
-			</p>
-		</div>
-		<nav aria-label="Footer">
-			<p class="text-xs font-semibold tracking-wide text-muted uppercase">Explore</p>
-			<ul class="mt-3 grid gap-2 text-sm">
-				{#each links as link (link.href)}
-					<li>
-						<a
-							href={resolve(link.href)}
-							class="text-fg no-underline transition-colors hover:text-accent">{link.label}</a
-						>
-					</li>
-				{/each}
-			</ul>
+<footer class="mt-auto border-t border-gray-100 bg-gray-50 py-12">
+	<Container class="flex flex-col items-center justify-between gap-6 md:flex-row">
+		<a href={resolve('/')} class="flex items-center gap-2 no-underline">
+			<span
+				class="flex h-6 w-6 items-center justify-center rounded bg-gray-900 text-white"
+				aria-hidden="true"
+			>
+				<span class="font-display text-xs leading-none font-bold">T</span>
+			</span>
+			<span class="font-display text-lg font-semibold tracking-tight text-gray-900">{brand}</span>
+		</a>
+
+		<p class="text-sm text-gray-500">&copy; {year} {brand}. Premium Browser Tools.</p>
+
+		<nav aria-label="Legal" class="flex gap-6 text-sm font-medium text-gray-500">
+			<a href="#privacy" class="no-underline transition-colors hover:text-gray-900">Privacy</a>
+			<a href="#terms" class="no-underline transition-colors hover:text-gray-900">Terms</a>
+			<a href="mailto:hello@toolhub.app" class="no-underline transition-colors hover:text-gray-900"
+				>Contact</a
+			>
 		</nav>
-	</Container>
-	<Container class="border-t border-border py-5 text-sm text-muted">
-		<p>&copy; {year} {brand}. Free for everyone.</p>
 	</Container>
 </footer>

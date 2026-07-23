@@ -33,9 +33,9 @@ export const load: PageServerLoad = async ({ url }) => {
 	const siteUrl = getPublicEnv().PUBLIC_SITE_URL ?? url.origin;
 	const seo = buildSeo(
 		{
-			title: `${site.name} — Free online tools that stay private`,
+			title: `${site.name} — Premium tools for focused work`,
 			description:
-				'Privacy-first online tools that run in your browser. Format text, convert files, edit PDFs—no sign-up required. Free forever.',
+				'A carefully curated suite of browser-based utilities. Fast, privacy-first, and completely free. Format, convert, and generate locally.',
 			canonicalPath: '/'
 		},
 		siteUrl

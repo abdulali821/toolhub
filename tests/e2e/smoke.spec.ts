@@ -2,17 +2,17 @@ import { expect, test } from '@playwright/test';
 
 test('home shows brand and featured tools', async ({ page }) => {
 	await page.goto('/');
-	await expect(page.getByRole('heading', { level: 1 })).toHaveText(
-		'Privacy-first tools that stay in your browser'
-	);
-	await expect(page.getByRole('button', { name: /Search tools, packs/i })).toBeVisible();
-	await expect(page.getByRole('link', { name: 'Search tools' }).first()).toBeVisible();
+	await expect(page.getByRole('heading', { level: 1 })).toContainText('Premium tools for');
+	await expect(page.getByRole('heading', { level: 1 })).toContainText('focused');
+	await expect(
+		page.getByRole('button', { name: /Search for formatting, conversion/i })
+	).toBeVisible();
 	await expect(page.getByRole('heading', { name: 'Popular tools' })).toBeVisible();
 });
 
 test('tools catalog lists plugins', async ({ page }) => {
 	await page.goto('/tools');
-	await expect(page.getByRole('heading', { name: 'Tools' })).toBeVisible();
+	await expect(page.getByRole('heading', { name: 'All Tools' })).toBeVisible();
 	await expect(page.getByRole('link', { name: 'JSON Formatter' })).toBeVisible();
 	await expect(page.getByRole('link', { name: 'Word Counter' })).toBeVisible();
 });
@@ -38,7 +38,7 @@ test('regex tester tool page loads', async ({ page }) => {
 test('json formatter has shareable action bar and presets', async ({ page }) => {
 	await page.goto('/tools/json-formatter');
 	await expect(page.getByRole('toolbar', { name: 'Tool actions' })).toBeVisible();
-	await expect(page.getByRole('button', { name: 'Share link' })).toBeVisible();
+	await expect(page.getByRole('button', { name: 'Share Tool' })).toBeVisible();
 	await expect(page.getByRole('button', { name: 'Pretty Print' })).toBeVisible();
 	await expect(page.getByRole('heading', { name: 'Next step' })).toBeVisible();
 });

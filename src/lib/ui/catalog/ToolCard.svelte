@@ -1,12 +1,7 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import CategoryBadge from './CategoryBadge.svelte';
-	import {
-		accentForCategory,
-		categoryIconKind,
-		categoryLabel,
-		isCategoryId
-	} from './category-meta';
+	import CategoryIcon from './CategoryIcon.svelte';
+	import { categoryIconKind, categoryLabel, isCategoryId } from './category-meta';
 
 	type Props = {
 		id: string;
@@ -18,40 +13,30 @@
 
 	let { id, name, description, category, categoryLabel: labelProp }: Props = $props();
 
-	const accent = $derived(accentForCategory(category));
 	const kind = $derived(category && isCategoryId(category) ? categoryIconKind[category] : 'spark');
 	const label = $derived(labelProp ?? (category ? categoryLabel(category) : undefined));
 </script>
 
 <a
 	href={resolve(`/tools/${id}`)}
-	class="tool-card group relative block overflow-hidden rounded-lg border border-border bg-bg-elevated p-5 no-underline shadow-sm transition-[border-color,transform,box-shadow] duration-(--duration-base) ease-out hover:-translate-y-0.5 hover:border-accent/35 hover:shadow-md"
+	class="tool-card group flex h-full flex-col rounded-2xl border border-border bg-white p-5 no-underline shadow-premium transition-[box-shadow,transform,border-color] duration-(--duration-base) ease-out hover:-translate-y-0.5 hover:shadow-premium-hover"
 >
 	<span
-		class="pointer-events-none absolute inset-y-0 left-0 w-0.5 opacity-80 transition-opacity group-hover:opacity-100"
-		style="background: {accent}"
+		class="flex h-10 w-10 items-center justify-center rounded-xl bg-bg text-muted transition-colors duration-(--duration-fast) group-hover:bg-fg group-hover:text-white"
 		aria-hidden="true"
-	></span>
+	>
+		<CategoryIcon {kind} size={18} />
+	</span>
 
-	<div class="flex items-start gap-3">
-		{#if category && isCategoryId(category)}
-			<CategoryBadge {kind} {accent} size="sm" />
-		{/if}
-		<div class="min-w-0 flex-1">
-			<span
-				class="font-display text-lg font-semibold tracking-tight text-fg transition-colors duration-(--duration-fast) group-hover:text-accent"
-			>
-				{name}
-			</span>
-			<p class="mt-1.5 line-clamp-2 text-sm text-pretty text-muted">{description}</p>
-			{#if label}
-				<p
-					class="mt-3 text-[11px] font-semibold tracking-[0.08em] text-muted uppercase"
-					style="color: color-mix(in oklab, {accent} 55%, var(--color-muted));"
-				>
-					{label}
-				</p>
-			{/if}
-		</div>
-	</div>
+	<span class="mt-4 font-display text-lg font-semibold tracking-tight text-fg">
+		{name}
+	</span>
+	<p class="mt-1.5 line-clamp-2 flex-1 text-sm text-pretty text-muted">{description}</p>
+	{#if label}
+		<span
+			class="mt-4 inline-flex w-fit rounded-full bg-bg px-2.5 py-0.5 text-[11px] font-medium text-muted"
+		>
+			{label}
+		</span>
+	{/if}
 </a>
