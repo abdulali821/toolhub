@@ -25,7 +25,7 @@ First public release candidate of HeyTools: a free, SEO-first online tools platf
 - Structured data: WebSite/Organization on home; WebApplication, BreadcrumbList, FAQPage, HowTo on tools
 - Homepage platform collections (static curated tool packs)
 - Optional Supabase auth with favorites and throttled tool history
-- Env-flagged Plausible / Simple Analytics and ads placeholder slots
+- Simple Analytics in `app.html` and ads placeholder slots
 - Scaffold script: `pnpm new-tool`
 - Vitest unit tests and Playwright smoke e2e
 - Vercel production adapter (`@sveltejs/adapter-vercel`)

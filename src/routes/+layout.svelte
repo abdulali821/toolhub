@@ -4,7 +4,6 @@
 	import AdSlot from '$ui/marketing/AdSlot.svelte';
 	import CommandPalette from '$ui/navigation/CommandPalette.svelte';
 	import NavigationProgress from '$ui/navigation/NavigationProgress.svelte';
-	import Analytics from '$lib/analytics/Analytics.svelte';
 	import { site } from '$lib/config/site';
 	import type { LayoutProps } from './$types';
 
@@ -17,7 +16,6 @@
 	<meta name="theme-color" content="#18181b" />
 </svelte:head>
 
-<Analytics config={data.analytics} />
 <NavigationProgress />
 <CommandPalette />
 

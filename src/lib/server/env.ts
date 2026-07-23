@@ -6,8 +6,6 @@ const publicSchema = v.object({
 	PUBLIC_SITE_URL: v.optional(v.pipe(v.string(), v.url())),
 	PUBLIC_SUPABASE_URL: v.optional(v.pipe(v.string(), v.url())),
 	PUBLIC_SUPABASE_ANON_KEY: v.optional(v.string()),
-	PUBLIC_PLAUSIBLE_DOMAIN: v.optional(v.string()),
-	PUBLIC_SA_DOMAIN: v.optional(v.string()),
 	PUBLIC_ADS_ENABLED: v.optional(v.string()),
 	PUBLIC_FF_AUTH: v.optional(v.string())
 });
@@ -29,8 +27,6 @@ export function validateEnv() {
 		PUBLIC_SITE_URL: publicEnv.PUBLIC_SITE_URL,
 		PUBLIC_SUPABASE_URL: publicEnv.PUBLIC_SUPABASE_URL,
 		PUBLIC_SUPABASE_ANON_KEY: publicEnv.PUBLIC_SUPABASE_ANON_KEY,
-		PUBLIC_PLAUSIBLE_DOMAIN: publicEnv.PUBLIC_PLAUSIBLE_DOMAIN,
-		PUBLIC_SA_DOMAIN: publicEnv.PUBLIC_SA_DOMAIN,
 		PUBLIC_ADS_ENABLED: publicEnv.PUBLIC_ADS_ENABLED,
 		PUBLIC_FF_AUTH: publicEnv.PUBLIC_FF_AUTH
 	});

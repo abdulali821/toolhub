@@ -62,12 +62,7 @@ Supabase is used only for:
 
 ## Analytics
 
-Env-flagged external analytics only — no first-party event DB.
-
-- `PUBLIC_PLAUSIBLE_DOMAIN` → loads Plausible
-- `PUBLIC_SA_DOMAIN` → loads Simple Analytics
-- Client helper: `$lib/analytics/provider.ts` (`trackEvent`, `resolveAnalyticsConfig`)
-- Layout mounts `$lib/analytics/Analytics.svelte` when configured
+Simple Analytics is hardcoded in `src/app.html` (privacy-first script from Simple Analytics CDN).
 
 ## Ads readiness
 

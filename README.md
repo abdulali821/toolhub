@@ -48,11 +48,7 @@ Copy `.env.example` → `.env`. Never commit real secrets. Only `PUBLIC_*` value
 | `SUPABASE_SERVICE_ROLE_KEY` | Server-only if used | **Never** expose to the browser; keep commented/local only                                                                                        |
 | `LOG_LEVEL`                 | No                  | `debug` \| `info` \| `warn` \| `error` (default `info`)                                                                                           |
 | `PUBLIC_FF_AUTH`            | No                  | Feature flag for auth UI (`true` / `false`)                                                                                                       |
-| `PUBLIC_PLAUSIBLE_DOMAIN`   | No                  | Enables Plausible when set                                                                                                                        |
-| `PUBLIC_SA_DOMAIN`          | No                  | Enables Simple Analytics when set                                                                                                                 |
 | `PUBLIC_ADS_ENABLED`        | No                  | Shows ad placeholder slots when `true`                                                                                                            |
-
-Pick at most one analytics provider. Leave both unset for local development.
 
 ## Development workflow
 
