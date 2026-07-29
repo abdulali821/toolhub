@@ -19,10 +19,10 @@
 
 <a
 	href={resolve(`/tools/${id}`)}
-	class="tool-card group flex h-full flex-col rounded-2xl border border-border bg-white p-5 no-underline shadow-premium transition-[box-shadow,transform,border-color] duration-(--duration-base) ease-out hover:-translate-y-0.5 hover:shadow-premium-hover"
+	class="tool-card group flex h-full flex-col rounded-2xl border border-border bg-bg-elevated p-5 no-underline shadow-premium transition-[box-shadow,transform,border-color] duration-(--duration-base) ease-out hover:-translate-y-0.5 hover:shadow-premium-hover"
 >
 	<span
-		class="flex h-10 w-10 items-center justify-center rounded-xl bg-bg text-muted transition-colors duration-(--duration-fast) group-hover:bg-fg group-hover:text-white"
+		class="flex h-10 w-10 items-center justify-center rounded-xl bg-bg text-muted transition-colors duration-(--duration-fast) group-hover:bg-border group-hover:text-fg"
 		aria-hidden="true"
 	>
 		<CategoryIcon {kind} size={18} />

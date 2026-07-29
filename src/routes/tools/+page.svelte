@@ -17,8 +17,7 @@
 
 	const activeLabel = $derived(
 		data.category
-			? (categories.find((c) => c.id === data.category)?.label.replace(' Tools', '') ??
-					'Category')
+			? (categories.find((c) => c.id === data.category)?.label.replace(' Tools', '') ?? 'Category')
 			: 'All Tools'
 	);
 </script>
@@ -31,7 +30,7 @@
 	<Container class="py-10 sm:py-14">
 		<div class="flex flex-col gap-8 lg:flex-row lg:gap-10">
 			<aside
-				class="w-full shrink-0 overflow-hidden rounded-2xl border border-border bg-white shadow-premium lg:sticky lg:top-24 lg:w-56 lg:self-start"
+				class="w-full shrink-0 overflow-hidden rounded-2xl border border-border bg-bg-elevated shadow-premium lg:sticky lg:top-24 lg:w-56 lg:self-start"
 				aria-label="Catalog filters"
 			>
 				<button
@@ -190,7 +189,7 @@
 								name="q"
 								value={data.q}
 								placeholder="Search tools..."
-								class="h-11 w-full rounded-xl border border-border bg-white pr-3 pl-10 text-sm text-fg shadow-sm transition-[border-color,box-shadow] focus:border-fg/30 focus:shadow-ring focus:outline-none"
+								class="h-11 w-full rounded-xl border border-border bg-bg-elevated pr-3 pl-10 text-sm text-fg shadow-sm transition-[border-color,box-shadow] focus:border-fg/30 focus:shadow-ring focus:outline-none"
 							/>
 						</div>
 						<Button type="submit" class="h-11 shrink-0">Filter</Button>

@@ -253,7 +253,7 @@
 		<!-- Interactive crop stage -->
 		<div
 			bind:this={stageEl}
-			class="relative w-full touch-none overflow-hidden rounded-md border border-border bg-bg-elevated select-none"
+			class="relative w-full touch-none overflow-hidden rounded-md border border-border bg-bg select-none"
 			style={displayHeight ? `height:${displayHeight}px` : undefined}
 			role="application"
 			aria-label="Crop selection. Drag the box or handles to adjust."

@@ -25,7 +25,7 @@
 			<li
 				class={compact
 					? ''
-					: 'rounded-2xl border border-border bg-white p-4 shadow-premium transition-[box-shadow,transform] duration-(--duration-base) ease-out hover:-translate-y-0.5 hover:shadow-premium-hover'}
+					: 'rounded-2xl border border-border bg-bg-elevated p-4 shadow-premium transition-[box-shadow,transform] duration-(--duration-base) ease-out hover:-translate-y-0.5 hover:shadow-premium-hover'}
 			>
 				<a
 					href={resolve(`/tools/${tool.id}`)}

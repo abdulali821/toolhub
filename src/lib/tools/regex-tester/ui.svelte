@@ -84,7 +84,7 @@
 		<p class="text-sm text-muted">{output.count} match{output.count === 1 ? '' : 'es'}</p>
 		<ul class="space-y-2">
 			{#each output.matches as item, i (i)}
-				<li class="rounded-md border border-border bg-bg-elevated px-3 py-2 font-mono text-sm">
+				<li class="rounded-md border border-border bg-bg px-3 py-2 font-mono text-sm">
 					<span class="text-muted">@{item.index}</span>
 					<span class="ml-2 text-fg">{item.match}</span>
 					{#if item.groups.length}

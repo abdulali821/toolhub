@@ -112,7 +112,7 @@
 					{:else}
 						<a
 							href={loginHref}
-							class="pressable inline-flex h-8 items-center rounded-lg border border-border bg-white px-3 text-sm font-medium text-fg no-underline hover:bg-bg"
+							class="pressable inline-flex h-8 items-center rounded-lg border border-border bg-bg-elevated px-3 text-sm font-medium text-fg no-underline hover:bg-bg"
 							>Sign in to star</a
 						>
 					{/if}
@@ -129,7 +129,7 @@
 			class="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_16rem] lg:items-start xl:grid-cols-[minmax(0,1fr)_18rem]"
 		>
 			<section
-				class="animate-rise-delay-1 rounded-2xl border border-border bg-white p-4 shadow-premium sm:p-6"
+				class="animate-rise-delay-1 rounded-2xl border border-border bg-bg-elevated p-4 shadow-premium sm:p-6"
 				aria-label="Tool"
 			>
 				<ToolActionBar
@@ -145,7 +145,7 @@
 			</section>
 
 			<aside class="space-y-4">
-				<div class="rounded-2xl border border-border bg-white p-5 shadow-premium">
+				<div class="rounded-2xl border border-border bg-bg-elevated p-5 shadow-premium">
 					<p class="text-xs font-semibold tracking-wider text-muted uppercase">About</p>
 					<p class="mt-3 text-sm text-pretty text-muted">{description}</p>
 					<ul class="mt-4 space-y-3 text-sm text-muted">
@@ -190,7 +190,7 @@
 					</ul>
 				</div>
 				{#if related.length}
-					<div class="rounded-2xl border border-border bg-white p-5 shadow-premium">
+					<div class="rounded-2xl border border-border bg-bg-elevated p-5 shadow-premium">
 						<RelatedTools tools={related.slice(0, 4)} compact />
 					</div>
 				{/if}

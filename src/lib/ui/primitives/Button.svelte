@@ -29,11 +29,10 @@
 
 	const variants: Record<Variant, string> = {
 		primary:
-			'bg-fg text-white shadow-sm hover:bg-accent-hover disabled:opacity-50 disabled:pointer-events-none',
+			'bg-fg text-bg shadow-sm hover:bg-accent-hover disabled:opacity-50 disabled:pointer-events-none',
 		secondary:
-			'bg-white text-fg border border-border hover:bg-bg disabled:opacity-50 disabled:pointer-events-none',
-		ghost:
-			'bg-transparent text-fg hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none',
+			'bg-bg-elevated text-fg border border-border hover:bg-bg disabled:opacity-50 disabled:pointer-events-none',
+		ghost: 'bg-transparent text-fg hover:bg-bg disabled:opacity-50 disabled:pointer-events-none',
 		danger: 'bg-danger text-white hover:opacity-90 disabled:opacity-50 disabled:pointer-events-none'
 	};
 

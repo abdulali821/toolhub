@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Barcode Generator tool (`barcode-generator`): CODE128, CODE39, EAN-13/8, UPC, ITF-14, Codabar, and MSI as browser-local PNG via JsBarcode
+- Dark mode theme toggle (sun/moon) in the header, persisted via `localStorage` with system-preference fallback
+
+### Changed
+
+- Shared UI and major routes use design tokens (`bg-bg`, `text-fg`, `border-border`, …) so light/dark themes stay consistent
+
 ## [1.0.0] - 2026-07-21
 
 First public release candidate of HeyTools: a free, SEO-first online tools platform with a plugin tool engine, browser-local processing for most workloads, and lean optional auth for favorites and history.

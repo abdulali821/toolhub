@@ -1,5 +1,6 @@
 <script lang="ts">
 	import './layout.css';
+	import { onMount } from 'svelte';
 	import { Footer, Header, SkipLink } from '$ui';
 	import AdSlot from '$ui/marketing/AdSlot.svelte';
 	import CommandPalette from '$ui/navigation/CommandPalette.svelte';
@@ -8,18 +9,35 @@
 	import type { LayoutProps } from './$types';
 
 	let { children, data }: LayoutProps = $props();
+	let themeColor = $state('#fafafa');
+
+	onMount(() => {
+		const updateThemeColor = () => {
+			themeColor = document.documentElement.classList.contains('dark') ? '#09090b' : '#fafafa';
+		};
+
+		updateThemeColor();
+
+		const observer = new MutationObserver(updateThemeColor);
+		observer.observe(document.documentElement, {
+			attributes: true,
+			attributeFilter: ['class']
+		});
+
+		return () => observer.disconnect();
+	});
 </script>
 
 <svelte:head>
 	<link rel="icon" href="/logo-1.png" type="image/png" />
 	<link rel="apple-touch-icon" href="/logo-1.png" />
-	<meta name="theme-color" content="#18181b" />
+	<meta name="theme-color" content={themeColor} />
 </svelte:head>
 
 <NavigationProgress />
 <CommandPalette />
 
-<div class="flex min-h-dvh flex-col">
+<div class="flex min-h-dvh flex-col bg-bg">
 	<SkipLink />
 	<Header brand={site.name} user={data.user} />
 	<AdSlot enabled={data.adsEnabled} placement="header" class="mx-auto w-full max-w-7xl px-4 pt-4" />

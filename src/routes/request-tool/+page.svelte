@@ -19,10 +19,10 @@
 
 <main id="main" class="flex-1 bg-bg pt-28 pb-20">
 	<Container class="max-w-3xl">
-		<div class="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm md:p-12">
-			<header class="mb-10 border-b border-gray-100 pb-8">
+		<div class="rounded-2xl border border-border bg-bg-elevated p-8 shadow-sm md:p-12">
+			<header class="mb-10 border-b border-border pb-8">
 				<div
-					class="mb-6 flex h-12 w-12 items-center justify-center rounded-lg border border-gray-100 bg-gray-50 text-gray-900"
+					class="mb-6 flex h-12 w-12 items-center justify-center rounded-lg border border-border bg-bg text-fg"
 					aria-hidden="true"
 				>
 					<svg width="22" height="22" viewBox="0 0 24 24" fill="none">
@@ -34,12 +34,10 @@
 						/>
 					</svg>
 				</div>
-				<h1
-					class="mb-3 font-display text-3xl font-semibold tracking-tight text-gray-900 md:text-4xl"
-				>
+				<h1 class="mb-3 font-display text-3xl font-semibold tracking-tight text-fg md:text-4xl">
 					Request a tool
 				</h1>
-				<p class="text-base leading-relaxed text-gray-600">
+				<p class="text-base leading-relaxed text-muted">
 					Tell us what would make your workflow easier. We prioritize local-first utilities that fit
 					the catalog.
 				</p>
@@ -75,7 +73,7 @@
 							id="category"
 							name="category"
 							value={values.category}
-							class="w-full rounded-md border border-border bg-bg-elevated px-3 py-2 text-fg transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-focus focus-visible:outline-none"
+							class="w-full rounded-md border border-border bg-bg px-3 py-2 text-fg transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-focus focus-visible:outline-none"
 							aria-invalid={form?.errors?.category ? 'true' : undefined}
 						>
 							<option value="">Select a category</option>
@@ -133,7 +131,7 @@
 						<Button type="submit">Submit request</Button>
 						<a
 							href={resolve('/tools')}
-							class="text-sm font-medium text-gray-500 no-underline transition-colors hover:text-gray-900"
+							class="text-sm font-medium text-muted no-underline transition-colors hover:text-fg"
 						>
 							Browse existing tools
 						</a>
@@ -147,11 +145,10 @@
 			{/if}
 		</div>
 
-		<p class="mt-6 text-center text-sm text-gray-500">
+		<p class="mt-6 text-center text-sm text-muted">
 			Read how we handle submissions in our
-			<a
-				href={resolve('/privacy')}
-				class="font-medium text-gray-900 underline-offset-2 hover:underline">privacy policy</a
+			<a href={resolve('/privacy')} class="font-medium text-fg underline-offset-2 hover:underline"
+				>privacy policy</a
 			>.
 		</p>
 	</Container>

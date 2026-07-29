@@ -72,7 +72,7 @@
 		<Field id="cj-mode" label="Mode">
 			<select
 				id="cj-mode"
-				class="h-10 w-full rounded-md border border-border bg-bg-elevated px-3 text-sm"
+				class="h-10 w-full rounded-md border border-border bg-bg px-3 text-sm"
 				bind:value={mode}
 			>
 				<option value="csv-to-json">CSV → JSON</option>

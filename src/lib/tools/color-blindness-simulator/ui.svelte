@@ -126,7 +126,7 @@
 	<Field id="cvd-mode" label="Mode">
 		<select
 			id="cvd-mode"
-			class="h-10 w-full rounded-md border border-border bg-bg-elevated px-3 text-sm"
+			class="h-10 w-full rounded-md border border-border bg-bg px-3 text-sm"
 			bind:value={mode}
 		>
 			<option value="colors">Colors (palette)</option>
@@ -137,7 +137,7 @@
 	<Field id="cvd-type" label="Simulation type">
 		<select
 			id="cvd-type"
-			class="h-10 w-full rounded-md border border-border bg-bg-elevated px-3 text-sm"
+			class="h-10 w-full rounded-md border border-border bg-bg px-3 text-sm"
 			bind:value={type}
 		>
 			<option value="protanopia">Protanopia</option>

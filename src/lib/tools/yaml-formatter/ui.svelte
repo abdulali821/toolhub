@@ -71,7 +71,7 @@
 			<label class="text-sm font-medium" for="indent">Indent</label>
 			<select
 				id="indent"
-				class="h-10 rounded-md border border-border bg-bg-elevated px-3 text-sm"
+				class="h-10 rounded-md border border-border bg-bg px-3 text-sm"
 				bind:value={indent}
 			>
 				<option value={0}>Compact</option>

@@ -76,6 +76,7 @@ import { rot13 } from './rot13';
 import { morseCodec } from './morse-codec';
 import { contrastChecker } from './contrast-checker';
 import { colorBlindnessSimulator } from './color-blindness-simulator';
+import { barcodeGenerator } from './barcode-generator';
 
 const tools = [
 	jsonFormatter,
@@ -153,7 +154,8 @@ const tools = [
 	rot13,
 	morseCodec,
 	contrastChecker,
-	colorBlindnessSimulator
+	colorBlindnessSimulator,
+	barcodeGenerator
 ] as const;
 
 // Vite HMR re-executes this module while the engine Map may still hold prior entries.

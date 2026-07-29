@@ -160,7 +160,7 @@
 		<Field id="pc-mode" label="Compression mode">
 			<select
 				id="pc-mode"
-				class="h-10 w-full rounded-md border border-border bg-bg-elevated px-3 text-sm"
+				class="h-10 w-full rounded-md border border-border bg-bg px-3 text-sm"
 				bind:value={mode}
 			>
 				<option value="structure">Structure — rewrite object streams (lossless layout)</option>

@@ -246,24 +246,22 @@
 	{@const label = categoryLabel(tool.category)}
 	<a
 		href={resolve(`/tools/${tool.id}`)}
-		class="group block rounded-2xl border border-gray-200 bg-white p-6 no-underline transition-all duration-300 hover:border-gray-300 hover:shadow-premium-hover"
+		class="group block rounded-2xl border border-border bg-bg-elevated p-6 no-underline transition-all duration-300 hover:border-border hover:shadow-premium-hover"
 	>
 		<div class="flex items-start gap-5">
 			<span
-				class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-gray-100 bg-gray-50 text-gray-600 transition-colors group-hover:border-transparent group-hover:bg-gray-900 group-hover:text-white"
+				class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-border bg-bg text-muted transition-colors group-hover:bg-border group-hover:text-fg"
 				aria-hidden="true"
 			>
 				<CategoryIcon {kind} size={20} />
 			</span>
 			<div class="min-w-0 flex-1">
 				<div class="mb-1 flex flex-wrap items-center gap-2">
-					<span class="text-lg font-medium text-gray-900">{tool.name}</span>
-					<span class="rounded bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-600"
-						>{label}</span
-					>
+					<span class="text-lg font-medium text-fg">{tool.name}</span>
+					<span class="rounded bg-bg px-2 py-0.5 text-[10px] font-medium text-muted">{label}</span>
 				</div>
-				<p class="mb-3 line-clamp-2 text-sm leading-relaxed text-gray-500">{tool.description}</p>
-				<div class="flex flex-wrap items-center gap-4 text-xs font-medium text-gray-400">
+				<p class="mb-3 line-clamp-2 text-sm leading-relaxed text-muted">{tool.description}</p>
+				<div class="flex flex-wrap items-center gap-4 text-xs font-medium text-muted">
 					<span class="inline-flex items-center gap-1">
 						<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"
 							><path d="M13 2L4 14h7l-1 8 10-14h-7l0-6z" /></svg
@@ -284,7 +282,7 @@
 				</div>
 			</div>
 			<span
-				class="hidden shrink-0 translate-x-2 items-center justify-center text-gray-300 transition-all duration-300 group-hover:translate-x-0 group-hover:text-gray-900 sm:flex"
+				class="hidden shrink-0 translate-x-2 items-center justify-center text-muted transition-all duration-300 group-hover:translate-x-0 group-hover:text-fg sm:flex"
 				aria-hidden="true"
 			>
 				<svg width="16" height="16" viewBox="0 0 24 24" fill="none">
@@ -307,8 +305,8 @@
 		role="option"
 		aria-selected={active}
 		class="flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm transition-colors {active
-			? 'bg-gray-900 text-white'
-			: 'text-gray-700 hover:bg-gray-50'}"
+			? 'bg-fg text-bg'
+			: 'text-fg hover:bg-bg'}"
 		{onclick}
 	>
 		{label}
@@ -330,13 +328,13 @@
 	<SeoHead seo={data.seo} />
 </svelte:head>
 
-<main id="main" class="w-full flex-1 bg-white pt-8 pb-20 sm:pt-10">
+<main id="main" class="w-full flex-1 bg-bg-elevated pt-8 pb-20 sm:pt-10">
 	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 		<section id="search-header" class="mx-auto mb-10 max-w-4xl">
 			<div class="group relative">
 				<label class="sr-only" for="search-q">Search</label>
 				<span
-					class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400 transition-colors group-focus-within:text-gray-900"
+					class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-muted transition-colors group-focus-within:text-fg"
 					aria-hidden="true"
 				>
 					<svg width="18" height="18" viewBox="0 0 24 24" fill="none">
@@ -357,12 +355,12 @@
 					autocomplete="off"
 					autocorrect="off"
 					spellcheck="false"
-					class="block w-full rounded-2xl border border-gray-200 bg-white py-4 pr-12 pl-12 leading-5 text-gray-900 shadow-sm transition-shadow duration-300 placeholder:text-gray-400 focus:border-gray-900 focus:ring-1 focus:ring-gray-900 focus:outline-none sm:text-lg"
+					class="block w-full rounded-2xl border border-border bg-bg-elevated py-4 pr-12 pl-12 leading-5 text-fg shadow-sm transition-shadow duration-300 placeholder:text-muted focus:border-fg focus:ring-1 focus:ring-fg focus:outline-none sm:text-lg"
 				/>
 				{#if query}
 					<button
 						type="button"
-						class="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-400 transition-colors hover:text-gray-600"
+						class="absolute inset-y-0 right-0 flex items-center pr-4 text-muted transition-colors hover:text-muted"
 						aria-label="Clear search"
 						onclick={clearQuery}
 					>
@@ -379,25 +377,25 @@
 			</div>
 
 			<div class="mt-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
-				<p class="text-sm font-medium text-gray-500">
+				<p class="text-sm font-medium text-muted">
 					{#if query.trim()}
-						Showing <span class="font-semibold text-gray-900">{totalCount}</span>
+						Showing <span class="font-semibold text-fg">{totalCount}</span>
 						result{totalCount === 1 ? '' : 's'} for “{query.trim()}”
 					{:else if category}
-						Showing <span class="font-semibold text-gray-900">{totalCount}</span>
+						Showing <span class="font-semibold text-fg">{totalCount}</span>
 						tool{totalCount === 1 ? '' : 's'} in {filterLabel}
 					{:else}
-						Popular tools · <span class="font-semibold text-gray-900">{totalCount}</span>
+						Popular tools · <span class="font-semibold text-fg">{totalCount}</span>
 					{/if}
 				</p>
 
 				<div class="flex flex-wrap items-center gap-3">
-					<span class="text-sm text-gray-500">Sort by:</span>
+					<span class="text-sm text-muted">Sort by:</span>
 
 					<div class="relative" data-menu="sort">
 						<button
 							type="button"
-							class="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-1.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100"
+							class="inline-flex items-center gap-2 rounded-lg border border-border bg-bg px-3 py-1.5 text-sm font-medium text-fg transition-colors hover:bg-bg"
 							aria-haspopup="listbox"
 							aria-expanded={sortOpen}
 							onclick={(e) => {
@@ -419,7 +417,7 @@
 						</button>
 						{#if sortOpen}
 							<div
-								class="absolute top-full right-0 z-20 mt-2 w-44 overflow-hidden rounded-xl border border-gray-200 bg-white p-1.5 shadow-premium-hover"
+								class="absolute top-full right-0 z-20 mt-2 w-44 overflow-hidden rounded-xl border border-border bg-bg-elevated p-1.5 shadow-premium-hover"
 								role="listbox"
 								aria-label="Sort results"
 							>
@@ -433,7 +431,7 @@
 					<div class="relative" data-menu="filter">
 						<button
 							type="button"
-							class="inline-flex max-w-56 items-center gap-2 truncate rounded-lg border border-gray-200 bg-gray-50 px-3 py-1.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100"
+							class="inline-flex max-w-56 items-center gap-2 truncate rounded-lg border border-border bg-bg px-3 py-1.5 text-sm font-medium text-fg transition-colors hover:bg-bg"
 							aria-haspopup="listbox"
 							aria-expanded={filterOpen}
 							onclick={(e) => {
@@ -454,7 +452,7 @@
 						</button>
 						{#if filterOpen}
 							<div
-								class="absolute top-full right-0 z-20 mt-2 max-h-72 w-56 overflow-y-auto rounded-xl border border-gray-200 bg-white p-1.5 shadow-premium-hover"
+								class="absolute top-full right-0 z-20 mt-2 max-h-72 w-56 overflow-y-auto rounded-xl border border-border bg-bg-elevated p-1.5 shadow-premium-hover"
 								role="listbox"
 								aria-label="Filter by category"
 							>
@@ -477,10 +475,10 @@
 					{/each}
 
 					{#if recommendedPack}
-						<li class="my-4 rounded-2xl border border-gray-200 bg-gray-50 p-6">
+						<li class="my-4 rounded-2xl border border-border bg-bg p-6">
 							<div class="mb-4 flex items-center gap-3">
 								<div
-									class="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-900 text-white"
+									class="flex h-8 w-8 items-center justify-center rounded-lg bg-fg text-bg"
 									aria-hidden="true"
 								>
 									<svg width="14" height="14" viewBox="0 0 24 24" fill="none">
@@ -493,16 +491,16 @@
 									</svg>
 								</div>
 								<div>
-									<p class="text-sm font-medium text-gray-900">Recommended Tool Pack</p>
-									<p class="text-xs text-gray-500">Curated tools matching your search</p>
+									<p class="text-sm font-medium text-fg">Recommended Tool Pack</p>
+									<p class="text-xs text-muted">Curated tools matching your search</p>
 								</div>
 							</div>
 							<div
-								class="flex flex-col justify-between gap-4 rounded-xl border border-gray-200 bg-white p-4 sm:flex-row sm:items-center"
+								class="flex flex-col justify-between gap-4 rounded-xl border border-border bg-bg-elevated p-4 sm:flex-row sm:items-center"
 							>
 								<div>
-									<p class="mb-1 font-medium text-gray-900">{recommendedPack.name}</p>
-									<p class="text-sm text-gray-500">
+									<p class="mb-1 font-medium text-fg">{recommendedPack.name}</p>
+									<p class="text-sm text-muted">
 										{#if recommendedPack.overlap.length}
 											Includes {recommendedPack.overlap.join(', ')}{#if recommendedPack.extra > 0},
 												and {recommendedPack.extra} more tools.{:else}.{/if}
@@ -513,7 +511,7 @@
 								</div>
 								<a
 									href={resolve(`/#pack-${recommendedPack.id}`)}
-									class="inline-flex shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 no-underline transition-colors hover:bg-gray-50"
+									class="inline-flex shrink-0 items-center justify-center rounded-lg border border-border bg-bg-elevated px-4 py-2 text-sm font-medium text-fg no-underline transition-colors hover:bg-bg"
 								>
 									View Pack
 								</a>
@@ -531,7 +529,7 @@
 						<button
 							type="button"
 							onclick={openToolsCatalog}
-							class="inline-flex items-center justify-center rounded-lg border border-gray-200 bg-white px-6 py-2.5 text-sm font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50 hover:text-gray-900"
+							class="inline-flex items-center justify-center rounded-lg border border-border bg-bg-elevated px-6 py-2.5 text-sm font-medium text-fg shadow-sm transition-colors hover:bg-bg hover:text-fg"
 						>
 							Load more results
 						</button>

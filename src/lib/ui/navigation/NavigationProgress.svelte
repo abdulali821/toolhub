@@ -11,7 +11,7 @@
 		aria-label="Loading page"
 		aria-busy="true"
 	>
-		<div class="nav-progress-bar h-full bg-gray-900"></div>
+		<div class="nav-progress-bar h-full bg-fg"></div>
 	</div>
 {/if}
 

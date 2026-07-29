@@ -64,25 +64,25 @@
 
 <JsonLd data={data.jsonLd} />
 
-<main id="main" class="bg-white pt-8 pb-20 sm:pt-10">
+<main id="main" class="bg-bg-elevated pt-8 pb-20 sm:pt-10">
 	<!-- Hero — matches Goforit homepage mockup -->
 	<section class="relative mx-auto max-w-5xl px-4 pt-16 pb-12 text-center sm:px-6 lg:px-8">
 		<div
-			class="mb-8 inline-flex items-center gap-2 rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-xs font-medium text-gray-600"
+			class="mb-8 inline-flex items-center gap-2 rounded-full border border-border bg-bg px-3 py-1 text-xs font-medium text-muted"
 		>
-			<span class="flex h-2 w-2 rounded-full bg-gray-900" aria-hidden="true"></span>
+			<span class="flex h-2 w-2 rounded-full bg-fg" aria-hidden="true"></span>
 			Introducing Curated Tool Packs
 		</div>
 
 		<h1
-			class="mb-6 font-display text-5xl leading-[1.1] font-medium tracking-tight text-gray-900 md:text-7xl"
+			class="mb-6 font-display text-5xl leading-[1.1] font-medium tracking-tight text-fg md:text-7xl"
 		>
 			Premium tools for
 			<br class="hidden md:block" />
-			<span class="text-gray-600 italic">focused</span> work.
+			<span class="text-muted italic">focused</span> work.
 		</h1>
 
-		<p class="mx-auto mt-4 mb-10 max-w-2xl text-lg font-light text-gray-500 md:text-xl">
+		<p class="mx-auto mt-4 mb-10 max-w-2xl text-lg font-light text-muted md:text-xl">
 			A carefully curated suite of browser-based utilities. Fast, privacy-first, and completely
 			free. Run everything locally without leaving your tab.
 		</p>
@@ -90,12 +90,12 @@
 		<div class="group relative mx-auto max-w-2xl">
 			<button
 				type="button"
-				class="relative block w-full rounded-2xl border border-gray-200 bg-white py-4 pr-4 pl-12 text-left shadow-premium transition-shadow duration-300 group-hover:shadow-premium-hover focus:border-gray-900 focus:ring-1 focus:ring-gray-900 focus:outline-none sm:text-lg md:py-5"
+				class="relative block w-full rounded-2xl border border-border bg-bg-elevated py-4 pr-4 pl-12 text-left shadow-premium transition-shadow duration-300 group-hover:shadow-premium-hover focus:border-fg focus:ring-1 focus:ring-fg focus:outline-none sm:text-lg md:py-5"
 				onclick={() => openCommandPalette()}
 				aria-keyshortcuts="Control+K Meta+K"
 			>
 				<span
-					class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400 transition-colors group-focus-within:text-gray-900"
+					class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-muted transition-colors group-focus-within:text-fg"
 					aria-hidden="true"
 				>
 					<svg width="18" height="18" viewBox="0 0 24 24" fill="none">
@@ -108,15 +108,14 @@
 						/>
 					</svg>
 				</span>
-				<span class="block truncate text-gray-400"
+				<span class="block truncate text-muted"
 					>Search for formatting, conversion, or generation tools...</span
 				>
 				<span
 					class="pointer-events-none absolute inset-y-0 right-0 hidden items-center pr-3 sm:flex"
 					aria-hidden="true"
 				>
-					<span
-						class="rounded border border-gray-200 bg-gray-50 px-2 py-1 text-xs font-medium text-gray-400"
+					<span class="rounded border border-border bg-bg px-2 py-1 text-xs font-medium text-muted"
 						>⌘K</span
 					>
 				</span>
@@ -124,12 +123,12 @@
 		</div>
 
 		<ul
-			class="mt-12 flex flex-wrap justify-center gap-8 text-sm font-medium text-gray-500 md:gap-16"
+			class="mt-12 flex flex-wrap justify-center gap-8 text-sm font-medium text-muted md:gap-16"
 			aria-label="Why {site.name}"
 		>
 			{#each trust as item (item.label)}
 				<li class="flex items-center gap-2">
-					<span class="text-gray-400" aria-hidden="true">
+					<span class="text-muted" aria-hidden="true">
 						{#if item.icon === 'bolt'}
 							<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"
 								><path d="M13 2L4 14h7l-1 8 10-14h-7l0-6z" /></svg
@@ -181,19 +180,19 @@
 
 	<!-- Interface preview — decorative, non-functional -->
 	<section class="mx-auto mt-12 mb-24 max-w-6xl px-4 sm:px-6 lg:px-8" aria-hidden="true">
-		<div class="rounded-2xl border border-gray-200/60 bg-gray-50/50 p-2 shadow-premium">
-			<div class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
-				<div class="flex h-12 items-center gap-2 border-b border-gray-100 bg-gray-50/80 px-4">
+		<div class="rounded-2xl border border-border/60 bg-bg/50 p-2 shadow-premium">
+			<div class="overflow-hidden rounded-xl border border-border bg-bg-elevated shadow-sm">
+				<div class="flex h-12 items-center gap-2 border-b border-border bg-bg/80 px-4">
 					<div class="flex gap-1.5">
-						<div class="h-3 w-3 rounded-full bg-gray-200"></div>
-						<div class="h-3 w-3 rounded-full bg-gray-200"></div>
-						<div class="h-3 w-3 rounded-full bg-gray-200"></div>
+						<div class="h-3 w-3 rounded-full bg-border"></div>
+						<div class="h-3 w-3 rounded-full bg-border"></div>
+						<div class="h-3 w-3 rounded-full bg-border"></div>
 					</div>
 					<div class="mx-auto flex items-center px-4 sm:px-32">
 						<div
-							class="flex h-6 w-40 items-center rounded-md border border-gray-200 bg-white px-2 shadow-sm sm:w-64"
+							class="flex h-6 w-40 items-center rounded-md border border-border bg-bg-elevated px-2 shadow-sm sm:w-64"
 						>
-							<svg width="10" height="10" viewBox="0 0 24 24" fill="none" class="text-gray-300">
+							<svg width="10" height="10" viewBox="0 0 24 24" fill="none" class="text-muted">
 								<circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" />
 								<path
 									d="M20 20l-3.5-3.5"
@@ -206,9 +205,9 @@
 					</div>
 				</div>
 				<div class="flex gap-8 p-6 md:p-8">
-					<div class="hidden w-48 shrink-0 flex-col gap-3 border-r border-gray-100 pr-4 md:flex">
-						<div class="flex h-8 w-full items-center gap-2 rounded-md bg-gray-100 px-3">
-							<svg width="12" height="12" viewBox="0 0 24 24" fill="none" class="text-gray-500"
+					<div class="hidden w-48 shrink-0 flex-col gap-3 border-r border-border pr-4 md:flex">
+						<div class="flex h-8 w-full items-center gap-2 rounded-md bg-bg px-3">
+							<svg width="12" height="12" viewBox="0 0 24 24" fill="none" class="text-muted"
 								><path
 									d="M4 6h16M4 12h16M4 18h10"
 									stroke="currentColor"
@@ -216,10 +215,10 @@
 									stroke-linecap="round"
 								/></svg
 							>
-							<div class="h-3 w-16 rounded bg-gray-300"></div>
+							<div class="h-3 w-16 rounded bg-border"></div>
 						</div>
 						<div class="flex h-8 w-full items-center gap-2 rounded-md px-3">
-							<svg width="12" height="12" viewBox="0 0 24 24" fill="none" class="text-gray-400"
+							<svg width="12" height="12" viewBox="0 0 24 24" fill="none" class="text-muted"
 								><path
 									d="M8 7L3 12l5 5M16 7l5 5-5 5"
 									stroke="currentColor"
@@ -227,10 +226,10 @@
 									stroke-linecap="round"
 								/></svg
 							>
-							<div class="h-3 w-20 rounded bg-gray-200"></div>
+							<div class="h-3 w-20 rounded bg-border"></div>
 						</div>
 						<div class="flex h-8 w-full items-center gap-2 rounded-md px-3">
-							<svg width="12" height="12" viewBox="0 0 24 24" fill="none" class="text-gray-400"
+							<svg width="12" height="12" viewBox="0 0 24 24" fill="none" class="text-muted"
 								><rect
 									x="4"
 									y="5"
@@ -247,15 +246,15 @@
 									stroke-linejoin="round"
 								/></svg
 							>
-							<div class="h-3 w-14 rounded bg-gray-200"></div>
+							<div class="h-3 w-14 rounded bg-border"></div>
 						</div>
 					</div>
 					<div class="grid flex-1 grid-cols-2 gap-4 md:grid-cols-3">
 						<div
-							class="group flex h-32 flex-col gap-3 rounded-xl border border-gray-100 p-4 transition-colors"
+							class="group flex h-32 flex-col gap-3 rounded-xl border border-border p-4 transition-colors"
 						>
 							<div
-								class="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 text-gray-400 transition-colors group-hover:bg-gray-200 group-hover:text-gray-900"
+								class="flex h-8 w-8 items-center justify-center rounded-lg bg-bg text-muted transition-colors group-hover:bg-border group-hover:text-fg"
 							>
 								<svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"
 									><path
@@ -267,16 +266,16 @@
 								>
 							</div>
 							<div>
-								<div class="mb-2 h-4 w-24 rounded bg-gray-800"></div>
-								<div class="h-3 w-full rounded bg-gray-200"></div>
-								<div class="mt-1 h-3 w-2/3 rounded bg-gray-200"></div>
+								<div class="mb-2 h-4 w-24 rounded bg-fg"></div>
+								<div class="h-3 w-full rounded bg-border"></div>
+								<div class="mt-1 h-3 w-2/3 rounded bg-border"></div>
 							</div>
 						</div>
 						<div
-							class="group flex h-32 flex-col gap-3 rounded-xl border border-gray-100 p-4 transition-colors"
+							class="group flex h-32 flex-col gap-3 rounded-xl border border-border p-4 transition-colors"
 						>
 							<div
-								class="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 text-gray-400 transition-colors group-hover:bg-gray-200 group-hover:text-gray-900"
+								class="flex h-8 w-8 items-center justify-center rounded-lg bg-bg text-muted transition-colors group-hover:bg-border group-hover:text-fg"
 							>
 								<svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"
 									><path
@@ -288,16 +287,16 @@
 								>
 							</div>
 							<div>
-								<div class="mb-2 h-4 w-20 rounded bg-gray-800"></div>
-								<div class="h-3 w-full rounded bg-gray-200"></div>
-								<div class="mt-1 h-3 w-1/2 rounded bg-gray-200"></div>
+								<div class="mb-2 h-4 w-20 rounded bg-fg"></div>
+								<div class="h-3 w-full rounded bg-border"></div>
+								<div class="mt-1 h-3 w-1/2 rounded bg-border"></div>
 							</div>
 						</div>
 						<div
-							class="group hidden h-32 flex-col gap-3 rounded-xl border border-gray-100 p-4 transition-colors md:flex"
+							class="group hidden h-32 flex-col gap-3 rounded-xl border border-border p-4 transition-colors md:flex"
 						>
 							<div
-								class="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 text-gray-400 transition-colors group-hover:bg-gray-200 group-hover:text-gray-900"
+								class="flex h-8 w-8 items-center justify-center rounded-lg bg-bg text-muted transition-colors group-hover:bg-border group-hover:text-fg"
 							>
 								<svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"
 									><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.75" /><circle
@@ -309,9 +308,9 @@
 								>
 							</div>
 							<div>
-								<div class="mb-2 h-4 w-28 rounded bg-gray-800"></div>
-								<div class="h-3 w-full rounded bg-gray-200"></div>
-								<div class="mt-1 h-3 w-3/4 rounded bg-gray-200"></div>
+								<div class="mb-2 h-4 w-28 rounded bg-fg"></div>
+								<div class="h-3 w-full rounded bg-border"></div>
+								<div class="mt-1 h-3 w-3/4 rounded bg-border"></div>
 							</div>
 						</div>
 					</div>
@@ -328,14 +327,12 @@
 	>
 		<div class="mb-8 flex items-end justify-between">
 			<div>
-				<h2 id="categories-heading" class="font-display text-3xl text-gray-900">
-					Explore by Category
-				</h2>
-				<p class="mt-2 font-light text-gray-500">Find exactly what you need.</p>
+				<h2 id="categories-heading" class="font-display text-3xl text-fg">Explore by Category</h2>
+				<p class="mt-2 font-light text-muted">Find exactly what you need.</p>
 			</div>
 			<a
 				href={resolve('/tools')}
-				class="hidden text-sm font-medium text-gray-900 no-underline hover:underline sm:block"
+				class="hidden text-sm font-medium text-fg no-underline hover:underline sm:block"
 				>View all tools →</a
 			>
 		</div>
@@ -345,16 +342,16 @@
 				<li>
 					<a
 						href="{resolve('/tools')}?category={cat.category}"
-						class="group block rounded-2xl border border-gray-200 bg-white p-6 no-underline transition-all duration-300 hover:border-gray-300 hover:shadow-premium-hover"
+						class="group block rounded-2xl border border-border bg-bg-elevated p-6 no-underline transition-all duration-300 hover:border-border hover:shadow-premium-hover"
 					>
 						<span
-							class="mb-4 block text-xl text-gray-400 transition-colors group-hover:text-gray-900"
+							class="mb-4 block text-xl text-muted transition-colors group-hover:text-fg"
 							aria-hidden="true"
 						>
 							<CategoryIcon kind={cat.kind} size={20} />
 						</span>
-						<span class="block text-lg font-medium text-gray-900">{cat.title}</span>
-						<p class="mt-1 text-sm text-gray-500">{cat.blurb}</p>
+						<span class="block text-lg font-medium text-fg">{cat.title}</span>
+						<p class="mt-1 text-sm text-muted">{cat.blurb}</p>
 					</a>
 				</li>
 			{/each}
@@ -363,17 +360,16 @@
 
 	<!-- Popular tools + packs (existing functionality, below fold) -->
 	<section
-		class="mx-auto max-w-7xl border-t border-gray-100 px-4 pt-16 pb-8 sm:px-6 lg:px-8"
+		class="mx-auto max-w-7xl border-t border-border px-4 pt-16 pb-8 sm:px-6 lg:px-8"
 		aria-labelledby="featured-heading"
 	>
 		<div class="mb-8 flex flex-wrap items-end justify-between gap-4">
 			<div>
-				<h2 id="featured-heading" class="font-display text-3xl text-gray-900">Popular tools</h2>
-				<p class="mt-2 font-light text-gray-500">Start with the tools people open every day.</p>
+				<h2 id="featured-heading" class="font-display text-3xl text-fg">Popular tools</h2>
+				<p class="mt-2 font-light text-muted">Start with the tools people open every day.</p>
 			</div>
-			<a
-				href={resolve('/tools')}
-				class="text-sm font-medium text-gray-900 no-underline hover:underline">View all tools →</a
+			<a href={resolve('/tools')} class="text-sm font-medium text-fg no-underline hover:underline"
+				>View all tools →</a
 			>
 		</div>
 		<ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -391,33 +387,33 @@
 	</section>
 
 	<section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8" aria-labelledby="packs-heading">
-		<h2 id="packs-heading" class="font-display text-3xl text-gray-900">Tool packs</h2>
-		<p class="mt-2 max-w-xl font-light text-gray-500">
+		<h2 id="packs-heading" class="font-display text-3xl text-fg">Tool packs</h2>
+		<p class="mt-2 max-w-xl font-light text-muted">
 			Curated workflows for common jobs—no account required.
 		</p>
 		<ul class="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
 			{#each data.collections as pack (pack.id)}
 				<li
 					id="pack-{pack.id}"
-					class="flex scroll-mt-24 flex-col rounded-2xl border border-gray-200 bg-white p-5 transition-all duration-300 hover:border-gray-300 hover:shadow-premium-hover"
+					class="flex scroll-mt-24 flex-col rounded-2xl border border-border bg-bg-elevated p-5 transition-all duration-300 hover:border-border hover:shadow-premium-hover"
 				>
 					<div class="flex items-start gap-3">
 						<CategoryBadge kind={packIcons[pack.id] ?? 'spark'} size="md" />
 						<div class="min-w-0">
-							<h3 class="font-display text-lg font-semibold tracking-tight text-gray-900">
+							<h3 class="font-display text-lg font-semibold tracking-tight text-fg">
 								{pack.name}
 							</h3>
-							<p class="mt-1.5 text-sm text-pretty text-gray-500">{pack.description}</p>
+							<p class="mt-1.5 text-sm text-pretty text-muted">{pack.description}</p>
 						</div>
 					</div>
-					<ul class="mt-5 space-y-1.5 border-t border-gray-100 pt-4">
+					<ul class="mt-5 space-y-1.5 border-t border-border pt-4">
 						{#each pack.tools.slice(0, 5) as tool (tool.id)}
 							<li>
 								<a
 									href={resolve(`/tools/${tool.id}`)}
-									class="inline-flex items-center gap-1.5 text-sm font-medium text-gray-900 no-underline hover:underline"
+									class="inline-flex items-center gap-1.5 text-sm font-medium text-fg no-underline hover:underline"
 								>
-									<span class="text-gray-400" aria-hidden="true">→</span>
+									<span class="text-muted" aria-hidden="true">→</span>
 									{tool.name}
 								</a>
 							</li>
@@ -425,7 +421,7 @@
 					</ul>
 					<a
 						href={resolve(`/tools/${pack.tools[0]?.id}`)}
-						class="mt-5 inline-flex text-sm font-semibold text-gray-900 no-underline hover:underline"
+						class="mt-5 inline-flex text-sm font-semibold text-fg no-underline hover:underline"
 					>
 						Start with {pack.tools[0]?.name ?? 'first tool'} →
 					</a>

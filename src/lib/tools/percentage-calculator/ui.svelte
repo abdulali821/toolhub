@@ -91,7 +91,7 @@
 	<Field id="pc-mode" label="Mode">
 		<select
 			id="pc-mode"
-			class="h-10 w-full rounded-md border border-border bg-bg-elevated px-3 text-sm"
+			class="h-10 w-full rounded-md border border-border bg-bg px-3 text-sm"
 			bind:value={mode}
 		>
 			{#each Object.entries(modeMeta) as [value, meta] (value)}

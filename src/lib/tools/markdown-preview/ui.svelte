@@ -70,7 +70,7 @@ code fence
 	<div>
 		<p class="mb-1.5 text-sm font-medium text-fg">Preview</p>
 		<div
-			class="prose min-h-96 max-w-none rounded-md border border-border bg-bg-elevated px-4 py-3 prose-neutral dark:prose-invert"
+			class="prose min-h-96 max-w-none rounded-md border border-border bg-bg px-4 py-3 prose-neutral dark:prose-invert"
 		>
 			<!-- HTML is produced by run() after escapeHtml + allowlisted tags only -->
 			<!-- eslint-disable-next-line svelte/no-at-html-tags -->

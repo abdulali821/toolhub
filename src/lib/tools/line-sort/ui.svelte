@@ -77,7 +77,7 @@
 		<Field id="ls-order" label="Order">
 			<select
 				id="ls-order"
-				class="h-10 w-full min-w-40 rounded-md border border-border bg-bg-elevated px-3 text-sm"
+				class="h-10 w-full min-w-40 rounded-md border border-border bg-bg px-3 text-sm"
 				bind:value={order}
 			>
 				<option value="asc">A → Z</option>

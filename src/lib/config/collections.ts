@@ -126,9 +126,11 @@ export const platformCollections: PlatformCollection[] = [
 	{
 		id: 'generators-pack',
 		name: 'Generators Pack',
-		description: 'QR codes, passwords, fake data, random strings, and placeholder content.',
+		description:
+			'QR codes, barcodes, passwords, fake data, random strings, and placeholder content.',
 		toolIds: [
 			'qr-code-generator',
+			'barcode-generator',
 			'password-generator',
 			'fake-data-generator',
 			'random-string-generator',

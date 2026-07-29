@@ -36,15 +36,15 @@ For local tool browsing you can leave Supabase unset. Set `PUBLIC_SITE_URL` to m
 
 Copy `.env.example` → `.env`. Never commit real secrets. Only `PUBLIC_*` values are exposed to the client.
 
-| Variable                    | Required            | Description                                                                                                                                       |
-| --------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Variable                    | Required            | Description                                                                                                                                    |
+| --------------------------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
 | `PUBLIC_SITE_URL`           | **Production yes**  | Absolute site origin, **no trailing slash** (e.g. `https://heytools.app`). Drives canonicals, OG URLs, sitemap `<loc>`, and robots `Sitemap:`. |
-| `PUBLIC_SUPABASE_URL`       | For auth            | Supabase project URL                                                                                                                              |
-| `PUBLIC_SUPABASE_ANON_KEY`  | For auth            | Supabase anon / publishable key                                                                                                                   |
-| `SUPABASE_SERVICE_ROLE_KEY` | Server-only if used | **Never** expose to the browser; keep commented/local only                                                                                        |
-| `LOG_LEVEL`                 | No                  | `debug` \| `info` \| `warn` \| `error` (default `info`)                                                                                           |
-| `PUBLIC_FF_AUTH`            | No                  | Feature flag for auth UI (`true` / `false`)                                                                                                       |
-| `PUBLIC_ADS_ENABLED`        | No                  | Shows ad placeholder slots when `true`                                                                                                            |
+| `PUBLIC_SUPABASE_URL`       | For auth            | Supabase project URL                                                                                                                           |
+| `PUBLIC_SUPABASE_ANON_KEY`  | For auth            | Supabase anon / publishable key                                                                                                                |
+| `SUPABASE_SERVICE_ROLE_KEY` | Server-only if used | **Never** expose to the browser; keep commented/local only                                                                                     |
+| `LOG_LEVEL`                 | No                  | `debug` \| `info` \| `warn` \| `error` (default `info`)                                                                                        |
+| `PUBLIC_FF_AUTH`            | No                  | Feature flag for auth UI (`true` / `false`)                                                                                                    |
+| `PUBLIC_ADS_ENABLED`        | No                  | Shows ad placeholder slots when `true`                                                                                                         |
 
 ## Development workflow
 

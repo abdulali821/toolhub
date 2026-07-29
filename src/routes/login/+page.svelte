@@ -56,11 +56,11 @@
 		</form>
 
 		<div
-			class="my-8 flex items-center gap-3 text-xs font-medium tracking-wide text-gray-400 uppercase"
+			class="my-8 flex items-center gap-3 text-xs font-medium tracking-wide text-muted uppercase"
 		>
-			<span class="h-px flex-1 bg-gray-200"></span>
+			<span class="h-px flex-1 bg-border"></span>
 			<span>or email</span>
-			<span class="h-px flex-1 bg-gray-200"></span>
+			<span class="h-px flex-1 bg-border"></span>
 		</div>
 
 		<form method="POST" action="?/signin" class="space-y-4">
@@ -91,9 +91,5 @@
 				>
 			</div>
 		</form>
-
-		<p class="mt-6 text-sm text-muted">
-			Google sign-in requires the Google provider enabled in your Supabase Auth settings.
-		</p>
 	</Container>
 </main>

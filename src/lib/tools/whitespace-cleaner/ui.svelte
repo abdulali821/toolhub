@@ -78,7 +78,7 @@
 	<Field id="wc-mode" label="Mode">
 		<select
 			id="wc-mode"
-			class="h-10 w-full rounded-md border border-border bg-bg-elevated px-3 text-sm"
+			class="h-10 w-full rounded-md border border-border bg-bg px-3 text-sm"
 			bind:value={mode}
 		>
 			{#each modes as option (option.value)}

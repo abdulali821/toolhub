@@ -31,7 +31,7 @@ export const qrCodeGenerator: ToolDefinition<QrCodeGeneratorInput, QrCodeGenerat
 		params: ['text', 'size']
 	},
 	workflow: {
-		next: ['password-generator', 'uuid-generator']
+		next: ['barcode-generator', 'password-generator']
 	},
 	metadata: {
 		name: 'QR Code Generator',
@@ -39,7 +39,7 @@ export const qrCodeGenerator: ToolDefinition<QrCodeGeneratorInput, QrCodeGenerat
 		description:
 			'Generate PNG QR codes from any text or URL. Adjust size, preview instantly, and download—everything runs locally in your browser.',
 		keywords: ['qr code generator', 'create qr code', 'url qr code', 'qr png'],
-		related: ['password-generator', 'uuid-generator', 'url-codec'],
+		related: ['barcode-generator', 'password-generator', 'uuid-generator', 'url-codec'],
 		faq: [
 			{
 				question: 'Is my content uploaded?',

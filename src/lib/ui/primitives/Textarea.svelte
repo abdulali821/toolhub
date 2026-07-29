@@ -26,7 +26,7 @@
 	bind:value
 	aria-invalid={invalid || undefined}
 	aria-describedby={describedBy}
-	class="w-full rounded-md border bg-bg-elevated px-3 py-2 text-fg transition-colors duration-150 placeholder:text-muted focus-visible:ring-2 focus-visible:ring-focus focus-visible:outline-none disabled:opacity-50 {invalid
+	class="w-full rounded-md border bg-bg px-3 py-2 text-fg transition-colors duration-150 placeholder:text-muted focus-visible:ring-2 focus-visible:ring-focus focus-visible:outline-none disabled:opacity-50 {invalid
 		? 'border-danger'
 		: 'border-border'} {className}"
 	{...rest}></textarea>

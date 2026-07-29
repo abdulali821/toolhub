@@ -71,7 +71,7 @@
 	<Field id="hash-algo" label="Algorithm">
 		<select
 			id="hash-algo"
-			class="h-10 w-full rounded-md border border-border bg-bg-elevated px-3 text-sm"
+			class="h-10 w-full rounded-md border border-border bg-bg px-3 text-sm"
 			bind:value={algorithm}
 		>
 			<option value="SHA-1">SHA-1</option>

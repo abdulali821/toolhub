@@ -3,6 +3,7 @@
 	import { page } from '$app/state';
 	import { onMount } from 'svelte';
 	import Container from '$ui/layout/Container.svelte';
+	import ThemeToggle from './ThemeToggle.svelte';
 	import { openCommandPalette } from './command-palette-state';
 	import { listTools } from '$tools';
 	import type { CategoryId } from '$lib/config/site';
@@ -127,24 +128,24 @@
 <svelte:window onclick={onDocClick} />
 
 <header
-	class="fixed top-0 right-0 left-0 z-50 border-b border-gray-100 bg-white/80 backdrop-blur-md"
+	class="fixed top-0 right-0 left-0 z-50 border-b border-border bg-bg-elevated/80 backdrop-blur-md"
 >
 	<Container class="relative flex h-16 items-center justify-between gap-4">
 		<a href={resolve('/')} class="flex shrink-0 items-center gap-2 no-underline">
 			<span
-				class="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded bg-gray-900"
+				class="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded bg-zinc-900"
 				aria-hidden="true"
 			>
 				<img src="/logo-1.png" alt="" width="22" height="22" class=" object-cover" />
 			</span>
-			<span class="font-display text-xl font-semibold tracking-tight text-gray-900">{brand}</span>
+			<span class="font-display text-xl font-semibold tracking-tight text-fg">{brand}</span>
 		</a>
 
 		<nav
 			aria-label="Primary"
 			class="no-scrollbar mx-2 hidden min-w-0 flex-1 justify-center xl:flex"
 		>
-			<ul class="flex items-center gap-1 text-sm font-medium whitespace-nowrap text-gray-500">
+			<ul class="flex items-center gap-1 text-sm font-medium whitespace-nowrap text-muted">
 				{#each links as link (link.href)}
 					{@const active = isActive(link)}
 					{@const items = toolsFor(link)}
@@ -161,8 +162,8 @@
 							aria-haspopup={hasMenu ? 'true' : undefined}
 							aria-expanded={hasMenu && openMenu === link.href ? 'true' : undefined}
 							class="inline-flex items-center gap-1 rounded-lg px-2.5 py-2 transition-colors {active
-								? 'text-gray-900'
-								: 'hover:text-gray-900'}"
+								? 'text-fg'
+								: 'hover:text-fg'}"
 						>
 							{link.label}
 							{#if hasMenu}
@@ -188,10 +189,10 @@
 						{#if hasMenu && openMenu === link.href}
 							<div class="nav-dropdown absolute top-full left-1/2 z-40 w-72 -translate-x-1/2 pt-3">
 								<div
-									class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-premium-hover"
+									class="overflow-hidden rounded-2xl border border-border bg-bg-elevated shadow-premium-hover"
 								>
-									<div class="border-b border-gray-100 px-4 py-3">
-										<p class="text-xs font-semibold tracking-wider text-gray-400 uppercase">
+									<div class="border-b border-border px-4 py-3">
+										<p class="text-xs font-semibold tracking-wider text-muted uppercase">
 											{link.href === '/tools' ? 'Popular tools' : link.label}
 										</p>
 									</div>
@@ -200,21 +201,21 @@
 											<li>
 												<a
 													href={resolve(`/tools/${tool.id}`)}
-													class="block rounded-xl px-3 py-2.5 no-underline transition-colors hover:bg-gray-50"
+													class="block rounded-xl px-3 py-2.5 no-underline transition-colors hover:bg-bg"
 												>
-													<span class="block text-sm font-medium text-gray-900">{tool.name}</span>
-													<span class="mt-0.5 line-clamp-1 block text-xs text-gray-500"
+													<span class="block text-sm font-medium text-fg">{tool.name}</span>
+													<span class="mt-0.5 line-clamp-1 block text-xs text-muted"
 														>{tool.description}</span
 													>
 												</a>
 											</li>
 										{/each}
 									</ul>
-									<div class="border-t border-gray-100 p-2">
+									<div class="border-t border-border p-2">
 										<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -- hrefFor uses resolve -->
 										<a
 											href={hrefFor(link.href)}
-											class="block rounded-xl px-3 py-2.5 text-sm font-medium text-gray-900 no-underline hover:bg-gray-50"
+											class="block rounded-xl px-3 py-2.5 text-sm font-medium text-fg no-underline hover:bg-bg"
 										>
 											View all →
 										</a>
@@ -230,7 +231,7 @@
 		<div class="flex shrink-0 items-center gap-2">
 			<button
 				type="button"
-				class="hidden h-10 items-center gap-2 rounded-full border border-gray-200 bg-gray-50 pr-2 pl-3 text-sm text-gray-500 transition-colors hover:border-gray-300 hover:bg-white hover:text-gray-900 sm:inline-flex"
+				class="hidden h-10 items-center gap-2 rounded-full border border-border bg-bg pr-2 pl-3 text-sm text-muted transition-colors hover:border-border hover:bg-bg-elevated hover:text-fg sm:inline-flex"
 				onclick={() => openCommandPalette()}
 				aria-label="Open search"
 				aria-keyshortcuts="Control+K Meta+K"
@@ -246,14 +247,14 @@
 				</svg>
 				<span class="hidden md:inline">Search</span>
 				<kbd
-					class="rounded-md border border-gray-200 bg-white px-1.5 py-0.5 font-mono text-[10px] text-gray-400"
+					class="rounded-md border border-border bg-bg-elevated px-1.5 py-0.5 font-mono text-[10px] text-muted"
 					>{modKey} K</kbd
 				>
 			</button>
 
 			<button
 				type="button"
-				class="inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900 sm:hidden"
+				class="inline-flex h-10 w-10 items-center justify-center rounded-full text-muted transition-colors hover:bg-bg hover:text-fg sm:hidden"
 				onclick={() => openCommandPalette()}
 				aria-label="Open search"
 			>
@@ -268,11 +269,13 @@
 				</svg>
 			</button>
 
+			<ThemeToggle />
+
 			{#if user}
 				<div class="relative" data-menu="account">
 					<button
 						type="button"
-						class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-900 text-xs font-semibold text-white transition-opacity hover:opacity-90"
+						class="flex h-10 w-10 items-center justify-center rounded-full bg-accent text-xs font-semibold text-accent-fg transition-opacity hover:opacity-90"
 						aria-expanded={accountOpen}
 						aria-haspopup="menu"
 						aria-label="Account menu"
@@ -285,21 +288,21 @@
 					</button>
 					{#if accountOpen}
 						<div
-							class="absolute top-full right-0 z-30 mt-2 w-48 overflow-hidden rounded-xl border border-gray-200 bg-white p-1.5 shadow-premium-hover"
+							class="absolute top-full right-0 z-30 mt-2 w-48 overflow-hidden rounded-xl border border-border bg-bg-elevated p-1.5 shadow-premium-hover"
 							role="menu"
 						>
-							<p class="truncate px-3 py-2 text-xs text-gray-500">{user.email}</p>
+							<p class="truncate px-3 py-2 text-xs text-muted">{user.email}</p>
 							<a
 								href={resolve('/account')}
 								role="menuitem"
-								class="block rounded-lg px-3 py-2 text-sm text-gray-900 no-underline hover:bg-gray-50"
+								class="block rounded-lg px-3 py-2 text-sm text-fg no-underline hover:bg-bg"
 								>Account</a
 							>
 							<form method="POST" action={resolve('/logout')}>
 								<button
 									type="submit"
 									role="menuitem"
-									class="w-full rounded-lg px-3 py-2 text-left text-sm text-gray-600 hover:bg-gray-50"
+									class="w-full rounded-lg px-3 py-2 text-left text-sm text-muted hover:bg-bg"
 								>
 									Sign out
 								</button>
@@ -310,7 +313,7 @@
 			{:else}
 				<a
 					href={resolve('/login')}
-					class="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 text-gray-600 no-underline transition-colors hover:border-gray-300 hover:bg-gray-50 hover:text-gray-900"
+					class="flex h-10 w-10 items-center justify-center rounded-full border border-border text-muted no-underline transition-colors hover:border-border hover:bg-bg hover:text-fg"
 					aria-label="Sign in"
 				>
 					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -327,7 +330,7 @@
 
 			<button
 				type="button"
-				class="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 text-gray-900 xl:hidden"
+				class="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-border text-fg xl:hidden"
 				aria-expanded={open}
 				aria-controls="mobile-nav"
 				onclick={() => (open = !open)}
@@ -360,7 +363,7 @@
 		<nav
 			id="mobile-nav"
 			aria-label="Mobile"
-			class="animate-fade max-h-[70vh] overflow-y-auto border-t border-gray-100 bg-white xl:hidden"
+			class="animate-fade max-h-[70vh] overflow-y-auto border-t border-border bg-bg-elevated xl:hidden"
 		>
 			<Container class="flex flex-col gap-1 py-3">
 				{#each links as link (link.href)}
@@ -371,16 +374,16 @@
 						href={hrefFor(link.href)}
 						aria-current={active ? 'page' : undefined}
 						class="rounded-lg px-3 py-2.5 text-sm font-medium no-underline {active
-							? 'bg-gray-50 text-gray-900'
-							: 'text-gray-900 hover:bg-gray-50'}">{link.label}</a
+							? 'bg-bg text-fg'
+							: 'text-fg hover:bg-bg'}">{link.label}</a
 					>
 					{#if items.length && link.category}
-						<ul class="mb-2 ml-2 space-y-0.5 border-l border-gray-100 pl-3">
+						<ul class="mb-2 ml-2 space-y-0.5 border-l border-border pl-3">
 							{#each items.slice(0, 5) as tool (tool.id)}
 								<li>
 									<a
 										href={resolve(`/tools/${tool.id}`)}
-										class="block rounded-md px-2 py-1.5 text-xs text-gray-500 no-underline hover:bg-gray-50 hover:text-gray-900"
+										class="block rounded-md px-2 py-1.5 text-xs text-muted no-underline hover:bg-bg hover:text-fg"
 										>{tool.name}</a
 									>
 								</li>
@@ -402,11 +405,11 @@
 	@keyframes nav-dropdown-in {
 		from {
 			opacity: 0;
-			transform: translate(-50%, -6px);
+			transform: translateY(-6px);
 		}
 		to {
 			opacity: 1;
-			transform: translate(-50%, 0);
+			transform: translateY(0);
 		}
 	}
 
