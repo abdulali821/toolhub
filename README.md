@@ -1,4 +1,4 @@
-# HeyTools 
+# HeyTools
 
 Free, SEO-first **online tools** platform. Not a SaaS.
 
