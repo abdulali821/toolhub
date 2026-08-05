@@ -14,6 +14,7 @@
 	const trust = [
 		{ label: 'Local & Fast', icon: 'bolt' as const },
 		{ label: 'Privacy First', icon: 'shield' as const },
+		{ label: `${data.toolCount}+ Tools`, icon: 'grid' as const },
 		{ label: 'Free Forever', icon: 'box' as const },
 		{ label: 'Browser Based', icon: 'chrome' as const }
 	];
@@ -160,6 +161,42 @@
 									stroke="currentColor"
 									stroke-width="1.75"
 									stroke-linecap="round"
+								/></svg
+							>
+						{:else if item.icon === 'grid'}
+							<svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+								><rect
+									x="3"
+									y="3"
+									width="7"
+									height="7"
+									rx="1"
+									stroke="currentColor"
+									stroke-width="1.75"
+								/><rect
+									x="14"
+									y="3"
+									width="7"
+									height="7"
+									rx="1"
+									stroke="currentColor"
+									stroke-width="1.75"
+								/><rect
+									x="3"
+									y="14"
+									width="7"
+									height="7"
+									rx="1"
+									stroke="currentColor"
+									stroke-width="1.75"
+								/><rect
+									x="14"
+									y="14"
+									width="7"
+									height="7"
+									rx="1"
+									stroke="currentColor"
+									stroke-width="1.75"
 								/></svg
 							>
 						{:else}

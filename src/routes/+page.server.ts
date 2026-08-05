@@ -30,12 +30,12 @@ export const load: PageServerLoad = async ({ url }) => {
 			.map((t) => ({ id: t.id, name: t.metadata.name }))
 	}));
 
+	const toolCount = all.length;
 	const siteUrl = getPublicEnv().PUBLIC_SITE_URL ?? url.origin;
 	const seo = buildSeo(
 		{
 			title: `${site.name} — Premium tools for focused work`,
-			description:
-				'A carefully curated suite of browser-based utilities. Fast, privacy-first, and completely free. Format, convert, and generate locally.',
+			description: `A carefully curated suite of ${toolCount} browser-based utilities. Fast, privacy-first, and completely free. Format, convert, and generate locally.`,
 			canonicalPath: '/'
 		},
 		siteUrl
@@ -44,6 +44,7 @@ export const load: PageServerLoad = async ({ url }) => {
 	return {
 		featured,
 		collections,
+		toolCount,
 		seo,
 		jsonLd: [
 			jsonLdWebsite(siteUrl),
