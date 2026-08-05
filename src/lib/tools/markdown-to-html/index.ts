@@ -33,9 +33,10 @@ export const markdownToHtml: ToolDefinition<MarkdownToHtmlInput, MarkdownToHtmlO
 	status: 'stable',
 	tags: ['markdown', 'html', 'convert'],
 	capabilities: ['copy', 'download', 'share', 'reset', 'favorite'],
+	// Markdown is not synced into the URL (too large). Presets still set
+	// `?markdown=` once; the UI applies it and immediately strips the param.
 	share: {
-		params: ['markdown'],
-		maxParamBytes: 4000
+		params: ['markdown']
 	},
 	presets: [
 		{ id: 'intro', label: 'Intro sample', params: { markdown: DEFAULT_MARKDOWN } },
@@ -82,7 +83,7 @@ Run \`npm start\` and open the app.
 			{
 				question: 'Does my Markdown leave the browser?',
 				answer:
-					'No. Conversion runs locally. Share links may include short content in the URL if you choose to share.'
+					'No. Conversion runs locally. Share link copies the tool URL only — your Markdown stays in the editor, not in the address bar.'
 			}
 		],
 		howTo: [

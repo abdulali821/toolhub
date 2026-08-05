@@ -105,9 +105,10 @@ export const markdownPreview: ToolDefinition<MarkdownPreviewInput, MarkdownPrevi
 	status: 'stable',
 	tags: ['markdown', 'preview', 'md', 'text'],
 	capabilities: ['copy', 'download', 'share', 'reset', 'favorite'],
+	// Markdown is not synced into the URL (too large). Presets still set
+	// `?markdown=` once; the UI applies it and immediately strips the param.
 	share: {
-		params: ['markdown'],
-		maxParamBytes: 4000
+		params: ['markdown']
 	},
 	presets: [
 		{
@@ -159,7 +160,7 @@ Run \`npm start\` and open the app.
 			{
 				question: 'Does my Markdown leave the browser?',
 				answer:
-					'No. Rendering runs locally. Share links may include short content in the URL if you choose to share.'
+					'No. Rendering runs locally. Share link copies the tool URL only — your Markdown stays in the editor, not in the address bar.'
 			},
 			{
 				question: 'Can I copy the HTML output?',

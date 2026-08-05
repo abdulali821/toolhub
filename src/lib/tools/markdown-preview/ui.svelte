@@ -1,16 +1,10 @@
 <script lang="ts">
+	import { replaceState } from '$app/navigation';
 	import { Field, Textarea } from '$ui';
 	import { setToolShellActions } from '$ui/tools/tool-shell-context';
-	import {
-		pullShareState,
-		pushShareState,
-		urlSearchParams,
-		readShareParam
-	} from '$engine/tool-share';
-	import { markdownPreview, run } from './index';
+	import { pullShareState, urlSearchParams, readShareParam } from '$engine/tool-share';
+	import { run } from './index';
 
-	const shareKeys = markdownPreview.share!.params;
-	const maxParamBytes = markdownPreview.share!.maxParamBytes;
 	const DEFAULT_MARKDOWN = `# HeyTools
 
 Write **Markdown** on the left.
@@ -26,27 +20,30 @@ code fence
 \`\`\`
 `;
 
-	function fromUrl() {
-		const sp = urlSearchParams();
-		return {
-			markdown: readShareParam(sp, 'markdown') ?? DEFAULT_MARKDOWN
-		};
+	/** Presets write `?markdown=`; we apply once then strip so the URL stays short. */
+	function markdownFromUrl(): string | null {
+		return readShareParam(urlSearchParams(), 'markdown');
 	}
 
-	const initial = fromUrl();
-	let markdown = $state(initial.markdown);
+	function stripMarkdownFromUrl() {
+		if (typeof window === 'undefined') return;
+		const url = new URL(window.location.href);
+		if (!url.searchParams.has('markdown')) return;
+		url.searchParams.delete('markdown');
+		const next = url.pathname + url.search;
+		// eslint-disable-next-line svelte/no-navigation-without-resolve -- clear one-shot preset/share param
+		replaceState(next, {});
+	}
+
+	const initialMarkdown = markdownFromUrl() ?? DEFAULT_MARKDOWN;
+	let markdown = $state(initialMarkdown);
 	let html = $derived(run({ markdown }).html);
 
 	$effect(() => {
-		pullShareState(fromUrl, (next) => {
-			if (next.markdown !== markdown) markdown = next.markdown;
-		});
-	});
-
-	$effect(() => {
-		pushShareState({ markdown }, shareKeys, {
-			maxParamBytes,
-			defaults: { markdown: DEFAULT_MARKDOWN }
+		pullShareState(markdownFromUrl, (next) => {
+			if (next === null) return;
+			if (next !== markdown) markdown = next;
+			stripMarkdownFromUrl();
 		});
 	});
 

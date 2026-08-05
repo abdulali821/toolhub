@@ -292,9 +292,10 @@ export const markdownToPdf: ToolDefinition<MarkdownToPdfInput, MarkdownToPdfOutp
 	status: 'stable',
 	tags: ['markdown', 'pdf', 'convert', 'document', 'md'],
 	capabilities: ['download', 'share', 'reset', 'favorite'],
+	// Markdown is not synced into the URL (too large). Presets still set
+	// `?markdown=` once; the UI applies it and immediately strips the param.
 	share: {
-		params: ['markdown'],
-		maxParamBytes: 4000
+		params: ['markdown']
 	},
 	presets: [
 		{ id: 'intro', label: 'Intro sample', params: { markdown: DEFAULT_MARKDOWN } },

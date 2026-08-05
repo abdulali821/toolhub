@@ -1,19 +1,13 @@
 <script lang="ts">
 	import type { Action } from 'svelte/action';
+	import { replaceState } from '$app/navigation';
 	import { Alert, Button, Field, Textarea } from '$ui';
 	import { setToolShellActions } from '$ui/tools/tool-shell-context';
-	import {
-		pullShareState,
-		pushShareState,
-		urlSearchParams,
-		readShareParam
-	} from '$engine/tool-share';
+	import { pullShareState, urlSearchParams, readShareParam } from '$engine/tool-share';
 	import { pdfBytesToDataUrl } from '$lib/utils/pdf';
 	import { renderPdfPages, type RenderedPage } from '../pdf-to-images/render';
-	import { markdownToPdf, run } from './index';
+	import { run } from './index';
 
-	const shareKeys = markdownToPdf.share!.params;
-	const maxParamBytes = markdownToPdf.share!.maxParamBytes;
 	const DEFAULT_MARKDOWN = `# HeyTools
 
 Convert **Markdown** notes into a downloadable PDF.
@@ -40,13 +34,23 @@ npm start
 		};
 	};
 
-	function fromUrl() {
-		const sp = urlSearchParams();
-		return { markdown: readShareParam(sp, 'markdown') ?? DEFAULT_MARKDOWN };
+	/** Presets write `?markdown=`; we apply once then strip so the URL stays short. */
+	function markdownFromUrl(): string | null {
+		return readShareParam(urlSearchParams(), 'markdown');
 	}
 
-	const initial = fromUrl();
-	let markdown = $state(initial.markdown);
+	function stripMarkdownFromUrl() {
+		if (typeof window === 'undefined') return;
+		const url = new URL(window.location.href);
+		if (!url.searchParams.has('markdown')) return;
+		url.searchParams.delete('markdown');
+		const next = url.pathname + url.search;
+		// eslint-disable-next-line svelte/no-navigation-without-resolve -- clear one-shot preset/share param
+		replaceState(next, {});
+	}
+
+	const initialMarkdown = markdownFromUrl() ?? DEFAULT_MARKDOWN;
+	let markdown = $state(initialMarkdown);
 	let dataUrl = $state('');
 	let pages = $state<RenderedPage[]>([]);
 	let pageCount = $state(0);
@@ -128,18 +132,13 @@ npm start
 	}
 
 	$effect(() => {
-		pullShareState(fromUrl, (next) => {
-			if (next.markdown !== markdown) {
-				markdown = next.markdown;
-				void generate(next.markdown);
+		pullShareState(markdownFromUrl, (next) => {
+			if (next === null) return;
+			if (next !== markdown) {
+				markdown = next;
+				void generate(next);
 			}
-		});
-	});
-
-	$effect(() => {
-		pushShareState({ markdown }, shareKeys, {
-			maxParamBytes,
-			defaults: { markdown: DEFAULT_MARKDOWN }
+			stripMarkdownFromUrl();
 		});
 	});
 
@@ -155,7 +154,7 @@ npm start
 		});
 	});
 
-	void generate(initial.markdown);
+	void generate(initialMarkdown);
 </script>
 
 <svelte:window onkeydown={onWindowKeydown} />
