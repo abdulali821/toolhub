@@ -94,7 +94,8 @@ export const platformCollections: PlatformCollection[] = [
 			'pdf-reorder-pages',
 			'images-to-pdf',
 			'pdf-to-images',
-			'pdf-metadata'
+			'pdf-metadata',
+			'markdown-to-pdf'
 		]
 	},
 	{

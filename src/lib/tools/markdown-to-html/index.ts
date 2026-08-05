@@ -59,7 +59,7 @@ Run \`npm start\` and open the app.
 		}
 	],
 	workflow: {
-		next: ['html-codec', 'markdown-preview']
+		next: ['markdown-to-pdf', 'html-codec', 'markdown-preview']
 	},
 	metadata: {
 		name: 'Markdown to HTML',
@@ -67,7 +67,7 @@ Run \`npm start\` and open the app.
 		description:
 			'Convert Markdown to clean HTML instantly. Supports headings, lists, links, code fences, and emphasis—copy or download the generated HTML, all locally in your browser.',
 		keywords: ['markdown to html', 'md to html converter', 'markdown converter', 'html generator'],
-		related: ['markdown-preview', 'html-codec'],
+		related: ['markdown-to-pdf', 'markdown-preview', 'html-codec'],
 		faq: [
 			{
 				question: 'How is this different from Markdown Preview?',
