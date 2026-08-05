@@ -4,7 +4,7 @@ Free, SEO-first **online tools** platform. Not a SaaS.
 
 Format, convert, generate, and transform text, data, images, and PDFs—mostly **in your browser**, with optional sign-in for favorites and history.
 
-**v1.0.0** launched with **76 tools**. The current catalog is **~102 tools** (see [CHANGELOG.md](./CHANGELOG.md) `[Unreleased]`), plus dark mode, image & PDF toolkits, SEO categories, and an accessibility-minded shared shell.
+**v1.0.0** ships **96 tools**, a plugin architecture, image & PDF toolkits, SEO categories, and an accessibility-minded shared shell.
 
 | Doc                                              | Purpose                                   |
 | ------------------------------------------------ | ----------------------------------------- |
