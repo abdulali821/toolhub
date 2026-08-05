@@ -10,11 +10,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Barcode Generator tool (`barcode-generator`): CODE128, CODE39, EAN-13/8, UPC, ITF-14, Codabar, and MSI as browser-local PNG via JsBarcode
-- Dark mode theme toggle (sun/moon) in the header, persisted via `localStorage` with system-preference fallback
+- Dark mode theme toggle (sun/moon) in the header, persisted via `localStorage` (default light)
+- **16** new tools across waves 1–3:
+  - Converters: `unit-converter`
+  - Generators: `cron-generator`, `nanoid-generator`
+  - Calculators: `date-calculator`, `aspect-ratio-calculator`, `tip-calculator`, `bmi-calculator`
+  - Developer: `jwt-encoder`, `css-minifier`, `url-parser`
+  - Color: `color-palette-generator`, `box-shadow-generator`
+  - Text: `markdown-to-html`, `reading-time-estimator`
+  - Data: `query-string-json`
+  - Image: `image-watermark`
 
 ### Changed
 
 - Shared UI and major routes use design tokens (`bg-bg`, `text-fg`, `border-border`, …) so light/dark themes stay consistent
+- Homepage packs updated to surface the new developer, color, generator, text, data, and image tools
 
 ## [1.0.0] - 2026-07-21
 

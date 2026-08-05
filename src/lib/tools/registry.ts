@@ -77,6 +77,22 @@ import { morseCodec } from './morse-codec';
 import { contrastChecker } from './contrast-checker';
 import { colorBlindnessSimulator } from './color-blindness-simulator';
 import { barcodeGenerator } from './barcode-generator';
+import { unitConverter } from './unit-converter';
+import { cronGenerator } from './cron-generator';
+import { dateCalculator } from './date-calculator';
+import { jwtEncoder } from './jwt-encoder';
+import { cssMinifier } from './css-minifier';
+import { colorPaletteGenerator } from './color-palette-generator';
+import { markdownToHtml } from './markdown-to-html';
+import { aspectRatioCalculator } from './aspect-ratio-calculator';
+import { nanoidGenerator } from './nanoid-generator';
+import { readingTimeEstimator } from './reading-time-estimator';
+import { boxShadowGenerator } from './box-shadow-generator';
+import { urlParser } from './url-parser';
+import { queryStringJson } from './query-string-json';
+import { tipCalculator } from './tip-calculator';
+import { bmiCalculator } from './bmi-calculator';
+import { imageWatermark } from './image-watermark';
 
 const tools = [
 	jsonFormatter,
@@ -155,7 +171,23 @@ const tools = [
 	morseCodec,
 	contrastChecker,
 	colorBlindnessSimulator,
-	barcodeGenerator
+	barcodeGenerator,
+	unitConverter,
+	cronGenerator,
+	dateCalculator,
+	jwtEncoder,
+	cssMinifier,
+	colorPaletteGenerator,
+	markdownToHtml,
+	aspectRatioCalculator,
+	nanoidGenerator,
+	readingTimeEstimator,
+	boxShadowGenerator,
+	urlParser,
+	queryStringJson,
+	tipCalculator,
+	bmiCalculator,
+	imageWatermark
 ] as const;
 
 // Vite HMR re-executes this module while the engine Map may still hold prior entries.

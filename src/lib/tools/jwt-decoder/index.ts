@@ -50,7 +50,7 @@ export const jwtDecoder: ToolDefinition<JwtInput, JwtOutput> = {
 	// Tokens are sensitive — no share capability or share URL params.
 	capabilities: ['copy', 'reset', 'favorite'],
 	workflow: {
-		next: ['json-formatter', 'base64-codec']
+		next: ['jwt-encoder', 'json-formatter', 'base64-codec']
 	},
 	metadata: {
 		name: 'JWT Decoder',
@@ -58,7 +58,7 @@ export const jwtDecoder: ToolDefinition<JwtInput, JwtOutput> = {
 		description:
 			'Decode a JSON Web Token’s header and payload in your browser for debugging claims and expiry. Signatures are not verified, and tokens are never uploaded or shared via URL.',
 		keywords: ['jwt decoder', 'decode jwt', 'json web token', 'jwt payload', 'inspect jwt'],
-		related: ['base64-codec', 'json-formatter', 'hash-generator'],
+		related: ['jwt-encoder', 'base64-codec', 'json-formatter', 'hash-generator'],
 		faq: [
 			{
 				question: 'Does this verify the signature?',

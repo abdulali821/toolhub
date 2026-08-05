@@ -25,7 +25,8 @@ export const platformCollections: PlatformCollection[] = [
 			'json-compare',
 			'json-to-yaml',
 			'yaml-to-json',
-			'csv-json-converter'
+			'csv-json-converter',
+			'query-string-json'
 		]
 	},
 	{
@@ -41,21 +42,25 @@ export const platformCollections: PlatformCollection[] = [
 			'duplicate-line-remover',
 			'line-sort',
 			'find-replace',
-			'case-converter'
+			'case-converter',
+			'markdown-to-html',
+			'reading-time-estimator'
 		]
 	},
 	{
 		id: 'developer-starter-pack',
 		name: 'Developer Starter Pack',
-		description: 'Format SQL/YAML/XML, decode JWTs, test regex, hash strings, and generate UUIDs.',
+		description:
+			'Format SQL/YAML/XML/CSS, encode/decode JWTs, test regex, hash strings, and generate IDs.',
 		toolIds: [
 			'sql-formatter',
 			'yaml-formatter',
 			'xml-formatter',
+			'css-minifier',
 			'jwt-decoder',
+			'jwt-encoder',
 			'regex-tester',
-			'hash-generator',
-			'uuid-generator'
+			'url-parser'
 		]
 	},
 	{
@@ -69,8 +74,8 @@ export const platformCollections: PlatformCollection[] = [
 			'crop-image',
 			'rotate-image',
 			'image-converter',
+			'image-watermark',
 			'image-metadata',
-			'image-color-extractor',
 			'svg-optimizer'
 		]
 	},
@@ -113,27 +118,27 @@ export const platformCollections: PlatformCollection[] = [
 		id: 'color-design-pack',
 		name: 'Color & Design Pack',
 		description:
-			'Pick colors, check contrast, simulate color blindness, build gradients, and extract palettes.',
+			'Pick colors, check contrast, build palettes, gradients, box shadows, and extract image colors.',
 		toolIds: [
 			'color-picker',
 			'contrast-checker',
-			'color-blindness-simulator',
+			'color-palette-generator',
 			'gradient-generator',
-			'color-converter',
-			'image-color-extractor'
+			'box-shadow-generator',
+			'color-converter'
 		]
 	},
 	{
 		id: 'generators-pack',
 		name: 'Generators Pack',
 		description:
-			'QR codes, barcodes, passwords, fake data, random strings, and placeholder content.',
+			'QR codes, barcodes, cron schedules, passwords, NanoIDs, fake data, and placeholder content.',
 		toolIds: [
 			'qr-code-generator',
 			'barcode-generator',
+			'cron-generator',
+			'nanoid-generator',
 			'password-generator',
-			'fake-data-generator',
-			'random-string-generator',
 			'uuid-generator',
 			'lorem-ipsum'
 		]

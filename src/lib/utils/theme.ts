@@ -12,7 +12,7 @@ export function readTheme(): Theme {
 		// Private mode or blocked storage
 	}
 
-	return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+	return 'light';
 }
 
 export function applyTheme(theme: Theme): void {

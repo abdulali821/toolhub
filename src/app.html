@@ -7,11 +7,9 @@
 		<script>
 			(function () {
 				try {
-					var theme = localStorage.getItem('heytools:theme');
-					var dark =
-						theme === 'dark' ||
-						(theme !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
-					if (dark) document.documentElement.classList.add('dark');
+					if (localStorage.getItem('heytools:theme') === 'dark') {
+						document.documentElement.classList.add('dark');
+					}
 				} catch (e) {}
 			})();
 		</script>

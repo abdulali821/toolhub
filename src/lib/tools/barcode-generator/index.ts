@@ -44,7 +44,7 @@ export function run(input: BarcodeGeneratorInput): BarcodeGeneratorOutput {
 		});
 	} catch (err) {
 		const message = err instanceof Error ? err.message : 'Invalid value for the selected format';
-		throw new Error(message);
+		throw new Error(message, { cause: err });
 	}
 
 	return { dataUrl: canvas.toDataURL('image/png') };
