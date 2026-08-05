@@ -3,7 +3,7 @@
  * HeyTools is a free online tools platform (SEO-first), not a SaaS.
  * Environment-specific values come from `$env` via `$server/env`.
  *
- * Categories are catalog filters on /tools (and used for tool metadata).
+ * Categories power SEO landings at `/categories/[slug]` and tool metadata.
  */
 export const site = {
 	name: 'HeyTools',

@@ -2,6 +2,8 @@
 
 **HeyTools** is a free, SEO-first collection of online tools—not a SaaS. Version **1.0.0** is the first production-ready release candidate: fast pages, private-by-default processing, and a maintainable plugin architecture for shipping new tools without redesigning the platform.
 
+> **Current catalog:** post-1.0.0 work (dark mode, Markdown to PDF, CSS Animation Generator, barcode generator, ~19 additional tools, and more) lives under `[Unreleased]` in [CHANGELOG.md](./CHANGELOG.md). This document describes the **v1.0.0** cut only.
+
 ## Highlights
 
 ### Privacy-first processing
@@ -35,10 +37,10 @@ With Supabase configured: sign-in, favorites, and throttled tool history. Auth p
 ## Known limitations
 
 - **PDF “strong” compress** may rasterize pages (text becomes images)—documented in tool FAQ/UX.
-- Binary image/PDF state is **not** shareable via URL; text/data tools that opt in use query params (large payloads may be omitted).
+- Binary image/PDF state is **not** shareable via URL; text/data tools that opt in use query params (large payloads may be omitted). Prefer short Share links for document-sized inputs.
 - Trending / recently-added rankings are **not** shipped in v1.0.0.
 - Set `PUBLIC_SITE_URL` to your canonical HTTPS origin in production for correct sitemap, robots, and social previews.
 
 ## Upgrade / install
 
-See [README.md](./README.md) for setup, environment variables, and Node deployment. See [CHANGELOG.md](./CHANGELOG.md) for the full list of Added / Changed / Fixed / Removed items.
+See [README.md](./README.md) for setup, environment variables, and **Vercel** deployment. See [CHANGELOG.md](./CHANGELOG.md) for the full list of Added / Changed / Fixed / Removed items (including work after v1.0.0).

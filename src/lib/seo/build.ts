@@ -82,21 +82,64 @@ export function toolToPageMetadata(tool: ToolDefinition): PageMetadata {
 }
 
 export function jsonLdWebsite(siteUrl: string) {
+	const base = siteUrl.replace(/\/$/, '');
 	return {
 		'@context': 'https://schema.org',
 		'@type': 'WebSite',
 		name: site.name,
-		url: siteUrl,
-		description: site.tagline
+		url: base,
+		description: site.tagline,
+		potentialAction: {
+			'@type': 'SearchAction',
+			target: {
+				'@type': 'EntryPoint',
+				urlTemplate: `${base}/search?q={search_term_string}`
+			},
+			'query-input': 'required name=search_term_string'
+		}
 	};
 }
 
 export function jsonLdOrganization(siteUrl: string) {
+	const base = siteUrl.replace(/\/$/, '');
 	return {
 		'@context': 'https://schema.org',
 		'@type': 'Organization',
 		name: site.name,
-		url: siteUrl
+		url: base,
+		logo: {
+			'@type': 'ImageObject',
+			url: `${base}/logo-1.png`
+		}
+	};
+}
+
+export function jsonLdItemList(
+	items: { name: string; path: string; description?: string }[],
+	siteUrl: string,
+	opts?: { name?: string; description?: string; path?: string }
+) {
+	if (!items.length) return null;
+	const list = {
+		'@context': 'https://schema.org',
+		'@type': 'ItemList',
+		numberOfItems: items.length,
+		itemListElement: items.map((item, index) => ({
+			'@type': 'ListItem',
+			position: index + 1,
+			name: item.name,
+			url: absoluteUrl(item.path, siteUrl),
+			...(item.description ? { description: item.description } : {})
+		}))
+	};
+	if (!opts?.name && !opts?.path) return list;
+	return {
+		'@context': 'https://schema.org',
+		'@type': 'CollectionPage',
+		name: opts.name,
+		description: opts.description,
+		url: opts.path ? absoluteUrl(opts.path, siteUrl) : undefined,
+		mainEntity: list
 	};
 }
 

@@ -1,7 +1,7 @@
 import type { PageServerLoad } from './$types';
 import { getTool, listTools } from '$tools';
 import { listCollections } from '$lib/config/collections';
-import { buildSeo, jsonLdOrganization, jsonLdWebsite } from '$seo';
+import { buildSeo, jsonLdOrganization, jsonLdWebsite, jsonLdItemList } from '$seo';
 import { getPublicEnv } from '$server/env';
 import { site } from '$lib/config/site';
 
@@ -45,6 +45,22 @@ export const load: PageServerLoad = async ({ url }) => {
 		featured,
 		collections,
 		seo,
-		jsonLd: [jsonLdWebsite(siteUrl), jsonLdOrganization(siteUrl)]
+		jsonLd: [
+			jsonLdWebsite(siteUrl),
+			jsonLdOrganization(siteUrl),
+			jsonLdItemList(
+				featured.map((t) => ({
+					name: t.name,
+					path: `/tools/${t.id}`,
+					description: t.description
+				})),
+				siteUrl,
+				{
+					name: 'Popular tools',
+					description: 'Featured free online tools on HeyTools.',
+					path: '/'
+				}
+			)
+		].filter(Boolean)
 	};
 };

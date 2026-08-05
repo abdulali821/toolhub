@@ -378,7 +378,7 @@
 				<img
 					src={outputDataUrl}
 					alt="Cropped preview"
-					class="max-h-56 w-auto rounded-md border border-border"
+					class="h-auto max-h-56 max-w-full self-start rounded-md border border-border object-contain"
 				/>
 			</div>
 		{/if}

@@ -84,7 +84,7 @@
 			items={[
 				{ label: 'Home', href: '/' },
 				{ label: 'Tools', href: '/tools' },
-				{ label: categoryLabel, href: `/tools?category=${categoryId}` },
+				{ label: categoryLabel, href: `/categories/${categoryId}` },
 				{ label: name }
 			]}
 		/>

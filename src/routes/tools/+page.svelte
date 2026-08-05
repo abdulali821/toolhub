@@ -2,6 +2,7 @@
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 	import { Button, Container, SeoHead } from '$ui';
+	import JsonLd from '$ui/seo/JsonLd.svelte';
 	import ToolCard from '$ui/catalog/ToolCard.svelte';
 	import EmptyState from '$ui/catalog/EmptyState.svelte';
 	import CategoryBadge from '$ui/catalog/CategoryBadge.svelte';
@@ -15,16 +16,22 @@
 
 	let filtersOpen = $state(false);
 
-	const activeLabel = $derived(
-		data.category
-			? (categories.find((c) => c.id === data.category)?.label.replace(' Tools', '') ?? 'Category')
-			: 'All Tools'
+	const activeCategory = $derived(
+		data.category ? categories.find((c) => c.id === data.category) : undefined
 	);
+	const activeLabel = $derived(
+		activeCategory ? activeCategory.label.replace(' Tools', '') : 'All Tools'
+	);
+	const heading = $derived(activeCategory ? activeCategory.label : 'All Tools');
 </script>
 
 <svelte:head>
 	<SeoHead seo={data.seo} />
 </svelte:head>
+
+{#if data.jsonLd?.length}
+	<JsonLd data={data.jsonLd} />
+{/if}
 
 <main id="main">
 	<Container class="py-10 sm:py-14">
@@ -104,7 +111,7 @@
 							{@const active = data.category === category.id}
 							<li>
 								<a
-									href={resolve(`/tools?category=${category.id}`)}
+									href={resolve(`/categories/${category.id}`)}
 									class="flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm no-underline transition-colors {active
 										? 'bg-bg font-medium text-fg'
 										: 'text-muted hover:bg-bg hover:text-fg'}"
@@ -160,8 +167,15 @@
 			</aside>
 
 			<div class="min-w-0 flex-1">
-				<div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-					<h1 class="font-display text-3xl font-semibold tracking-tight sm:text-4xl">All Tools</h1>
+				<div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+					<div class="min-w-0">
+						<h1 class="font-display text-3xl font-semibold tracking-tight sm:text-4xl">
+							{heading}
+						</h1>
+						{#if activeCategory}
+							<p class="mt-2 max-w-2xl text-pretty text-muted">{activeCategory.description}</p>
+						{/if}
+					</div>
 					<form method="GET" class="flex w-full gap-2 sm:max-w-md" action={resolve('/tools')}>
 						{#if data.category}
 							<input type="hidden" name="category" value={data.category} />

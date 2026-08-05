@@ -66,7 +66,7 @@
 		<img
 			src={sourceDataUrl}
 			alt="Uploaded preview"
-			class="max-h-48 w-auto rounded-md border border-border"
+			class="h-auto max-h-48 max-w-full self-start rounded-md border border-border object-contain"
 		/>
 	{/if}
 

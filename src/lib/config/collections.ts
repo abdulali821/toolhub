@@ -17,7 +17,7 @@ export const platformCollections: PlatformCollection[] = [
 		id: 'json-data-pack',
 		name: 'JSON & Data Pack',
 		description:
-			'Format, validate, minify, compare, and bridge JSON with YAML—everything in one workflow.',
+			'Format, validate, minify, compare, and bridge JSON with YAML and CSV—everything in one workflow.',
 		toolIds: [
 			'json-formatter',
 			'json-validator',
@@ -26,7 +26,8 @@ export const platformCollections: PlatformCollection[] = [
 			'json-to-yaml',
 			'yaml-to-json',
 			'csv-json-converter',
-			'query-string-json'
+			'query-string-json',
+			'csv-viewer'
 		]
 	},
 	{
@@ -51,7 +52,7 @@ export const platformCollections: PlatformCollection[] = [
 		id: 'developer-starter-pack',
 		name: 'Developer Starter Pack',
 		description:
-			'Format SQL/YAML/XML/CSS, encode/decode JWTs, test regex, hash strings, and generate IDs.',
+			'Format SQL/YAML/XML/CSS, encode/decode JWTs, test regex, hash strings, generate IDs, and convert curl commands.',
 		toolIds: [
 			'sql-formatter',
 			'yaml-formatter',
@@ -60,7 +61,8 @@ export const platformCollections: PlatformCollection[] = [
 			'jwt-decoder',
 			'jwt-encoder',
 			'regex-tester',
-			'url-parser'
+			'url-parser',
+			'curl-to-fetch'
 		]
 	},
 	{
@@ -73,6 +75,7 @@ export const platformCollections: PlatformCollection[] = [
 			'image-resizer',
 			'crop-image',
 			'rotate-image',
+			'favicon-generator',
 			'image-converter',
 			'image-watermark',
 			'image-metadata',
@@ -119,7 +122,7 @@ export const platformCollections: PlatformCollection[] = [
 		id: 'color-design-pack',
 		name: 'Color & Design Pack',
 		description:
-			'Pick colors, check contrast, build palettes, gradients, box shadows, CSS animations, and extract image colors.',
+			'Pick colors, check contrast, build palettes, gradients, shadows, glassmorphism, CSS animations, and more.',
 		toolIds: [
 			'color-picker',
 			'contrast-checker',
@@ -127,6 +130,7 @@ export const platformCollections: PlatformCollection[] = [
 			'gradient-generator',
 			'box-shadow-generator',
 			'css-animation-generator',
+			'glassmorphism-generator',
 			'color-converter'
 		]
 	},
@@ -134,7 +138,7 @@ export const platformCollections: PlatformCollection[] = [
 		id: 'generators-pack',
 		name: 'Generators Pack',
 		description:
-			'QR codes, barcodes, cron schedules, passwords, NanoIDs, fake data, and placeholder content.',
+			'QR codes, barcodes, cron schedules, passwords, NanoIDs, fake data, timezone meeting planner, and device testers.',
 		toolIds: [
 			'qr-code-generator',
 			'barcode-generator',
@@ -142,7 +146,10 @@ export const platformCollections: PlatformCollection[] = [
 			'nanoid-generator',
 			'password-generator',
 			'uuid-generator',
-			'lorem-ipsum'
+			'lorem-ipsum',
+			'timezone-meeting-planner',
+			'keyboard-tester',
+			'device-tester'
 		]
 	}
 ];

@@ -25,11 +25,11 @@
 		brand = 'HeyTools',
 		links = [
 			{ href: '/tools', label: 'All Tools', match: 'exact' },
-			{ href: '/tools?category=developer', label: 'Developer Tools', category: 'developer' },
-			{ href: '/tools?category=text', label: 'Text Tools', category: 'text' },
-			{ href: '/tools?category=data', label: 'Data Tools', category: 'data' },
-			{ href: '/tools?category=image', label: 'Image Tools', category: 'image' },
-			{ href: '/tools?category=generators', label: 'Generators', category: 'generators' },
+			{ href: '/categories/developer', label: 'Developer Tools', category: 'developer' },
+			{ href: '/categories/text', label: 'Text Tools', category: 'text' },
+			{ href: '/categories/data', label: 'Data Tools', category: 'data' },
+			{ href: '/categories/image', label: 'Image Tools', category: 'image' },
+			{ href: '/categories/generators', label: 'Generators', category: 'generators' },
 			{ href: '/search', label: 'Search', match: 'exact' }
 		],
 		user = null

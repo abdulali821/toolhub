@@ -116,7 +116,7 @@
 					<img
 						src={sourceDataUrl}
 						alt="Original"
-						class="max-h-48 w-auto rounded-md border border-border"
+						class="h-auto max-h-48 max-w-full self-start rounded-md border border-border object-contain"
 					/>
 				</div>
 				<div>
@@ -124,7 +124,7 @@
 					<img
 						src={outputDataUrl}
 						alt="Compressed"
-						class="max-h-48 w-auto rounded-md border border-border"
+						class="h-auto max-h-48 max-w-full self-start rounded-md border border-border object-contain"
 					/>
 					<p class="mt-2 text-xs text-muted">
 						≈ {formatBytes(Math.round(outputDataUrl.length * 0.75))} (data URL size estimate)

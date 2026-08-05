@@ -6,6 +6,7 @@ export const GET: RequestHandler = async ({ url }) => {
 	const body = `User-agent: *
 Allow: /
 Disallow: /account
+Disallow: /login
 Disallow: /api
 
 Sitemap: ${siteUrl}/sitemap.xml

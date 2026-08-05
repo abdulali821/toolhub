@@ -10,5 +10,6 @@ export {
 	jsonLdWebApplication,
 	jsonLdFaq,
 	jsonLdHowTo,
-	jsonLdBreadcrumb
+	jsonLdBreadcrumb,
+	jsonLdItemList
 } from './build';

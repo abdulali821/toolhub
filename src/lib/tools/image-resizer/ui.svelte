@@ -124,7 +124,7 @@
 			<img
 				src={outputDataUrl}
 				alt="Resized preview"
-				class="max-h-64 w-auto rounded-md border border-border"
+				class="h-auto max-h-64 max-w-full self-start rounded-md border border-border object-contain"
 			/>
 		{/if}
 	{/if}

@@ -65,7 +65,7 @@
 			id: `cat-${c.id}`,
 			label: c.label,
 			description: c.description,
-			href: `/tools?category=${c.id}`,
+			href: `/categories/${c.id}`,
 			group: 'Categories'
 		})),
 		...packs.map((p) => ({

@@ -1,6 +1,7 @@
 import type { RequestHandler } from './$types';
 import { listTools } from '$tools';
 import { getPublicEnv } from '$server/env';
+import { categories } from '$lib/config/site';
 
 type Entry = {
 	path: string;
@@ -14,7 +15,12 @@ export const GET: RequestHandler = async ({ url }) => {
 	const pages: Entry[] = [
 		{ path: '/', changefreq: 'weekly', priority: '1.0' },
 		{ path: '/tools', changefreq: 'daily', priority: '0.9' },
-		{ path: '/search', changefreq: 'weekly', priority: '0.8' },
+		{ path: '/categories', changefreq: 'weekly', priority: '0.8' },
+		...categories.map((c) => ({
+			path: `/categories/${c.id}`,
+			changefreq: 'weekly' as const,
+			priority: '0.75'
+		})),
 		{ path: '/request-tool', changefreq: 'monthly', priority: '0.5' },
 		{ path: '/privacy', changefreq: 'yearly', priority: '0.3' },
 		...listTools().map((t) => ({

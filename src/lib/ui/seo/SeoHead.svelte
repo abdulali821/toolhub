@@ -24,7 +24,10 @@
 <meta property="og:site_name" content={seo.openGraph.siteName} />
 {#if seo.openGraph.image}
 	<meta property="og:image" content={seo.openGraph.image} />
+	<meta property="og:image:width" content="1536" />
+	<meta property="og:image:height" content="1024" />
 {/if}
+<meta property="og:locale" content="en_US" />
 <meta name="twitter:card" content={seo.twitter.card} />
 <meta name="twitter:title" content={seo.twitter.title} />
 <meta name="twitter:description" content={seo.twitter.description} />

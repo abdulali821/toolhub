@@ -1,10 +1,10 @@
-# HeyTools 
+# HeyTools
 
 Free, SEO-first **online tools** platform. Not a SaaS.
 
 Format, convert, generate, and transform text, data, images, and PDFs—mostly **in your browser**, with optional sign-in for favorites and history.
 
-**v1.0.0** ships **76 tools**, a plugin architecture, image & PDF toolkits, SEO categories, and an accessibility-minded shared shell.
+**v1.0.0** launched with **76 tools**. The current catalog is **~102 tools** (see [CHANGELOG.md](./CHANGELOG.md) `[Unreleased]`), plus dark mode, image & PDF toolkits, SEO categories, and an accessibility-minded shared shell.
 
 | Doc                                              | Purpose                                   |
 | ------------------------------------------------ | ----------------------------------------- |
@@ -55,7 +55,7 @@ pnpm lint         # Prettier check + ESLint
 pnpm format       # Prettier write
 pnpm test         # Vitest (unit)
 pnpm test:e2e     # Playwright smoke
-pnpm build        # Production build → build/
+pnpm build        # Production build → Vercel adapter output
 pnpm preview      # Preview the production build
 pnpm new-tool …   # Scaffold a tool plugin (see CONTRIBUTING.md)
 ```
@@ -80,7 +80,8 @@ features + supabase → favorites & history only (optional)
 - **One folder** per tool: `src/lib/tools/<id>/` (`index.ts` + `ui.svelte`)
 - **Categories** are SEO landing pages (`src/lib/config/site.ts`)
 - **Platform packs** are static homepage collections (no account required)
-- **File tools** (image/PDF) run in the browser in v1—no uploads API in app code
+- **File tools** (image/PDF) run in the browser—no uploads API in app code
+- **Theme** defaults to light; users can toggle dark mode (persisted in `localStorage`)
 
 Details: [docs/architecture.md](./docs/architecture.md). Contributing & `pnpm new-tool`: [CONTRIBUTING.md](./CONTRIBUTING.md).
 
@@ -104,7 +105,7 @@ pnpm build   # locally verifies the Vercel adapter output under .vercel/output
 - `PUBLIC_SITE_URL=https://heytools.app` — must match the public origin users and crawlers see.
 - Optional: Supabase, analytics, and ads vars from `.env.example`
 
-### HTTPS / host policy (v1)
+### HTTPS / host policy
 
 - On Vercel, HTTPS is automatic; point your custom domain and set `PUBLIC_SITE_URL` to that HTTPS origin.
 - Prefer one canonical host (`apex` or `www`) and redirect the other in the Vercel domain settings.

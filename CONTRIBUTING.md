@@ -57,9 +57,12 @@ Then:
 2. Build the UI in `ui.svelte` using `$ui` components
 3. Fill SEO fields: `title`, `description`, `keywords`, **faq** (≥2–3), **howTo**, `related`, `workflow` when useful
 4. Declare `capabilities`, `share.params`, and `presets` when applicable
+   - Keep share params **compact** (flags, short numbers, small strings)
+   - Do **not** live-sync large document bodies (Markdown drafts, big CSS dumps, etc.) into the URL—Share should copy a short tool link; presets can still apply via a one-shot query param that the UI immediately strips
 5. Prefer ActionBar copy/share over duplicate inline copy buttons
 6. Expand `tests/tools/<id>.test.ts` beyond the scaffold smoke assertion
 7. Open `/tools/<id>` and verify SSR shell + client UI
+8. Use semantic tokens (`bg-bg`, `text-fg`, `border-border`, …) so the tool works in light and dark themes
 
 Image/PDF tools should stay **browser-local** unless there is a strong, documented reason otherwise.
 
@@ -67,10 +70,11 @@ Image/PDF tools should stay **browser-local** unless there is a strong, document
 
 - **TypeScript** + **Svelte 5** runes (`$state`, `$derived`, `$props`)
 - Validate inputs with **Valibot**; keep `run` pure and testable when possible
-- Use semantic design tokens / existing `$ui` primitives—avoid one-off layout systems
+- Use semantic design tokens / existing `$ui` primitives—avoid one-off layout systems and hardcoded `bg-white` / `text-gray-*` that break dark mode
 - Match surrounding file style; no drive-by refactors unrelated to your change
 - Prefer shared utils (`encoding`, `color`, `pdf`, share-state helpers) over copy-paste
 - Do not add billing, public APIs, or user-owned collections without an explicit product decision
+- Theme preference lives in `localStorage` via `src/lib/utils/theme.ts` (default light); do not reintroduce `prefers-color-scheme` as the default unless the product decides otherwise
 
 ## Testing requirements
 

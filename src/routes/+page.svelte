@@ -341,7 +341,7 @@
 			{#each showcase as cat (cat.category)}
 				<li>
 					<a
-						href="{resolve('/tools')}?category={cat.category}"
+						href={resolve(`/categories/${cat.category}`)}
 						class="group block rounded-2xl border border-border bg-bg-elevated p-6 no-underline transition-all duration-300 hover:border-border hover:shadow-premium-hover"
 					>
 						<span

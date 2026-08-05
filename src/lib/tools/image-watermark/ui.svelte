@@ -142,7 +142,7 @@
 				<img
 					src={outputDataUrl}
 					alt="Watermarked preview"
-					class="max-h-80 w-auto rounded-md border border-border"
+					class="h-auto max-h-80 max-w-full self-start rounded-md border border-border object-contain"
 				/>
 			</div>
 		{/if}

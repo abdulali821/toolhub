@@ -45,7 +45,7 @@ export const load: PageServerLoad = async ({ params, url, locals }) => {
 			[
 				{ name: 'Home', path: '/' },
 				{ name: 'Tools', path: '/tools' },
-				{ name: category?.label ?? tool.category, path: `/tools?category=${tool.category}` },
+				{ name: category?.label ?? tool.category, path: `/categories/${tool.category}` },
 				{ name: tool.metadata.name, path: `/tools/${tool.id}` }
 			],
 			siteUrl

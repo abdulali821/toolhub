@@ -7,11 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+Catalog is now **~102 tools** (up from **76** at v1.0.0).
+
 ### Added
 
-- Barcode Generator tool (`barcode-generator`): CODE128, CODE39, EAN-13/8, UPC, ITF-14, Codabar, and MSI as browser-local PNG via JsBarcode
-- Dark mode theme toggle (sun/moon) in the header, persisted via `localStorage` (default light)
-- **16** new tools across waves 1–3:
+- Barcode Generator (`barcode-generator`): CODE128, CODE39, EAN-13/8, UPC, ITF-14, Codabar, and MSI as browser-local PNG via JsBarcode
+- Dark mode theme toggle (sun/moon) in the header, persisted via `localStorage` (default **light**)
+- Markdown to PDF (`markdown-to-pdf`): browser-local PDF via `pdf-lib`, page thumbnail grid, eye-icon modal preview with prev/next
+- CSS Animation Generator (`css-animation-generator`): `@keyframes` builder with live preview and a dropdown of built-in animations (fade, slide, bounce, pulse, spin, shake, zoom, flip, and more)
+- Favicon Generator (`favicon-generator`): image or initials → PNG sizes, multi-res `.ico`, and HTML `<link>` snippet
+- Timezone Meeting Planner (`timezone-meeting-planner`): compare a local datetime across world cities
+- cURL to Fetch (`curl-to-fetch`): paste curl → JavaScript `fetch` or Axios
+- CSV Viewer (`csv-viewer`): paste/upload CSV, filter, table preview
+- Keyboard Tester (`keyboard-tester`): live key event inspector + QWERTY highlight
+- Glassmorphism Generator (`glassmorphism-generator`): frosted-glass CSS with live preview
+- Mic and Camera Tester (`device-tester`): local webcam/mic check with level meter
+- **16** tools across waves 1–3:
   - Converters: `unit-converter`
   - Generators: `cron-generator`, `nanoid-generator`
   - Calculators: `date-calculator`, `aspect-ratio-calculator`, `tip-calculator`, `bmi-calculator`
@@ -20,13 +31,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Text: `markdown-to-html`, `reading-time-estimator`
   - Data: `query-string-json`
   - Image: `image-watermark`
-- PDF: `markdown-to-pdf`
-- Color: `css-animation-generator` — CSS @keyframes builder with live preview
 
 ### Changed
 
 - Shared UI and major routes use design tokens (`bg-bg`, `text-fg`, `border-border`, …) so light/dark themes stay consistent
-- Homepage packs updated to surface the new developer, color, generator, text, data, and image tools
+- Homepage / Color & Design pack updated for newer color, CSS, generator, text, data, and image tools
+- Markdown tools (`markdown-preview`, `markdown-to-html`, `markdown-to-pdf`) no longer live-sync document body into the URL; Share copies a short tool link. Presets still apply via a one-shot `?markdown=` that is stripped after load
+- Nav dropdown animation no longer double-applies horizontal translate (menus align under triggers)
+- SEO upgrades: `SearchAction` on WebSite JSON-LD, Organization `logo`, catalog/`CollectionPage`+`ItemList` schema, restored indexable `/categories` landings (sitemap + footer/internal links), removed noindexed `/search` from sitemap, `Disallow: /login`, default OG image (`og-default.png`) with correct dimensions
 
 ## [1.0.0] - 2026-07-21
 

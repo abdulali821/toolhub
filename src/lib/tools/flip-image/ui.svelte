@@ -100,7 +100,7 @@
 					<img
 						src={sourceDataUrl}
 						alt="Original"
-						class="max-h-48 w-auto rounded-md border border-border"
+						class="h-auto max-h-48 max-w-full self-start rounded-md border border-border object-contain"
 					/>
 				</div>
 				<div>
@@ -108,7 +108,7 @@
 					<img
 						src={outputDataUrl}
 						alt="Flipped preview"
-						class="max-h-48 w-auto rounded-md border border-border"
+						class="h-auto max-h-48 max-w-full self-start rounded-md border border-border object-contain"
 					/>
 				</div>
 			</div>
