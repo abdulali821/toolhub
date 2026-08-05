@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Data: `query-string-json`
   - Image: `image-watermark`
 - PDF: `markdown-to-pdf`
+- Color: `css-animation-generator` — CSS @keyframes builder with live preview
 
 ### Changed
 

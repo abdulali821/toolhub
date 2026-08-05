@@ -102,7 +102,7 @@ export const cssMinifier: ToolDefinition<CssMinifierInput, CssMinifierOutput> = 
 		}
 	],
 	workflow: {
-		next: ['json-minifier', 'json-formatter']
+		next: ['css-animation-generator', 'json-minifier', 'json-formatter']
 	},
 	metadata: {
 		name: 'CSS Minifier',
@@ -116,7 +116,7 @@ export const cssMinifier: ToolDefinition<CssMinifierInput, CssMinifierOutput> = 
 			'format css',
 			'css formatter online'
 		],
-		related: ['json-minifier', 'json-formatter', 'sql-formatter'],
+		related: ['css-animation-generator', 'json-minifier', 'json-formatter', 'sql-formatter'],
 		faq: [
 			{
 				question: 'What does minify do?',

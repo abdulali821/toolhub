@@ -119,13 +119,14 @@ export const platformCollections: PlatformCollection[] = [
 		id: 'color-design-pack',
 		name: 'Color & Design Pack',
 		description:
-			'Pick colors, check contrast, build palettes, gradients, box shadows, and extract image colors.',
+			'Pick colors, check contrast, build palettes, gradients, box shadows, CSS animations, and extract image colors.',
 		toolIds: [
 			'color-picker',
 			'contrast-checker',
 			'color-palette-generator',
 			'gradient-generator',
 			'box-shadow-generator',
+			'css-animation-generator',
 			'color-converter'
 		]
 	},

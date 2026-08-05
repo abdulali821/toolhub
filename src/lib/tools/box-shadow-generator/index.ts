@@ -107,7 +107,7 @@ export const boxShadowGenerator: ToolDefinition<BoxShadowGeneratorInput, BoxShad
 			}
 		],
 		workflow: {
-			next: ['gradient-generator', 'color-picker', 'contrast-checker']
+			next: ['gradient-generator', 'color-picker', 'contrast-checker', 'css-animation-generator']
 		},
 		metadata: {
 			name: 'Box Shadow Generator',
@@ -121,7 +121,12 @@ export const boxShadowGenerator: ToolDefinition<BoxShadowGeneratorInput, BoxShad
 				'drop shadow css',
 				'inset shadow'
 			],
-			related: ['gradient-generator', 'color-picker', 'contrast-checker'],
+			related: [
+				'gradient-generator',
+				'color-picker',
+				'contrast-checker',
+				'css-animation-generator'
+			],
 			faq: [
 				{
 					question: 'What do offset, blur, and spread control?',

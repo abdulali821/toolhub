@@ -47,7 +47,12 @@ export const gradientGenerator: ToolDefinition<GradientGeneratorInput, GradientG
 		params: ['type', 'angle', 'color1', 'color2']
 	},
 	workflow: {
-		next: ['contrast-checker', 'color-blindness-simulator', 'color-picker', 'color-converter']
+		next: [
+			'contrast-checker',
+			'color-blindness-simulator',
+			'color-picker',
+			'css-animation-generator'
+		]
 	},
 	metadata: {
 		name: 'Gradient Generator',
@@ -55,7 +60,12 @@ export const gradientGenerator: ToolDefinition<GradientGeneratorInput, GradientG
 		description:
 			'Build linear or radial CSS gradients with two colors and a live preview. Copy the gradient string for your stylesheets.',
 		keywords: ['gradient generator', 'css gradient', 'linear gradient', 'radial gradient'],
-		related: ['contrast-checker', 'color-blindness-simulator', 'color-picker', 'color-converter'],
+		related: [
+			'contrast-checker',
+			'color-blindness-simulator',
+			'color-picker',
+			'css-animation-generator'
+		],
 		faq: [
 			{
 				question: 'What output do I get?',
