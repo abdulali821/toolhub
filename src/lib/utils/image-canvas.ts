@@ -324,6 +324,80 @@ function readWebpDimensions(bytes: Uint8Array): { width: number; height: number 
 	return null;
 }
 
+export type RemoveBackgroundCanvasOptions = {
+	mode: 'color' | 'wand';
+	/** Hex color for color-key mode (#rrggbb). Ignored for wand (uses seed pixel). */
+	color?: string;
+	tolerance: number;
+	feather: number;
+	seedX?: number;
+	seedY?: number;
+};
+
+/** Non-AI background removal via color key or magic-wand flood fill. Returns PNG data URL. */
+export async function removeBackground(
+	dataUrl: string,
+	options: RemoveBackgroundCanvasOptions
+): Promise<string> {
+	const { parseHexColor, removeBackgroundFromRgba } = await import('./background-remove');
+	const img = await loadImage(dataUrl);
+	const canvas = document.createElement('canvas');
+	canvas.width = img.naturalWidth;
+	canvas.height = img.naturalHeight;
+	const ctx = canvas.getContext('2d', { willReadFrequently: true });
+	if (!ctx) throw new Error('Canvas is not supported in this browser');
+	ctx.drawImage(img, 0, 0);
+	const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+	let target = { r: 255, g: 255, b: 255 };
+	if (options.mode === 'color') {
+		target = parseHexColor(options.color ?? '#ffffff');
+	} else {
+		const sx = Math.floor(options.seedX ?? 0);
+		const sy = Math.floor(options.seedY ?? 0);
+		const i = (sy * canvas.width + sx) * 4;
+		target = {
+			r: imageData.data[i]!,
+			g: imageData.data[i + 1]!,
+			b: imageData.data[i + 2]!
+		};
+	}
+
+	removeBackgroundFromRgba(imageData.data, canvas.width, canvas.height, {
+		mode: options.mode,
+		target,
+		tolerance: options.tolerance,
+		feather: options.feather,
+		seedX: options.seedX,
+		seedY: options.seedY
+	});
+	ctx.putImageData(imageData, 0, 0);
+	return canvas.toDataURL('image/png');
+}
+
+/** Sample an opaque RGB color from a data URL at image-space coordinates. */
+export async function sampleImageColor(
+	dataUrl: string,
+	x: number,
+	y: number
+): Promise<{ hex: string; r: number; g: number; b: number }> {
+	const { rgbToHex } = await import('./background-remove');
+	const img = await loadImage(dataUrl);
+	const canvas = document.createElement('canvas');
+	canvas.width = img.naturalWidth;
+	canvas.height = img.naturalHeight;
+	const ctx = canvas.getContext('2d', { willReadFrequently: true });
+	if (!ctx) throw new Error('Canvas is not supported in this browser');
+	ctx.drawImage(img, 0, 0);
+	const sx = Math.max(0, Math.min(canvas.width - 1, Math.floor(x)));
+	const sy = Math.max(0, Math.min(canvas.height - 1, Math.floor(y)));
+	const { data } = ctx.getImageData(sx, sy, 1, 1);
+	const r = data[0]!;
+	const g = data[1]!;
+	const b = data[2]!;
+	return { hex: rgbToHex(r, g, b), r, g, b };
+}
+
 export type ExtractedColor = { hex: string; count: number; percent: number };
 
 /** Simple bucketed palette extraction (browser canvas). */

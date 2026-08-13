@@ -75,6 +75,7 @@ export const platformCollections: PlatformCollection[] = [
 			'image-resizer',
 			'crop-image',
 			'rotate-image',
+			'background-remover',
 			'favicon-generator',
 			'image-converter',
 			'image-watermark',

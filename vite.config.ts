@@ -22,6 +22,13 @@ export default defineConfig({
 			}
 		})
 	],
+	ssr: {
+		// Browser WASM/ONNX stack — never execute during SSR.
+		external: ['@imgly/background-removal', 'onnxruntime-web']
+	},
+	optimizeDeps: {
+		exclude: ['@imgly/background-removal', 'onnxruntime-web']
+	},
 	test: {
 		include: [
 			'src/**/*.{test,spec}.{js,ts}',

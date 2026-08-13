@@ -1,33 +1,52 @@
 # Contributing to HeyTools
 
-Thanks for helping improve HeyTools. This project is a **free online tools** platform: prefer shipping better tools and UX over SaaS features.
+Thanks for helping improve **HeyTools** — a free, privacy-first online tools platform.
 
-Please read [docs/architecture.md](./docs/architecture.md) before large changes.
+By participating, you agree to follow our [Code of Conduct](./CODE_OF_CONDUCT.md).
+
+**Copyright:** the project is owned and maintained by **Abdul Ali**. Contributors keep copyright on their own contributions and license them to the project under the same [MIT License](./LICENSE) (see the PR checklist).
+
+## Ways to contribute
+
+- **Add a tool** — the most valuable contribution
+- Fix bugs or improve UX/a11y on existing tools
+- Improve tests, SEO metadata, or docs at the repo root
+- Report bugs / request tools via GitHub Issues
+
+Please open an issue before large refactors or new product directions (billing, public APIs, etc.).
 
 ## Project structure
 
-| Path                   | Purpose                                         |
-| ---------------------- | ----------------------------------------------- |
-| `src/routes`           | Thin SvelteKit pages and endpoints (HTTP only)  |
-| `src/lib/engine`       | Plugin contracts, registry helpers, share-state |
-| `src/lib/tools/<id>/`  | One folder per tool (`index.ts`, `ui.svelte`)   |
-| `src/lib/seo`          | Metadata and JSON-LD builders                   |
-| `src/lib/ui`           | Shared design-system components                 |
-| `src/lib/features`     | Favorites / history (Supabase-backed)           |
-| `src/lib/supabase`     | Auth clients                                    |
-| `src/lib/server`       | Env validation, logging                         |
-| `src/lib/utils`        | Pure helpers (encoding, color, PDF, files, …)   |
-| `src/lib/config`       | Site name, categories, platform collections     |
-| `tests/tools`          | Vitest tests per tool (and shared helpers)      |
-| `tests/e2e`            | Playwright smoke tests                          |
-| `scripts/new-tool.mjs` | Tool scaffold CLI                               |
-| `docs/`                | Architecture and deeper design notes            |
+| Path | Purpose |
+| ---- | ------- |
+| `src/routes` | Thin SvelteKit pages and endpoints |
+| `src/lib/engine` | Plugin contracts, registry, share-state |
+| `src/lib/tools/<id>/` | One folder per tool (`index.ts`, `ui.svelte`) |
+| `src/lib/seo` | Metadata and JSON-LD builders |
+| `src/lib/ui` | Shared UI components |
+| `src/lib/features` | Favorites / history (optional Supabase) |
+| `src/lib/config` | Site name, categories, collections |
+| `tests/tools` | Vitest tests per tool |
+| `scripts/new-tool.mjs` | Tool scaffold CLI |
 
-**Path aliases:** `$lib`, `$engine`, `$tools`, `$seo`, `$ui`, `$server`.
+**Aliases:** `$lib`, `$engine`, `$tools`, `$seo`, `$ui`, `$server`.
 
-**Layer rule:** tool plugins must not import Supabase or feature APIs. Routes stay thin; put logic in engine/utils/tools.
+**Layer rule:** tool plugins must **not** import Supabase or feature APIs. Routes stay thin; logic lives in engine / utils / tools.
+
+Architecture snapshot:
+
+```text
+routes (thin) → engine (registry) → tools (plugins)
+                    ↘ seo / ui / utils
+```
+
+- One route for all tools: `/tools/[slug]`
+- One folder per tool under `src/lib/tools/<id>/`
+- Prefer **browser-local** processing (especially image/PDF)
 
 ## Development setup
+
+Requirements: **Node.js 22+**, **pnpm 9+**.
 
 ```sh
 pnpm install
@@ -35,50 +54,38 @@ cp .env.example .env
 pnpm dev
 ```
 
-Open `http://localhost:5173`. Supabase env vars are optional for browsing and running tools locally; they are required for auth, favorites, and history.
+App: http://localhost:5173  
+
+Supabase env vars are optional for local tool work.
 
 ## Adding a new tool
 
-Scaffold a plugin (registers the tool and creates a starter test):
-
 ```sh
 pnpm new-tool --id my-tool --name "My Tool" --category text
-# or
-pnpm new-tool my-tool
 ```
 
-Valid `--category` values:
-
-`developer` · `text` · `data` · `image` · `pdf` · `color` · `encoders` · `converters` · `generators` · `calculators`
+Categories: `developer` · `text` · `data` · `image` · `pdf` · `color` · `encoders` · `converters` · `generators` · `calculators`
 
 Then:
 
-1. Implement `run` (and Valibot `inputSchema`) in `src/lib/tools/<id>/index.ts`
-2. Build the UI in `ui.svelte` using `$ui` components
-3. Fill SEO fields: `title`, `description`, `keywords`, **faq** (≥2–3), **howTo**, `related`, `workflow` when useful
-4. Declare `capabilities`, `share.params`, and `presets` when applicable
-   - Keep share params **compact** (flags, short numbers, small strings)
-   - Do **not** live-sync large document bodies (Markdown drafts, big CSS dumps, etc.) into the URL—Share should copy a short tool link; presets can still apply via a one-shot query param that the UI immediately strips
-5. Prefer ActionBar copy/share over duplicate inline copy buttons
-6. Expand `tests/tools/<id>.test.ts` beyond the scaffold smoke assertion
-7. Open `/tools/<id>` and verify SSR shell + client UI
-8. Use semantic tokens (`bg-bg`, `text-fg`, `border-border`, …) so the tool works in light and dark themes
-
-Image/PDF tools should stay **browser-local** unless there is a strong, documented reason otherwise.
+1. Implement `run` + Valibot `inputSchema` in `src/lib/tools/<id>/index.ts`
+2. Build `ui.svelte` with `$ui` components
+3. Fill SEO: `title`, `description`, `keywords`, **faq** (2–3+), **howTo**, `related`
+4. Set `capabilities`, `share.params`, `presets` when useful  
+   - Keep share params small — do **not** put large documents in the URL
+5. Expand `tests/tools/<id>.test.ts`
+6. Verify `/tools/<id>` (SSR shell + client UI)
+7. Use theme tokens (`bg-bg`, `text-fg`, `border-border`, …)
 
 ## Coding conventions
 
-- **TypeScript** + **Svelte 5** runes (`$state`, `$derived`, `$props`)
-- Validate inputs with **Valibot**; keep `run` pure and testable when possible
-- Use semantic design tokens / existing `$ui` primitives—avoid one-off layout systems and hardcoded `bg-white` / `text-gray-*` that break dark mode
-- Match surrounding file style; no drive-by refactors unrelated to your change
-- Prefer shared utils (`encoding`, `color`, `pdf`, share-state helpers) over copy-paste
-- Do not add billing, public APIs, or user-owned collections without an explicit product decision
-- Theme preference lives in `localStorage` via `src/lib/utils/theme.ts` (default light); do not reintroduce `prefers-color-scheme` as the default unless the product decides otherwise
+- TypeScript + Svelte 5 runes (`$state`, `$derived`, `$props`)
+- Validate with Valibot; keep `run` testable when possible
+- Reuse `$ui` and shared utils — no one-off design systems
+- Match surrounding style; no unrelated drive-by refactors
+- No secrets in commits (`.env`, service role keys, …)
 
-## Testing requirements
-
-Before opening a PR:
+## Testing before a PR
 
 ```sh
 pnpm check
@@ -86,31 +93,37 @@ pnpm lint
 pnpm test
 ```
 
-Also run when UI routes change meaningfully:
+If you touch routes/navigation:
 
 ```sh
 pnpm test:e2e
 ```
 
-Expectations:
+Format with `pnpm format` if needed.
 
-- New tools include Vitest coverage for `run` / edge cases
-- Registry-related changes should not break `tests/tools/registry.test.ts`
-- Do not weaken SEO/a11y contracts on shared shell components without discussion
+## Pull request process
 
-Format locally with `pnpm format` if Prettier fails `pnpm lint`.
+1. Fork the repo (or use a branch if you have write access)
+2. Create a focused branch: `feat/my-tool` or `fix/…`
+3. Make your changes + tests
+4. Open a PR with a clear description of **why**
+5. Maintainers review; address feedback
 
-## Pull request checklist
+### PR checklist
 
+- [ ] I agree to license my contribution under the MIT License
 - [ ] Scope is focused; no unrelated refactors
-- [ ] New/changed tools have metadata: faq, howTo, related (and share/presets if relevant)
-- [ ] Tool does not import Supabase/features from the plugin folder
+- [ ] New/changed tools include faq, howTo, related metadata
+- [ ] Tool plugin does not import Supabase/features
 - [ ] `pnpm check`, `pnpm lint`, and `pnpm test` pass
-- [ ] e2e updated or smoke still green if routes/navigation changed
-- [ ] Docs updated when behavior or env contracts change (`README`, `CHANGELOG`, architecture)
-- [ ] No secrets committed (`.env`, service role keys, etc.)
+- [ ] `CHANGELOG.md` updated under `[Unreleased]` when user-facing
+- [ ] No secrets committed
 
-## Reporting bugs and security issues
+## Bugs and security
 
-- Bugs and features: open a GitHub issue with steps to reproduce
-- Vulnerabilities: follow [SECURITY.md](./SECURITY.md)—do not file public issues for sensitive reports
+- Bugs / features: GitHub Issues
+- Vulnerabilities: follow [SECURITY.md](./SECURITY.md) — do **not** file public exploit details
+
+## Code of Conduct
+
+See [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md). Enforcement contact: **abdul.ali@poshmaals.com**.

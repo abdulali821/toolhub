@@ -7,7 +7,9 @@ const publicSchema = v.object({
 	PUBLIC_SUPABASE_URL: v.optional(v.pipe(v.string(), v.url())),
 	PUBLIC_SUPABASE_ANON_KEY: v.optional(v.string()),
 	PUBLIC_ADS_ENABLED: v.optional(v.string()),
-	PUBLIC_FF_AUTH: v.optional(v.string())
+	PUBLIC_FF_AUTH: v.optional(v.string()),
+	/** Base URL for self-hosted @imgly/background-removal WASM/ONNX assets (trailing slash optional). */
+	PUBLIC_BACKGROUND_REMOVAL_ASSET_PATH: v.optional(v.string())
 });
 
 const privateSchema = v.object({
@@ -28,7 +30,8 @@ export function validateEnv() {
 		PUBLIC_SUPABASE_URL: publicEnv.PUBLIC_SUPABASE_URL,
 		PUBLIC_SUPABASE_ANON_KEY: publicEnv.PUBLIC_SUPABASE_ANON_KEY,
 		PUBLIC_ADS_ENABLED: publicEnv.PUBLIC_ADS_ENABLED,
-		PUBLIC_FF_AUTH: publicEnv.PUBLIC_FF_AUTH
+		PUBLIC_FF_AUTH: publicEnv.PUBLIC_FF_AUTH,
+		PUBLIC_BACKGROUND_REMOVAL_ASSET_PATH: publicEnv.PUBLIC_BACKGROUND_REMOVAL_ASSET_PATH
 	});
 
 	const privateResult = v.safeParse(privateSchema, {

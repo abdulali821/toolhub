@@ -11,13 +11,13 @@
 
 	let { data }: PageProps = $props();
 
-	const trust = [
+	const trust = $derived([
 		{ label: 'Local & Fast', icon: 'bolt' as const },
 		{ label: 'Privacy First', icon: 'shield' as const },
 		{ label: `${data.toolCount}+ Tools`, icon: 'grid' as const },
 		{ label: 'Free Forever', icon: 'box' as const },
 		{ label: 'Browser Based', icon: 'chrome' as const }
-	];
+	]);
 
 	/** Mockup showcase cards → tools catalog filtered by category */
 	const showcase = [

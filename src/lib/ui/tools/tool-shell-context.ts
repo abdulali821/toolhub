@@ -3,10 +3,11 @@ import { getContext, setContext } from 'svelte';
 const KEY = Symbol('heytools.tool-shell');
 
 export type ToolShellActions = {
-	/** Value used by the Copy action. */
+	/** Value used by the Copy action (text, or image data/blob URL when downloadMime is image/*). */
 	copyValue?: string;
 	/** Filename for Download (requires copyValue or downloadValue). */
 	downloadFilename?: string;
+	/** MIME for download; image/* also makes Copy put a PNG on the clipboard. */
 	downloadMime?: string;
 	downloadValue?: string;
 	/** Called when Reset is clicked. */

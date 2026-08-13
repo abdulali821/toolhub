@@ -130,8 +130,50 @@ export function downloadText(
 	URL.revokeObjectURL(href);
 }
 
-export async function copyText(value: string): Promise<boolean> {
+function looksLikeImagePayload(value: string, mime?: string): boolean {
+	if (mime?.startsWith('image/')) return true;
+	if (value.startsWith('data:image/')) return true;
+	if (value.startsWith('blob:')) return Boolean(mime?.startsWith('image/'));
+	return false;
+}
+
+/** Convert a data:/blob: image URL into an image/png Blob for clipboard paste. */
+export async function toPngClipboardBlob(src: string): Promise<Blob> {
+	const res = await fetch(src);
+	const input = await res.blob();
+	if (input.type === 'image/png') return input;
+
+	const bitmap = await createImageBitmap(input);
 	try {
+		const canvas = document.createElement('canvas');
+		canvas.width = bitmap.width;
+		canvas.height = bitmap.height;
+		const ctx = canvas.getContext('2d');
+		if (!ctx) throw new Error('Canvas is not supported in this browser');
+		ctx.drawImage(bitmap, 0, 0);
+		const png = await new Promise<Blob>((resolve, reject) => {
+			canvas.toBlob(
+				(b) => (b ? resolve(b) : reject(new Error('Failed to encode PNG for clipboard'))),
+				'image/png'
+			);
+		});
+		return png;
+	} finally {
+		bitmap.close();
+	}
+}
+
+/**
+ * Copy text, or when the value is an image data/blob URL (or mime is image/*),
+ * copy a real PNG to the clipboard so paste works like a screenshot.
+ */
+export async function copyText(value: string, mime?: string): Promise<boolean> {
+	try {
+		if (looksLikeImagePayload(value, mime)) {
+			const png = await toPngClipboardBlob(value);
+			await navigator.clipboard.write([new ClipboardItem({ 'image/png': png })]);
+			return true;
+		}
 		await navigator.clipboard.writeText(value);
 		return true;
 	} catch {

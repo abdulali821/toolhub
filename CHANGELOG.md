@@ -7,10 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-Catalog is now **~102 tools** (up from **76** at v1.0.0).
+Catalog is now **~103 tools** (up from **76** at v1.0.0).
 
 ### Added
 
+- Background Remover (`background-remover`): on-device AI via `@imgly/background-removal` + `onnxruntime-web` (default), plus classic color-key / magic-wand; images stay in the browser
 - Barcode Generator (`barcode-generator`): CODE128, CODE39, EAN-13/8, UPC, ITF-14, Codabar, and MSI as browser-local PNG via JsBarcode
 - Dark mode theme toggle (sun/moon) in the header, persisted via `localStorage` (default **light**)
 - Markdown to PDF (`markdown-to-pdf`): browser-local PDF via `pdf-lib`, page thumbnail grid, eye-icon modal preview with prev/next

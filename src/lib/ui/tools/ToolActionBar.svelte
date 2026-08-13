@@ -41,7 +41,7 @@
 
 	async function onCopy() {
 		const value = actions.copyValue ?? '';
-		const ok = await copyText(value);
+		const ok = await copyText(value, actions.downloadMime);
 		copyStatus = ok ? 'copied' : 'failed';
 		setTimeout(() => {
 			copyStatus = 'idle';
