@@ -102,9 +102,7 @@
 		processing = true;
 		error = null;
 		lastFailedAi = false;
-		progressMessage = isBackgroundRemovalModelReady()
-			? 'Removing background…'
-			: 'Preparing AI…';
+		progressMessage = isBackgroundRemovalModelReady() ? 'Removing background…' : 'Preparing AI…';
 		progressRatio = null;
 		hint = isBackgroundRemovalModelReady()
 			? 'Model is cached in this browser. Your image stays on-device.'
@@ -309,7 +307,12 @@
 							disabled={processing}
 							aria-label="Background key color"
 						/>
-						<Input id="br-color" bind:value={color} class="font-mono text-sm" disabled={processing} />
+						<Input
+							id="br-color"
+							bind:value={color}
+							class="font-mono text-sm"
+							disabled={processing}
+						/>
 					</div>
 				</Field>
 			{:else}
