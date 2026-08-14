@@ -36,13 +36,13 @@ Implement `src/lib/tools/my-tool/index.ts` + `ui.svelte`, add tests, open a PR.
 
 ## Community docs (repo root)
 
-| Doc | Purpose |
-| --- | ------- |
-| [CONTRIBUTING.md](./CONTRIBUTING.md) | How to contribute and add tools |
-| [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) | Community standards |
-| [SECURITY.md](./SECURITY.md) | Vulnerability reporting |
-| [CHANGELOG.md](./CHANGELOG.md) | Release history |
-| [LICENSE](./LICENSE) | PolyForm Noncommercial — no commercial use |
+| Doc                                        | Purpose                                    |
+| ------------------------------------------ | ------------------------------------------ |
+| [CONTRIBUTING.md](./CONTRIBUTING.md)       | How to contribute and add tools            |
+| [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) | Community standards                        |
+| [SECURITY.md](./SECURITY.md)               | Vulnerability reporting                    |
+| [CHANGELOG.md](./CHANGELOG.md)             | Release history                            |
+| [LICENSE](./LICENSE)                       | PolyForm Noncommercial — no commercial use |
 
 ---
 
