@@ -24,6 +24,9 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      # svelte-kit `$env/static/public` types only exist for vars present at sync time.
+      # CI has no `.env`; placeholders from `.env.example` are enough (not secrets).
+      - run: cp .env.example .env
       - run: pnpm check
       - run: pnpm lint
       - run: pnpm test
