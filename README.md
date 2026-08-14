@@ -1,6 +1,6 @@
 # HeyTools
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
+[![License: PolyForm Noncommercial](https://img.shields.io/badge/License-PolyForm%20Noncommercial-red.svg)](./LICENSE)
 [![Code of Conduct](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](./CODE_OF_CONDUCT.md)
 
 Free, SEO-first **online tools** — not a SaaS.
@@ -9,7 +9,7 @@ Format, convert, generate, and transform text, data, images, and PDFs. Most tool
 
 **Live:** [https://heytools.app](https://heytools.app)
 
-**Owner / maintainer:** Abdul Ali · **License:** [MIT](./LICENSE) (copyright remains with the owner; contributions are welcome under the same terms)
+**Owner / maintainer:** Abdul Ali · **License:** [PolyForm Noncommercial 1.0.0](./LICENSE) (copyright remains with the owner; contribute and use non-commercially)
 
 ---
 
@@ -36,13 +36,13 @@ Implement `src/lib/tools/my-tool/index.ts` + `ui.svelte`, add tests, open a PR.
 
 ## Community docs (repo root)
 
-| Doc                                        | Purpose                         |
-| ------------------------------------------ | ------------------------------- |
-| [CONTRIBUTING.md](./CONTRIBUTING.md)       | How to contribute and add tools |
-| [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) | Community standards             |
-| [SECURITY.md](./SECURITY.md)               | Vulnerability reporting         |
-| [CHANGELOG.md](./CHANGELOG.md)             | Release history                 |
-| [LICENSE](./LICENSE)                       | MIT license                     |
+| Doc | Purpose |
+| --- | ------- |
+| [CONTRIBUTING.md](./CONTRIBUTING.md) | How to contribute and add tools |
+| [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) | Community standards |
+| [SECURITY.md](./SECURITY.md) | Vulnerability reporting |
+| [CHANGELOG.md](./CHANGELOG.md) | Release history |
+| [LICENSE](./LICENSE) | PolyForm Noncommercial — no commercial use |
 
 ---
 
@@ -127,9 +127,11 @@ SvelteKit 2 · Svelte 5 · TypeScript · Tailwind CSS v4 · Valibot · Supabase 
 
 ## License and ownership
 
-Copyright © 2026 **Abdul Ali**. Released under the [MIT License](./LICENSE).
+Copyright © 2026 **Abdul Ali**. Licensed under the [PolyForm Noncommercial License 1.0.0](./LICENSE).
 
-You may fork, modify, and contribute. The **HeyTools** name and branding remain with the project owner. Significant contributions should be submitted as pull requests; by opening a PR you agree to license your contribution under MIT.
+You may fork, study, modify, and contribute to make HeyTools better for everyone. You **may not** use this software (or a modified version) for a commercial purpose — including running a competing paid/ad-supported tools site, selling the code, or building a commercial product on top of it — without a separate license from the owner.
+
+The **HeyTools** name and branding remain with the project owner. By opening a PR you agree to license your contribution under the same noncommercial terms.
 
 ### Third-party note
 
