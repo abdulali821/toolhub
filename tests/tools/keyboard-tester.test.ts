@@ -43,9 +43,11 @@ describe('keyboard-tester', () => {
 
 	it('lists active modifiers in a stable order', () => {
 		expect(modifiersFromEvent(base)).toEqual([]);
-		expect(
-			modifiersFromEvent({ ...base, ctrlKey: true, shiftKey: true, metaKey: true })
-		).toEqual(['Ctrl', 'Shift', 'Meta']);
+		expect(modifiersFromEvent({ ...base, ctrlKey: true, shiftKey: true, metaKey: true })).toEqual([
+			'Ctrl',
+			'Shift',
+			'Meta'
+		]);
 	});
 
 	it('includes modifiers in the formatted summary', () => {

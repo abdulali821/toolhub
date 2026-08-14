@@ -56,9 +56,7 @@ describe('background-remove utils', () => {
 	});
 
 	it('wand only floods connected matching pixels', () => {
-		const data = new Uint8ClampedArray([
-			255, 255, 255, 255, 255, 0, 0, 255, 255, 255, 255, 255
-		]);
+		const data = new Uint8ClampedArray([255, 255, 255, 255, 255, 0, 0, 255, 255, 255, 255, 255]);
 		removeBackgroundFromRgba(data, 3, 1, {
 			mode: 'wand',
 			target: { r: 255, g: 255, b: 255 },

@@ -7,11 +7,7 @@ import { getBackgroundRemovalAssetPath } from './config';
 import { isBrowserAiRemovalSupported } from './support';
 
 export type AiRemovalProgressPhase =
-	| 'preparing'
-	| 'downloading'
-	| 'removing'
-	| 'almost_done'
-	| 'done';
+	'preparing' | 'downloading' | 'removing' | 'almost_done' | 'done';
 
 export type AiRemovalProgress = {
 	phase: AiRemovalProgressPhase;
@@ -185,9 +181,8 @@ export async function removeBackgroundWithAi(
 			report({ phase: 'removing', message: 'Removing background…' });
 		}
 
-		const { removeBackground: imglyRemoveBackground, preload } = await import(
-			'@imgly/background-removal'
-		);
+		const { removeBackground: imglyRemoveBackground, preload } =
+			await import('@imgly/background-removal');
 
 		if (generation !== activeGeneration) {
 			throw new Error('Cancelled');

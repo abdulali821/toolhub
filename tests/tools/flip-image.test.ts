@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 
-vi.mock('../../src/lib/utils/image-canvas', () => ({
+vi.mock('$lib/utils/image-canvas', () => ({
 	flipImage: vi.fn(async () => 'data:image/png;base64,flipped'),
 	IMAGE_FILE_CONSTRAINTS: {
 		maxBytes: 2 * 1024 * 1024,
@@ -10,7 +10,7 @@ vi.mock('../../src/lib/utils/image-canvas', () => ({
 	}
 }));
 
-import { flipImage as flipImageHelper } from '../../src/lib/utils/image-canvas';
+import { flipImage as flipImageHelper } from '$lib/utils/image-canvas';
 import { flipImage, run } from '../../src/lib/tools/flip-image';
 
 describe('flip-image', () => {

@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 
-vi.mock('../../src/lib/utils/image-canvas', () => ({
+vi.mock('$lib/utils/image-canvas', () => ({
 	convertImageFormat: vi.fn(async () => 'data:image/png;base64,converted'),
 	JPEG_FILE_CONSTRAINTS: {
 		maxBytes: 2 * 1024 * 1024,
@@ -10,7 +10,7 @@ vi.mock('../../src/lib/utils/image-canvas', () => ({
 	}
 }));
 
-import { convertImageFormat } from '../../src/lib/utils/image-canvas';
+import { convertImageFormat } from '$lib/utils/image-canvas';
 import { jpgToPng, run } from '../../src/lib/tools/jpg-to-png';
 
 describe('jpg-to-png', () => {

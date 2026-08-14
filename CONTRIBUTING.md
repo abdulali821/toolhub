@@ -17,17 +17,17 @@ Please open an issue before large refactors or new product directions (billing, 
 
 ## Project structure
 
-| Path | Purpose |
-| ---- | ------- |
-| `src/routes` | Thin SvelteKit pages and endpoints |
-| `src/lib/engine` | Plugin contracts, registry, share-state |
-| `src/lib/tools/<id>/` | One folder per tool (`index.ts`, `ui.svelte`) |
-| `src/lib/seo` | Metadata and JSON-LD builders |
-| `src/lib/ui` | Shared UI components |
-| `src/lib/features` | Favorites / history (optional Supabase) |
-| `src/lib/config` | Site name, categories, collections |
-| `tests/tools` | Vitest tests per tool |
-| `scripts/new-tool.mjs` | Tool scaffold CLI |
+| Path                   | Purpose                                       |
+| ---------------------- | --------------------------------------------- |
+| `src/routes`           | Thin SvelteKit pages and endpoints            |
+| `src/lib/engine`       | Plugin contracts, registry, share-state       |
+| `src/lib/tools/<id>/`  | One folder per tool (`index.ts`, `ui.svelte`) |
+| `src/lib/seo`          | Metadata and JSON-LD builders                 |
+| `src/lib/ui`           | Shared UI components                          |
+| `src/lib/features`     | Favorites / history (optional Supabase)       |
+| `src/lib/config`       | Site name, categories, collections            |
+| `tests/tools`          | Vitest tests per tool                         |
+| `scripts/new-tool.mjs` | Tool scaffold CLI                             |
 
 **Aliases:** `$lib`, `$engine`, `$tools`, `$seo`, `$ui`, `$server`.
 
@@ -54,7 +54,7 @@ cp .env.example .env
 pnpm dev
 ```
 
-App: http://localhost:5173  
+App: http://localhost:5173
 
 Supabase env vars are optional for local tool work.
 
@@ -71,7 +71,7 @@ Then:
 1. Implement `run` + Valibot `inputSchema` in `src/lib/tools/<id>/index.ts`
 2. Build `ui.svelte` with `$ui` components
 3. Fill SEO: `title`, `description`, `keywords`, **faq** (2–3+), **howTo**, `related`
-4. Set `capabilities`, `share.params`, `presets` when useful  
+4. Set `capabilities`, `share.params`, `presets` when useful
    - Keep share params small — do **not** put large documents in the URL
 5. Expand `tests/tools/<id>.test.ts`
 6. Verify `/tools/<id>` (SSR shell + client UI)

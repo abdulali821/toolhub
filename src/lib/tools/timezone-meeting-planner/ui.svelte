@@ -110,11 +110,14 @@
 				Cities to show ({zones.length}/{TIMEZONE_PRESETS.length})
 			</legend>
 			<div class="flex flex-wrap gap-2">
-				<Button type="button" variant="ghost" size="sm" onclick={selectAllCities}>Select all</Button>
+				<Button type="button" variant="ghost" size="sm" onclick={selectAllCities}>Select all</Button
+				>
 				<Button type="button" variant="ghost" size="sm" onclick={clearCities}>Clear</Button>
 			</div>
 		</div>
-		<div class="grid max-h-80 grid-cols-2 gap-2 overflow-y-auto sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+		<div
+			class="grid max-h-80 grid-cols-2 gap-2 overflow-y-auto sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
+		>
 			{#each TIMEZONE_PRESETS as preset (preset.id)}
 				<label
 					class="flex items-center gap-2 rounded-md border border-border bg-bg px-2.5 py-2 text-sm text-fg"
