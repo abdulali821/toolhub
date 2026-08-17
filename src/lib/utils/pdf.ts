@@ -1,4 +1,5 @@
 import { PDFDocument, degrees, type PDFPage } from 'pdf-lib';
+import { imageCompressPreset } from './pdf-image-compress';
 import * as v from 'valibot';
 
 export const uint8ArraySchema = v.custom<Uint8Array>(
@@ -80,38 +81,48 @@ export async function splitPdf(
 	return { files, pageCount };
 }
 
+export type PdfCompressMode = 'recommended' | 'high' | 'extreme';
+
+export type PdfImageRecompressFn = (
+	doc: PDFDocument,
+	options: { quality: number; maxLongEdge: number }
+) => Promise<{ scanned: number; replaced: number; skipped: number; failed: number }>;
+
 export async function compressPdf(
 	bytes: Uint8Array,
 	options: {
-		mode?: 'structure' | 'balanced' | 'strong';
-		/** Used by strong mode (0.4–0.92). */
+		mode?: PdfCompressMode;
+		/** Used by extreme mode (0.4–0.92). */
 		quality?: number;
-		/** Render scale for strong mode. */
+		/** Render scale for extreme mode. */
 		scale?: number;
-		/**
-		 * Browser-only strong compressor. Injected from UI so Node tests stay pure.
-		 * Receives PDF bytes and returns compressed PDF bytes.
-		 */
+		/** Browser-only JPEG recompressor. Required only for extreme mode. */
 		rasterize?: (input: {
 			bytes: Uint8Array;
 			quality: number;
 			scale: number;
 		}) => Promise<Uint8Array>;
+		/** Browser-only embedded image recompressor for recommended/high modes. */
+		recompressImages?: PdfImageRecompressFn;
 	} = {}
 ): Promise<{
 	pdfBytes: Uint8Array;
 	originalBytes: number;
 	compressedBytes: number;
 	pageCount: number;
-	mode: 'structure' | 'balanced' | 'strong';
+	mode: PdfCompressMode;
+	/** How the bytes were produced. */
+	technique: 'rewrite' | 'raster' | 'images';
+	imagesReplaced: number;
+	imagesScanned: number;
 }> {
-	const mode = options.mode ?? 'structure';
+	const mode = options.mode ?? 'recommended';
 	const quality = options.quality ?? 0.72;
-	const scale = options.scale ?? 1.25;
+	const scale = options.scale ?? 1.0;
 
-	if (mode === 'strong') {
+	if (mode === 'extreme') {
 		if (!options.rasterize) {
-			throw new Error('Strong compression requires the browser rasterizer');
+			throw new Error('Extreme compression requires the browser rasterizer');
 		}
 		const pdfBytes = await options.rasterize({ bytes, quality, scale });
 		const src = await PDFDocument.load(bytes);
@@ -120,28 +131,51 @@ export async function compressPdf(
 			originalBytes: bytes.length,
 			compressedBytes: pdfBytes.length,
 			pageCount: src.getPageCount(),
-			mode
+			mode,
+			technique: 'raster',
+			imagesReplaced: 0,
+			imagesScanned: 0
 		};
 	}
 
-	const src = await PDFDocument.load(bytes);
-	const pageCount = src.getPageCount();
-	const out = await PDFDocument.create();
-	const pages = await out.copyPages(src, src.getPageIndices());
-	for (const page of pages) out.addPage(page);
+	const doc = await PDFDocument.load(bytes);
+	const pageCount = doc.getPageCount();
 
-	if (mode === 'balanced') {
-		// Keep title/author lightly; drop bulk metadata that often bloats exports
-		const title = src.getTitle();
-		if (title) out.setTitle(title);
-	} else {
-		const title = src.getTitle();
-		const author = src.getAuthor();
-		if (title) out.setTitle(title);
-		if (author) out.setAuthor(author);
+	const title = doc.getTitle();
+	const author = doc.getAuthor();
+	const subject = doc.getSubject();
+	const keywords = doc.getKeywords();
+	const creator = doc.getCreator();
+	const producer = doc.getProducer();
+	const created = doc.getCreationDate();
+	const modified = doc.getModificationDate();
+
+	if (title) doc.setTitle(title);
+	if (mode === 'high') {
+		if (author) doc.setAuthor(author);
+		if (subject) doc.setSubject(subject);
+		if (keywords) doc.setKeywords(keywords);
+		if (creator) doc.setCreator(creator);
+		if (producer) doc.setProducer(producer);
+		if (created) doc.setCreationDate(created);
+		if (modified) doc.setModificationDate(modified);
+	} else if (author) {
+		doc.setAuthor(author);
 	}
 
-	const pdfBytes = await out.save({
+	let imagesReplaced = 0;
+	let imagesScanned = 0;
+	let technique: 'rewrite' | 'images' = 'rewrite';
+
+	if (options.recompressImages) {
+		const preset = imageCompressPreset(mode === 'high' ? 'high' : 'recommended');
+		const stats = await options.recompressImages(doc, preset);
+		imagesReplaced = stats.replaced;
+		imagesScanned = stats.scanned;
+		if (stats.replaced > 0) technique = 'images';
+	}
+
+	const pdfBytes = await doc.save({
 		useObjectStreams: true
 	});
 
@@ -150,7 +184,10 @@ export async function compressPdf(
 		originalBytes: bytes.length,
 		compressedBytes: pdfBytes.length,
 		pageCount,
-		mode
+		mode,
+		technique,
+		imagesReplaced,
+		imagesScanned
 	};
 }
 
