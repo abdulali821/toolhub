@@ -5,10 +5,9 @@
 	import { validateFile } from '$lib/utils/file';
 	import { pdfBytesToDataUrl } from '$lib/utils/pdf';
 	import { PDFDocument } from 'pdf-lib';
-	import { renderPdfPages } from '../pdf-to-images/render';
-	import { pdfCompress, run } from './index';
-
-	type Mode = 'structure' | 'balanced' | 'strong';
+	import { adaptiveRasterScale, rasterizePdfToJpeg } from './raster';
+	import { recompressEmbeddedImages } from '$lib/utils/pdf-image-compress';
+	import { pdfCompress, run, type CompressMode } from './index';
 
 	let error = $state<string | null>(null);
 	let sourceBytes = $state<Uint8Array | null>(null);
@@ -17,47 +16,41 @@
 	let originalBytes = $state(0);
 	let compressedBytes = $state(0);
 	let pageCount = $state(0);
-	let mode = $state<Mode>('balanced');
+	let technique = $state<'rewrite' | 'raster' | 'images'>('rewrite');
+	let imagesReplaced = $state(0);
+	let imagesScanned = $state(0);
+	let mode = $state<CompressMode>('recommended');
 	let quality = $state(0.72);
 	let processing = $state(false);
 	let inputEl = $state<HTMLInputElement | null>(null);
 
-	async function rasterizeStrong(input: {
+	const levels: { value: CompressMode; title: string; hint: string }[] = [
+		{
+			value: 'recommended',
+			title: 'Recommended',
+			hint: 'Good balance of size and quality'
+		},
+		{
+			value: 'high',
+			title: 'Less compression',
+			hint: 'Higher quality, larger file'
+		},
+		{
+			value: 'extreme',
+			title: 'Extreme',
+			hint: 'Smallest file — best for scans and photos'
+		}
+	];
+
+	async function rasterize(input: {
 		bytes: Uint8Array;
 		quality: number;
 		scale: number;
 	}): Promise<Uint8Array> {
 		const src = await PDFDocument.load(input.bytes);
-		const count = src.getPageCount();
-		const pages = await renderPdfPages(
-			input.bytes,
-			Array.from({ length: count }, (_, i) => i + 1),
-			input.scale,
-			'image/jpeg',
-			input.quality
-		);
-
-		const out = await PDFDocument.create();
-		for (const page of pages) {
-			const jpgBytes = dataUrlToBytes(page.dataUrl);
-			const image = await out.embedJpg(jpgBytes);
-			const pdfPage = out.addPage([page.width, page.height]);
-			pdfPage.drawImage(image, {
-				x: 0,
-				y: 0,
-				width: page.width,
-				height: page.height
-			});
-		}
-		return out.save({ useObjectStreams: true });
-	}
-
-	function dataUrlToBytes(dataUrl: string): Uint8Array {
-		const base64 = dataUrl.split(',')[1] ?? '';
-		const binary = atob(base64);
-		const bytes = new Uint8Array(binary.length);
-		for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-		return bytes;
+		const { width } = src.getPage(0).getSize();
+		const scale = adaptiveRasterScale(width, input.scale);
+		return rasterizePdfToJpeg(input.bytes, input.quality, scale);
 	}
 
 	async function compress() {
@@ -67,12 +60,15 @@
 		try {
 			const out = await run(
 				{ pdf: sourceBytes, mode, quality: Number(quality) },
-				mode === 'strong' ? rasterizeStrong : undefined
+				mode === 'extreme' ? { rasterize } : { recompressImages: recompressEmbeddedImages }
 			);
 			outputBytes = out.pdfBytes;
 			originalBytes = out.originalBytes;
 			compressedBytes = out.compressedBytes;
 			pageCount = out.pageCount;
+			technique = out.technique;
+			imagesReplaced = out.imagesReplaced;
+			imagesScanned = out.imagesScanned;
 		} catch (err) {
 			outputBytes = null;
 			error = err instanceof Error ? err.message : 'Failed to compress PDF';
@@ -119,7 +115,10 @@
 				originalBytes = 0;
 				compressedBytes = 0;
 				pageCount = 0;
-				mode = 'balanced';
+				technique = 'rewrite';
+				imagesReplaced = 0;
+				imagesScanned = 0;
+				mode = 'recommended';
 				quality = 0.72;
 			}
 		});
@@ -152,24 +151,33 @@
 		onchange={(e) => onFile((e.currentTarget as HTMLInputElement).files)}
 	/>
 
-	{#if !sourceBytes}
-		<p class="text-sm text-muted">Upload a PDF, then choose how aggressively to compress it.</p>
-	{/if}
-
 	{#if sourceBytes}
-		<Field id="pc-mode" label="Compression mode">
-			<select
-				id="pc-mode"
-				class="h-10 w-full rounded-md border border-border bg-bg px-3 text-sm"
-				bind:value={mode}
-			>
-				<option value="structure">Structure — rewrite object streams (lossless layout)</option>
-				<option value="balanced">Balanced — structure + leaner metadata (default)</option>
-				<option value="strong">Strong — rasterize pages to JPEG (best for scans)</option>
-			</select>
+		<Field id="pc-mode" label="Compression level">
+			<div class="flex flex-col gap-2" role="radiogroup" aria-labelledby="pc-mode">
+				{#each levels as level (level.value)}
+					<label
+						class="flex cursor-pointer gap-3 rounded-md border px-3 py-3 transition-colors {mode ===
+						level.value
+							? 'border-fg bg-bg-elevated'
+							: 'border-border hover:border-fg/40'}"
+					>
+						<input
+							type="radio"
+							name="pc-mode"
+							value={level.value}
+							bind:group={mode}
+							class="mt-1 accent-fg"
+						/>
+						<span class="min-w-0">
+							<span class="block font-medium text-fg">{level.title}</span>
+							<span class="mt-0.5 block text-sm text-muted">{level.hint}</span>
+						</span>
+					</label>
+				{/each}
+			</div>
 		</Field>
 
-		{#if mode === 'strong'}
+		{#if mode === 'extreme'}
 			<Field id="pc-quality" label="JPEG quality" hint="Lower = smaller file, more artifacts">
 				<input
 					id="pc-quality"
@@ -178,20 +186,20 @@
 					max="0.92"
 					step="0.02"
 					bind:value={quality}
-					class="w-full"
+					class="w-full accent-fg"
 				/>
 				<p class="mt-1 text-sm text-muted">{Number(quality).toFixed(2)}</p>
 			</Field>
-			<Alert variant="warning" title="Strong mode note">
-				Pages become images. Text will no longer be selectable or searchable.
+			<Alert variant="warning" title="Heads up">
+				This mode makes each page an image. Use Recommended if you need to copy text from the PDF.
 			</Alert>
+		{:else if mode === 'high'}
+			<p class="text-sm text-muted">Keeps more detail. File may not shrink as much.</p>
 		{/if}
 	{/if}
 
 	{#if processing}
-		<p class="text-sm text-muted">
-			{mode === 'strong' ? 'Rasterizing and rebuilding…' : 'Compressing…'}
-		</p>
+		<p class="text-sm text-muted">Compressing…</p>
 	{/if}
 
 	{#if error}
@@ -206,9 +214,18 @@
 			{#if savings > 0}
 				({savings}% smaller)
 			{:else if savings < 0}
-				({Math.abs(savings)}% larger — try Strong mode for scans)
+				({Math.abs(savings)}% larger — try lower JPEG quality in Extreme mode)
 			{:else}
 				(no change)
+			{/if}
+			{#if technique === 'raster'}
+				<span class="mt-1 block text-sm">Saved as image pages.</span>
+			{:else if imagesScanned === 0 && savings === 0}
+				<span class="mt-1 block text-sm">Try Extreme mode if you need a smaller file.</span>
+			{:else if technique === 'images' && imagesReplaced > 0}
+				<span class="mt-1 block text-sm"
+					>Optimized {imagesReplaced} image{imagesReplaced === 1 ? '' : 's'}.</span
+				>
 			{/if}
 		</Alert>
 

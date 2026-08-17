@@ -103,6 +103,8 @@ import { keyboardTester } from './keyboard-tester';
 import { glassmorphismGenerator } from './glassmorphism-generator';
 import { deviceTester } from './device-tester';
 import { backgroundRemover } from './background-remover';
+import { imageTiler } from './image-tiler';
+import { imageSplitter } from './image-splitter';
 
 const tools = [
 	jsonFormatter,
@@ -207,7 +209,9 @@ const tools = [
 	keyboardTester,
 	glassmorphismGenerator,
 	deviceTester,
-	backgroundRemover
+	backgroundRemover,
+	imageTiler,
+	imageSplitter
 ] as const;
 
 // Vite HMR re-executes this module while the engine Map may still hold prior entries.

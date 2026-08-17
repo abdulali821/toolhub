@@ -74,6 +74,7 @@ describe('compressPdf', () => {
 		expect(out.pageCount).toBe(1);
 		expect(out.originalBytes).toBe(pdf.length);
 		expect(out.compressedBytes).toBe(out.pdfBytes.length);
+		expect(out.technique).toBe('rewrite');
 		expect(out.pdfBytes.byteLength).toBeGreaterThan(0);
 	});
 });

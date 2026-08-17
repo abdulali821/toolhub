@@ -81,9 +81,9 @@ export const backgroundRemover: ToolDefinition<BackgroundRemoverInput, Backgroun
 		],
 		related: ['crop-image', 'image-converter', 'image-compressor', 'favicon-generator'],
 		howTo: [
+			'Choose AI, Color key, or Magic wand before you upload',
 			'Upload a PNG, JPEG, GIF, or WebP (up to 5 MB)',
-			'Use AI (default) for photos and products, or switch to Color key / Magic wand for logos',
-			'Wait for the on-device model on first use (cached afterward)',
+			'Remove background with clicks; use Clean speckles or Sweep key color for leftover dots',
 			'Download the transparent PNG'
 		],
 		faq: [
@@ -101,6 +101,16 @@ export const backgroundRemover: ToolDefinition<BackgroundRemoverInput, Backgroun
 				question: 'AI vs color key vs magic wand?',
 				answer:
 					'AI segments the subject automatically and works best on photos and products. Color key removes all pixels near a chosen color. Magic wand removes a connected region you click—useful for simple logos.'
+			},
+			{
+				question: 'Magic wand left green dots around my subject — what do I do?',
+				answer:
+					'Use Clean speckles to delete tiny leftover blobs, then Sweep key color with the forest/background color sampled (raise tolerance if needed). Eraser can paint back anything removed by mistake.'
+			},
+			{
+				question: 'Can I undo part of the removal?',
+				answer:
+					'Yes. After background is removed, switch Result tool to Eraser and paint over areas to restore the original pixels from your upload. Adjust eraser size with the slider.'
 			},
 			{
 				question: 'Why is Share disabled?',

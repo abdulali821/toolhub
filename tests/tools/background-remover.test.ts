@@ -1,6 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
 import {
-	colorDistance,
 	parseHexColor,
 	removeBackgroundFromRgba,
 	rgbToHex,
@@ -70,8 +69,20 @@ describe('background-remove utils', () => {
 		expect(data[11]).toBe(255);
 	});
 
-	it('colorDistance uses chebyshev metric', () => {
-		expect(colorDistance(10, 20, 30, 12, 25, 30)).toBe(5);
+	it('wand does not flood through already-transparent pixels', () => {
+		const data = new Uint8ClampedArray([
+			255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255
+		]);
+		removeBackgroundFromRgba(data, 2, 2, {
+			mode: 'wand',
+			target: { r: 255, g: 255, b: 255 },
+			tolerance: 0,
+			feather: 0,
+			seedX: 0,
+			seedY: 0
+		});
+		expect(data[3]).toBe(0);
+		expect(data[15]).toBe(255);
 	});
 });
 

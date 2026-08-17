@@ -103,6 +103,9 @@ export function removeBackgroundFromRgba(
 	}
 
 	const seedIdx = (seedY * width + seedX) * 4;
+	if (data[seedIdx + 3]! === 0) {
+		throw new Error('Click a visible area — transparent pixels cannot be sampled.');
+	}
 	const sr = data[seedIdx]!;
 	const sg = data[seedIdx + 1]!;
 	const sb = data[seedIdx + 2]!;
@@ -117,6 +120,7 @@ export function removeBackgroundFromRgba(
 		const x = p % width;
 		const y = (p - x) / width;
 		const i = p * 4;
+		if (data[i + 3]! === 0) continue;
 		const d = colorDistance(data[i]!, data[i + 1]!, data[i + 2]!, sr, sg, sb);
 		if (d > tol) continue;
 		mask.push(p);
@@ -129,6 +133,7 @@ export function removeBackgroundFromRgba(
 		];
 		for (const n of neighbors) {
 			if (n < 0 || visited[n]) continue;
+			if (data[n * 4 + 3]! === 0) continue;
 			visited[n] = 1;
 			queue.push(n);
 		}

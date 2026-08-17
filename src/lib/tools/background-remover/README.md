@@ -4,6 +4,7 @@ Remove backgrounds in the browser:
 
 - **AI (default)** — `@imgly/background-removal` + `onnxruntime-web` (ONNX/WASM). Image stays on-device; model assets may download once and cache.
 - **Color key / Magic wand** — classic canvas algorithms for logos and solid backdrops.
+- **Eraser** — after removal, paint on the result to restore original pixels (adjustable circular brush).
 
 ## Config
 
