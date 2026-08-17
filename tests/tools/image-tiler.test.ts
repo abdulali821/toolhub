@@ -110,9 +110,9 @@ describe('image-tiler tool', () => {
 		expect(imageTiler.capabilities).toContain('download');
 		expect(imageTiler.capabilities).not.toContain('share');
 		expect(imageTiler.workflow?.next).toEqual([
+			'image-divider',
 			'image-resizer',
-			'image-compressor',
-			'background-remover'
+			'image-compressor'
 		]);
 	});
 

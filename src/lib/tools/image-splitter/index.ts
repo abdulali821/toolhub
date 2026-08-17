@@ -63,7 +63,7 @@ export const imageSplitter: ToolDefinition<ImageSplitterInput, ImageSplitterOutp
 			'split photo online',
 			'divide image'
 		],
-		related: ['crop-image', 'image-tiler', 'image-resizer', 'image-compressor'],
+		related: ['crop-image', 'image-tiler', 'image-divider', 'image-resizer'],
 		howTo: [
 			'Upload a PNG, JPEG, GIF, or WebP',
 			'Choose vertical, horizontal, or grid split',

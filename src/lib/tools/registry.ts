@@ -105,6 +105,7 @@ import { deviceTester } from './device-tester';
 import { backgroundRemover } from './background-remover';
 import { imageTiler } from './image-tiler';
 import { imageSplitter } from './image-splitter';
+import { imageDivider } from './image-divider';
 
 const tools = [
 	jsonFormatter,
@@ -211,7 +212,8 @@ const tools = [
 	deviceTester,
 	backgroundRemover,
 	imageTiler,
-	imageSplitter
+	imageSplitter,
+	imageDivider
 ] as const;
 
 // Vite HMR re-executes this module while the engine Map may still hold prior entries.
