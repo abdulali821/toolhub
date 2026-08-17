@@ -144,7 +144,7 @@ export const imageTiler: ToolDefinition<ImageTilerInput, ImageTilerOutput> = {
 	capabilities: ['upload', 'download', 'copy', 'reset', 'favorite'],
 	file: IMAGE_FILE_CONSTRAINTS,
 	workflow: {
-		next: ['image-resizer', 'image-compressor', 'background-remover']
+		next: ['image-divider', 'image-resizer', 'image-compressor']
 	},
 	metadata: {
 		name: 'Image Tiler',
@@ -160,7 +160,7 @@ export const imageTiler: ToolDefinition<ImageTilerInput, ImageTilerOutput> = {
 			'wallpaper maker',
 			'tiling preview'
 		],
-		related: ['image-resizer', 'background-remover', 'image-converter', 'crop-image'],
+		related: ['image-divider', 'image-resizer', 'background-remover', 'crop-image'],
 		howTo: [
 			'Upload a PNG, JPEG, GIF, or WebP',
 			'Watch the live tiled preview — seams show up as a grid if the image does not repeat cleanly',

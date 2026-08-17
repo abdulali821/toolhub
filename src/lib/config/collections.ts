@@ -69,7 +69,7 @@ export const platformCollections: PlatformCollection[] = [
 		id: 'image-essentials',
 		name: 'Image Essentials',
 		description:
-			'Compress, resize, crop, convert, tile, and inspect images locally—PNG, JPG, WebP, and SVG.',
+			'Compress, resize, crop, convert, tile, split, and make divider banners locally—PNG, JPG, WebP, and SVG.',
 		toolIds: [
 			'image-compressor',
 			'image-resizer',
@@ -78,6 +78,7 @@ export const platformCollections: PlatformCollection[] = [
 			'background-remover',
 			'image-tiler',
 			'image-splitter',
+			'image-divider',
 			'favicon-generator',
 			'image-converter',
 			'image-watermark',
