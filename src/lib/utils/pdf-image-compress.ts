@@ -6,6 +6,7 @@ import {
 	PDFRawStream,
 	PDFNumber,
 	PDFArray,
+	PDFBool,
 	PDFFlateStream,
 	decodePDFRawStream,
 	type PDFStream
@@ -56,7 +57,8 @@ function hasMask(dict: PDFDict): boolean {
 	if (dict.lookup(PDFName.of('SMask'))) return true;
 	if (dict.lookup(PDFName.of('Mask'))) return true;
 	const imageMask = dict.lookup(PDFName.of('ImageMask'));
-	return Boolean(imageMask && 'asBoolean' in imageMask && imageMask.asBoolean());
+	if (imageMask instanceof PDFBool && imageMask.asBoolean()) return true;
+	return false;
 }
 
 function filterChain(dict: PDFDict): string[] {
@@ -119,7 +121,9 @@ function rawColorSpace(
 		if (first === PDFName.of('ICCBased') && cs.size() >= 2) {
 			const profileRef = cs.lookup(1, PDFRef);
 			const profile = profileRef ? context.lookup(profileRef) : undefined;
-			const n = profile?.dict?.lookup(PDFName.of('N'));
+			const profileDict =
+				profile instanceof PDFDict ? profile : isPdfStream(profile) ? profile.dict : undefined;
+			const n = profileDict?.lookup(PDFName.of('N'));
 			if (n instanceof PDFNumber) {
 				if (n.asNumber() === 3) return 'DeviceRGB';
 				if (n.asNumber() === 1) return 'DeviceGray';
@@ -141,7 +145,9 @@ function decodeStreamBytes(stream: PDFStream): Uint8Array {
 		return contents.slice();
 	}
 	try {
-		return decodePDFRawStream({ dict: stream.dict, contents }).getBytes();
+		const raw = PDFRawStream.of(stream.dict, contents);
+		const decoded = decodePDFRawStream(raw);
+		return decoded.decode();
 	} catch {
 		return contents.slice();
 	}
@@ -307,7 +313,7 @@ async function drawCandidate(
 	if (!ctx) throw new Error('Canvas is not supported in this browser');
 
 	if (candidate.decode.kind === 'blob') {
-		const blob = new Blob([candidate.decode.bytes], { type: candidate.decode.mime });
+		const blob = new Blob([candidate.decode.bytes.slice()], { type: candidate.decode.mime });
 		try {
 			const bitmap = await createImageBitmap(blob);
 			ctx.drawImage(bitmap, 0, 0, targetWidth, targetHeight);
@@ -328,7 +334,7 @@ async function drawCandidate(
 		}
 	} else {
 		const rgba = rawToRgba(candidate.decode.layout, candidate.width, candidate.height);
-		const imageData = new ImageData(rgba, candidate.width, candidate.height);
+		const imageData = new ImageData(new Uint8ClampedArray(rgba), candidate.width, candidate.height);
 		const temp = document.createElement('canvas');
 		temp.width = candidate.width;
 		temp.height = candidate.height;

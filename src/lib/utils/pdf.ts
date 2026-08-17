@@ -154,7 +154,7 @@ export async function compressPdf(
 	if (mode === 'high') {
 		if (author) doc.setAuthor(author);
 		if (subject) doc.setSubject(subject);
-		if (keywords) doc.setKeywords(keywords);
+		if (keywords) doc.setKeywords(keywords.split(/[,;\s]+/).filter(Boolean));
 		if (creator) doc.setCreator(creator);
 		if (producer) doc.setProducer(producer);
 		if (created) doc.setCreationDate(created);

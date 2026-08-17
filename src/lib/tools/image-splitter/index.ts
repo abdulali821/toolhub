@@ -11,6 +11,7 @@ import * as v from 'valibot';
 
 export const SPLIT_DIRECTIONS = ['vertical', 'horizontal', 'grid'] as const;
 export const SPLIT_MEASURES = ['count', 'size'] as const;
+export type SplitMeasure = (typeof SPLIT_MEASURES)[number];
 export const OUTPUT_FORMATS = ['same', 'image/png', 'image/jpeg', 'image/webp'] as const;
 
 const axisSchema = v.object({

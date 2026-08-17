@@ -349,7 +349,7 @@ export async function removeBackground(
 	ctx.drawImage(img, 0, 0);
 	const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
-	let target = { r: 255, g: 255, b: 255 };
+	let target: { r: number; g: number; b: number };
 	if (options.mode === 'color') {
 		target = parseHexColor(options.color ?? '#ffffff');
 	} else {
