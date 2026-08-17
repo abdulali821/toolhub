@@ -4,7 +4,7 @@ Thanks for helping improve **HeyTools** — a free, privacy-first online tools p
 
 By participating, you agree to follow our [Code of Conduct](./CODE_OF_CONDUCT.md).
 
-**Copyright:** the project is owned and maintained by **Abdul Ali**. Contributors keep copyright on their own contributions and license them to the project under the same [MIT License](./LICENSE) (see the PR checklist).
+**Copyright:** the project is owned and maintained by **Abdul Ali**. Contributors keep copyright on their own contributions and license them to the project under the same [PolyForm Noncommercial License 1.0.0](./LICENSE) (see the PR checklist). Commercial use of HeyTools (or a competing product built from this code) is not allowed.
 
 ## Ways to contribute
 
@@ -17,17 +17,17 @@ Please open an issue before large refactors or new product directions (billing, 
 
 ## Project structure
 
-| Path | Purpose |
-| ---- | ------- |
-| `src/routes` | Thin SvelteKit pages and endpoints |
-| `src/lib/engine` | Plugin contracts, registry, share-state |
-| `src/lib/tools/<id>/` | One folder per tool (`index.ts`, `ui.svelte`) |
-| `src/lib/seo` | Metadata and JSON-LD builders |
-| `src/lib/ui` | Shared UI components |
-| `src/lib/features` | Favorites / history (optional Supabase) |
-| `src/lib/config` | Site name, categories, collections |
-| `tests/tools` | Vitest tests per tool |
-| `scripts/new-tool.mjs` | Tool scaffold CLI |
+| Path                   | Purpose                                       |
+| ---------------------- | --------------------------------------------- |
+| `src/routes`           | Thin SvelteKit pages and endpoints            |
+| `src/lib/engine`       | Plugin contracts, registry, share-state       |
+| `src/lib/tools/<id>/`  | One folder per tool (`index.ts`, `ui.svelte`) |
+| `src/lib/seo`          | Metadata and JSON-LD builders                 |
+| `src/lib/ui`           | Shared UI components                          |
+| `src/lib/features`     | Favorites / history (optional Supabase)       |
+| `src/lib/config`       | Site name, categories, collections            |
+| `tests/tools`          | Vitest tests per tool                         |
+| `scripts/new-tool.mjs` | Tool scaffold CLI                             |
 
 **Aliases:** `$lib`, `$engine`, `$tools`, `$seo`, `$ui`, `$server`.
 
@@ -54,7 +54,7 @@ cp .env.example .env
 pnpm dev
 ```
 
-App: http://localhost:5173  
+App: http://localhost:5173
 
 Supabase env vars are optional for local tool work.
 
@@ -71,7 +71,7 @@ Then:
 1. Implement `run` + Valibot `inputSchema` in `src/lib/tools/<id>/index.ts`
 2. Build `ui.svelte` with `$ui` components
 3. Fill SEO: `title`, `description`, `keywords`, **faq** (2–3+), **howTo**, `related`
-4. Set `capabilities`, `share.params`, `presets` when useful  
+4. Set `capabilities`, `share.params`, `presets` when useful
    - Keep share params small — do **not** put large documents in the URL
 5. Expand `tests/tools/<id>.test.ts`
 6. Verify `/tools/<id>` (SSR shell + client UI)
@@ -111,7 +111,7 @@ Format with `pnpm format` if needed.
 
 ### PR checklist
 
-- [ ] I agree to license my contribution under the MIT License
+- [ ] I agree to license my contribution under the PolyForm Noncommercial License 1.0.0
 - [ ] Scope is focused; no unrelated refactors
 - [ ] New/changed tools include faq, howTo, related metadata
 - [ ] Tool plugin does not import Supabase/features

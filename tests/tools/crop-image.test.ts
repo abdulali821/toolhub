@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 
-vi.mock('../../src/lib/utils/image-canvas', () => ({
+vi.mock('$lib/utils/image-canvas', () => ({
 	cropImage: vi.fn(async () => 'data:image/png;base64,cropped'),
 	IMAGE_FILE_CONSTRAINTS: {
 		maxBytes: 2 * 1024 * 1024,
@@ -10,7 +10,7 @@ vi.mock('../../src/lib/utils/image-canvas', () => ({
 	}
 }));
 
-import { cropImage as cropImageHelper } from '../../src/lib/utils/image-canvas';
+import { cropImage as cropImageHelper } from '$lib/utils/image-canvas';
 import { cropImage, run } from '../../src/lib/tools/crop-image';
 
 describe('crop-image', () => {

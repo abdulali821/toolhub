@@ -98,7 +98,7 @@
 		aria-label="Keyboard capture panel — click here, then press any key"
 		onfocus={() => (capturing = true)}
 		onblur={onPanelBlur}
-		class="flex min-h-24 flex-col items-center justify-center rounded-xl border-2 border-dashed px-4 py-6 text-center outline-none transition-colors {capturing
+		class="flex min-h-24 flex-col items-center justify-center rounded-xl border-2 border-dashed px-4 py-6 text-center transition-colors outline-none {capturing
 			? 'border-accent bg-accent/5'
 			: 'border-border bg-bg'}"
 	>
@@ -136,9 +136,7 @@
 			{#if modifiersFromEvent(lastEvent).length}
 				<div class="mt-3 flex flex-wrap justify-center gap-1.5">
 					{#each modifiersFromEvent(lastEvent) as mod (mod)}
-						<span
-							class="rounded-full bg-accent/10 px-2.5 py-0.5 text-xs font-medium text-accent"
-						>
+						<span class="rounded-full bg-accent/10 px-2.5 py-0.5 text-xs font-medium text-accent">
 							{mod}
 						</span>
 					{/each}
@@ -187,9 +185,7 @@
 			<Button type="button" variant="ghost" size="sm" onclick={clearLog}>Clear</Button>
 		</div>
 		{#if log.length}
-			<ul
-				class="max-h-64 overflow-y-auto rounded-xl border border-border bg-bg font-mono text-xs"
-			>
+			<ul class="max-h-64 overflow-y-auto rounded-xl border border-border bg-bg font-mono text-xs">
 				{#each log as entry, i (entry.timestamp + entry.code + i)}
 					<li class="border-b border-border px-3 py-1.5 text-fg last:border-b-0">
 						{formatKeyEvent(entry)}
@@ -197,7 +193,9 @@
 				{/each}
 			</ul>
 		{:else}
-			<p class="rounded-xl border border-dashed border-border px-3 py-4 text-center text-sm text-muted">
+			<p
+				class="rounded-xl border border-dashed border-border px-3 py-4 text-center text-sm text-muted"
+			>
 				No keys pressed yet.
 			</p>
 		{/if}
