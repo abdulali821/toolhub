@@ -4,7 +4,7 @@ Thanks for helping improve **HeyTools** — a free, privacy-first online tools p
 
 By participating, you agree to follow our [Code of Conduct](./CODE_OF_CONDUCT.md).
 
-**Copyright:** the project is owned and maintained by **Abdul Ali**. Contributors keep copyright on their own contributions and license them to the project under the same [MIT License](./LICENSE) (see the PR checklist).
+**Copyright:** the project is owned and maintained by **Abdul Ali**. Contributors keep copyright on their own contributions and license them to the project under the same [PolyForm Noncommercial License 1.0.0](./LICENSE) (see the PR checklist). Commercial use of HeyTools (or a competing product built from this code) is not allowed.
 
 ## Ways to contribute
 
@@ -111,7 +111,7 @@ Format with `pnpm format` if needed.
 
 ### PR checklist
 
-- [ ] I agree to license my contribution under the MIT License
+- [ ] I agree to license my contribution under the PolyForm Noncommercial License 1.0.0
 - [ ] Scope is focused; no unrelated refactors
 - [ ] New/changed tools include faq, howTo, related metadata
 - [ ] Tool plugin does not import Supabase/features

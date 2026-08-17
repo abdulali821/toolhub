@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 
-vi.mock('../../src/lib/utils/image-canvas', () => ({
+vi.mock('$lib/utils/image-canvas', () => ({
 	convertImageFormat: vi.fn(async () => 'data:image/webp;base64,converted'),
 	PNG_FILE_CONSTRAINTS: {
 		maxBytes: 2 * 1024 * 1024,
@@ -10,7 +10,7 @@ vi.mock('../../src/lib/utils/image-canvas', () => ({
 	}
 }));
 
-import { convertImageFormat } from '../../src/lib/utils/image-canvas';
+import { convertImageFormat } from '$lib/utils/image-canvas';
 import { pngToWebp, run } from '../../src/lib/tools/png-to-webp';
 
 describe('png-to-webp', () => {
