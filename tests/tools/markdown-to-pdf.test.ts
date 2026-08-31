@@ -34,6 +34,11 @@ code
 		]);
 	});
 
+	it('parses mermaid fences as mermaid blocks', () => {
+		const blocks = parseMarkdownBlocks('```mermaid\nflowchart TD\n  A --> B\n```');
+		expect(blocks.some((b) => b.type === 'mermaid')).toBe(true);
+	});
+
 	it('generates a multi-page capable PDF data URL', async () => {
 		const out = await run({
 			markdown: `# Doc\n\nParagraph with enough text to render.\n\n## Section\n\n- item a\n- item b\n`

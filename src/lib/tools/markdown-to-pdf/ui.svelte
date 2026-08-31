@@ -2,11 +2,13 @@
 	import type { Action } from 'svelte/action';
 	import { replaceState } from '$app/navigation';
 	import { Alert, Button, Field, Textarea } from '$ui';
+	import Dropzone from '$ui/tools/Dropzone.svelte';
 	import { setToolShellActions } from '$ui/tools/tool-shell-context';
 	import { pullShareState, urlSearchParams, readShareParam } from '$engine/tool-share';
+	import { readFileAsText } from '$lib/utils/file';
 	import { pdfBytesToDataUrl } from '$lib/utils/pdf';
 	import { renderPdfPages, type RenderedPage } from '../pdf-to-images/render';
-	import { run } from './index';
+	import { markdownToPdf, run } from './index';
 
 	const DEFAULT_MARKDOWN = `# HeyTools
 
@@ -51,11 +53,14 @@ npm start
 
 	const initialMarkdown = markdownFromUrl() ?? DEFAULT_MARKDOWN;
 	let markdown = $state(initialMarkdown);
+	let fileName = $state('');
+	let uploadError = $state<string | null>(null);
 	let dataUrl = $state('');
 	let pages = $state<RenderedPage[]>([]);
 	let pageCount = $state(0);
 	let error = $state<string | null>(null);
 	let loading = $state(false);
+	let previewLoading = $state(false);
 	let previewIndex = $state<number | null>(null);
 
 	const previewPage = $derived(previewIndex === null ? null : (pages[previewIndex] ?? null));
@@ -69,11 +74,28 @@ npm start
 		previewIndex = null;
 	}
 
-	async function setPreviewFromBytes(bytes: Uint8Array, count: number) {
-		dataUrl = pdfBytesToDataUrl(bytes);
-		pageCount = count;
-		const pageNumbers = Array.from({ length: count }, (_, i) => i + 1);
-		pages = await renderPdfPages(bytes, pageNumbers, 1.25);
+	async function loadPagePreviews(bytes: Uint8Array, count: number) {
+		previewLoading = true;
+		try {
+			const pageNumbers = Array.from({ length: count }, (_, i) => i + 1);
+			pages = await renderPdfPages(bytes, pageNumbers, 1);
+		} catch (err) {
+			pages = [];
+			error = err instanceof Error ? err.message : 'Failed to render page previews';
+		} finally {
+			previewLoading = false;
+		}
+	}
+
+	async function onselect(file: File) {
+		uploadError = null;
+		fileName = file.name;
+		markdown = await readFileAsText(file);
+		await generate(markdown);
+	}
+
+	function onerror(message: string) {
+		uploadError = message;
 	}
 
 	async function generate(text = markdown) {
@@ -83,16 +105,21 @@ npm start
 			return;
 		}
 		loading = true;
+		previewLoading = false;
 		error = null;
 		previewIndex = null;
+		clearOutput();
 		try {
 			const out = await run({ markdown: text });
-			await setPreviewFromBytes(out.bytes, out.pageCount);
+			dataUrl = pdfBytesToDataUrl(out.bytes);
+			pageCount = out.pageCount;
+			loading = false;
+			void loadPagePreviews(out.bytes, out.pageCount);
 		} catch (err) {
 			clearOutput();
 			error = err instanceof Error ? err.message : 'Failed to generate PDF';
-		} finally {
 			loading = false;
+			previewLoading = false;
 		}
 	}
 
@@ -145,10 +172,12 @@ npm start
 	$effect(() => {
 		setToolShellActions({
 			downloadValue: dataUrl,
-			downloadFilename: 'markdown.pdf',
+			downloadFilename: `${fileName.replace(/\.(md|markdown)$/i, '') || 'markdown'}.pdf`,
 			downloadMime: 'application/pdf',
 			onReset: () => {
 				markdown = DEFAULT_MARKDOWN;
+				fileName = '';
+				uploadError = null;
 				void generate(DEFAULT_MARKDOWN);
 			}
 		});
@@ -160,6 +189,18 @@ npm start
 <svelte:window onkeydown={onWindowKeydown} />
 
 <div class="flex flex-col gap-6">
+	<Dropzone
+		constraints={markdownToPdf.file!}
+		label="Upload a Markdown file"
+		hint=".md or .markdown up to 2 MB"
+		{onselect}
+		{onerror}
+	/>
+
+	{#if uploadError}
+		<Alert variant="danger" title="Upload error">{uploadError}</Alert>
+	{/if}
+
 	<div class="flex flex-col gap-4">
 		<Field id="mtp-input" label="Markdown" required>
 			<Textarea id="mtp-input" bind:value={markdown} rows={14} class="font-mono text-sm" />
@@ -186,9 +227,15 @@ npm start
 
 		{#if loading}
 			<div
+				class="flex min-h-48 items-center justify-center rounded-2xl border border-border bg-bg p-8 text-sm text-fg"
+			>
+				Building PDF…
+			</div>
+		{:else if previewLoading}
+			<div
 				class="flex min-h-48 items-center justify-center rounded-2xl border border-border bg-bg p-8 text-sm text-muted"
 			>
-				Rendering pages…
+				Loading previews…
 			</div>
 		{:else if pages.length}
 			<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">

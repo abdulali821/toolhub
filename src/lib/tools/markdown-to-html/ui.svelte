@@ -1,10 +1,12 @@
 <script lang="ts">
 	import { replaceState } from '$app/navigation';
-	import { Field, Textarea } from '$ui';
+	import { Alert, Field, Textarea } from '$ui';
+	import Dropzone from '$ui/tools/Dropzone.svelte';
 	import CopyButton from '$ui/tools/CopyButton.svelte';
 	import { setToolShellActions } from '$ui/tools/tool-shell-context';
 	import { pullShareState, urlSearchParams, readShareParam } from '$engine/tool-share';
-	import { run } from './index';
+	import { readFileAsText } from '$lib/utils/file';
+	import { markdownToHtml, run } from './index';
 
 	const DEFAULT_MARKDOWN = `# HeyTools
 
@@ -34,7 +36,19 @@ Convert **Markdown** to clean, copyable HTML.
 
 	const initialMarkdown = markdownFromUrl() ?? DEFAULT_MARKDOWN;
 	let markdown = $state(initialMarkdown);
+	let fileName = $state('');
+	let uploadError = $state<string | null>(null);
 	let html = $derived(run({ markdown }).html);
+
+	async function onselect(file: File) {
+		uploadError = null;
+		markdown = await readFileAsText(file);
+		fileName = file.name;
+	}
+
+	function onerror(message: string) {
+		uploadError = message;
+	}
 
 	$effect(() => {
 		pullShareState(markdownFromUrl, (next) => {
@@ -48,24 +62,40 @@ Convert **Markdown** to clean, copyable HTML.
 		setToolShellActions({
 			copyValue: html,
 			downloadValue: html,
-			downloadFilename: 'converted.html',
+			downloadFilename: `${fileName.replace(/\.(md|markdown)$/i, '') || 'converted'}.html`,
 			downloadMime: 'text/html;charset=utf-8',
 			onReset: () => {
 				markdown = DEFAULT_MARKDOWN;
+				fileName = '';
+				uploadError = null;
 			}
 		});
 	});
 </script>
 
-<div class="grid gap-6 lg:grid-cols-2">
-	<Field id="mth-input" label="Markdown">
-		<Textarea id="mth-input" bind:value={markdown} rows={18} class="font-mono text-sm" />
-	</Field>
-	<div class="flex flex-col gap-1.5">
-		<div class="flex items-center justify-between">
-			<p class="text-sm font-medium text-fg">HTML output</p>
-			<CopyButton value={html} />
+<div class="flex flex-col gap-6">
+	<Dropzone
+		constraints={markdownToHtml.file!}
+		label="Upload a Markdown file"
+		hint=".md or .markdown up to 2 MB"
+		{onselect}
+		{onerror}
+	/>
+
+	{#if uploadError}
+		<Alert variant="danger" title="Upload error">{uploadError}</Alert>
+	{/if}
+
+	<div class="grid gap-6 lg:grid-cols-2">
+		<Field id="mth-input" label="Markdown">
+			<Textarea id="mth-input" bind:value={markdown} rows={18} class="font-mono text-sm" />
+		</Field>
+		<div class="flex flex-col gap-1.5">
+			<div class="flex items-center justify-between">
+				<p class="text-sm font-medium text-fg">HTML output</p>
+				<CopyButton value={html} />
+			</div>
+			<Textarea id="mth-output" value={html} rows={18} readonly class="font-mono text-sm" />
 		</div>
-		<Textarea id="mth-output" value={html} rows={18} readonly class="font-mono text-sm" />
 	</div>
 </div>

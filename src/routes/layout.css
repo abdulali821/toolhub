@@ -1,6 +1,9 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
 
+/* Match theme toggle (.dark on html) — default v4 dark: follows OS preference only. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @import '@fontsource-variable/inter';
 @import '@fontsource/playfair-display/400.css';
 @import '@fontsource/playfair-display/500.css';
