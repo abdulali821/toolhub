@@ -36,6 +36,12 @@ describe('markdown-to-html', () => {
 		expect(html).toContain('</code></pre>');
 	});
 
+	it('handles mermaid fences', () => {
+		const html = run({ markdown: '```mermaid\nflowchart TD\n  A --> B\n```' }).html;
+		expect(html).toContain('<pre class="mermaid">');
+		expect(html).toContain('flowchart TD');
+	});
+
 	it('produces the same output as markdown-preview for the same input', async () => {
 		const { run: previewRun } = await import('../../src/lib/tools/markdown-preview');
 		const markdown = '# Hi\n\nSome **text** with a [link](https://example.com).';

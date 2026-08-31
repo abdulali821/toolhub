@@ -1,5 +1,6 @@
 import type { ToolDefinition } from '$engine/types';
 import * as v from 'valibot';
+import { MARKDOWN_FILE_CONSTRAINTS } from '$lib/utils/markdown';
 import { run as mdRun } from '../markdown-preview';
 
 export const inputSchema = v.object({
@@ -33,6 +34,7 @@ export const markdownToHtml: ToolDefinition<MarkdownToHtmlInput, MarkdownToHtmlO
 	status: 'stable',
 	tags: ['markdown', 'html', 'convert'],
 	capabilities: ['copy', 'download', 'share', 'reset', 'favorite'],
+	file: MARKDOWN_FILE_CONSTRAINTS,
 	// Markdown is not synced into the URL (too large). Presets still set
 	// `?markdown=` once; the UI applies it and immediately strips the param.
 	share: {
@@ -66,7 +68,7 @@ Run \`npm start\` and open the app.
 		name: 'Markdown to HTML',
 		title: 'Markdown to HTML — Convert Markdown to HTML online',
 		description:
-			'Convert Markdown to clean HTML instantly. Supports headings, lists, links, code fences, and emphasis—copy or download the generated HTML, all locally in your browser.',
+			'Convert Markdown to clean HTML instantly. Upload a .md file or paste text — supports headings, lists, links, code fences, Mermaid blocks, and emphasis.',
 		keywords: ['markdown to html', 'md to html converter', 'markdown converter', 'html generator'],
 		related: ['markdown-to-pdf', 'markdown-preview', 'html-codec'],
 		faq: [
@@ -78,7 +80,12 @@ Run \`npm start\` and open the app.
 			{
 				question: 'Is this full CommonMark?',
 				answer:
-					'It covers a practical subset—headings, lists, code fences, links, bold/italic—for quick conversions, not every edge case of a full parser.'
+					'It covers a practical subset—headings, lists, code fences, links, bold/italic, and Mermaid blocks—for quick conversions, not every edge case of a full parser.'
+			},
+			{
+				question: 'Can I upload a Markdown file?',
+				answer:
+					'Yes. Drop or browse for a .md or .markdown file (up to 2 MB). The contents load into the editor for conversion.'
 			},
 			{
 				question: 'Does my Markdown leave the browser?',
@@ -87,7 +94,7 @@ Run \`npm start\` and open the app.
 			}
 		],
 		howTo: [
-			'Paste or write Markdown on the left',
+			'Upload a .md file or paste Markdown on the left',
 			'View the generated HTML on the right',
 			'Copy or download the HTML output'
 		]

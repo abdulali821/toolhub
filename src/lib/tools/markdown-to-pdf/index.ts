@@ -2,6 +2,8 @@ import type { ToolDefinition } from '$engine/types';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import * as v from 'valibot';
 import { pdfBytesToDataUrl } from '$lib/utils/pdf';
+import { MARKDOWN_FILE_CONSTRAINTS } from '$lib/utils/markdown';
+import type { MermaidRaster } from '$lib/utils/mermaid-render';
 
 export const inputSchema = v.object({
 	markdown: v.pipe(v.string(), v.minLength(1, 'Enter some Markdown'))
@@ -15,7 +17,8 @@ export type MarkdownToPdfOutput = {
 };
 
 export type MdBlock =
-	{ type: 'h1' | 'h2' | 'h3' | 'p' | 'li' | 'quote' | 'code'; text: string } | { type: 'blank' };
+	| { type: 'h1' | 'h2' | 'h3' | 'p' | 'li' | 'quote' | 'code' | 'mermaid'; text: string }
+	| { type: 'blank' };
 
 /** Strip common Markdown inline markers for plain PDF text. */
 export function stripInlineMarkdown(text: string): string {
@@ -32,13 +35,15 @@ export function parseMarkdownBlocks(markdown: string): MdBlock[] {
 	const lines = markdown.replace(/\r\n/g, '\n').split('\n');
 	const blocks: MdBlock[] = [];
 	let inCode = false;
+	let codeLang = '';
 	let codeLines: string[] = [];
 
 	const flushCode = () => {
-		if (codeLines.length) {
-			blocks.push({ type: 'code', text: codeLines.join('\n') });
-			codeLines = [];
-		}
+		if (!codeLines.length) return;
+		const text = codeLines.join('\n');
+		blocks.push({ type: codeLang === 'mermaid' ? 'mermaid' : 'code', text });
+		codeLines = [];
+		codeLang = '';
 	};
 
 	for (const raw of lines) {
@@ -47,6 +52,8 @@ export function parseMarkdownBlocks(markdown: string): MdBlock[] {
 				flushCode();
 				inCode = false;
 			} else {
+				codeLang = raw.slice(3).trim().toLowerCase();
+				codeLines = [];
 				inCode = true;
 			}
 			continue;
@@ -112,9 +119,52 @@ function wrapLine(
 const PAGE = { width: 612, height: 792 }; // US Letter
 const MARGIN = 54;
 const CONTENT_WIDTH = PAGE.width - MARGIN * 2;
+const MAX_IMAGE_HEIGHT = PAGE.height - MARGIN * 2;
+
+async function rasterizeMermaidBlocks(blocks: MdBlock[]): Promise<Map<number, MermaidRaster>> {
+	const images = new Map<number, MermaidRaster>();
+	if (typeof document === 'undefined') return images;
+
+	const indices: number[] = [];
+	const sources: string[] = [];
+
+	for (let i = 0; i < blocks.length; i++) {
+		const block = blocks[i];
+		if (block?.type !== 'mermaid') continue;
+		indices.push(i);
+		sources.push(block.text);
+	}
+
+	if (!sources.length) return images;
+
+	const { renderMermaidBatchToPng } = await import('$lib/utils/mermaid-render');
+	const rasters = await renderMermaidBatchToPng(sources);
+
+	indices.forEach((blockIndex, rasterIndex) => {
+		const raster = rasters[rasterIndex];
+		if (raster) images.set(blockIndex, raster);
+	});
+
+	return images;
+}
+
+function fitImageSize(naturalWidth: number, naturalHeight: number) {
+	const widthScale = CONTENT_WIDTH / naturalWidth;
+	let drawWidth = CONTENT_WIDTH;
+	let drawHeight = naturalHeight * widthScale;
+
+	if (drawHeight > MAX_IMAGE_HEIGHT) {
+		const heightScale = MAX_IMAGE_HEIGHT / naturalHeight;
+		drawHeight = MAX_IMAGE_HEIGHT;
+		drawWidth = naturalWidth * heightScale;
+	}
+
+	return { drawWidth, drawHeight };
+}
 
 export async function run(input: MarkdownToPdfInput): Promise<MarkdownToPdfOutput> {
 	const blocks = parseMarkdownBlocks(input.markdown);
+	const mermaidImages = await rasterizeMermaidBlocks(blocks);
 	const doc = await PDFDocument.create();
 	const font = await doc.embedFont(StandardFonts.Helvetica);
 	const fontBold = await doc.embedFont(StandardFonts.HelveticaBold);
@@ -159,7 +209,45 @@ export async function run(input: MarkdownToPdfInput): Promise<MarkdownToPdfOutpu
 		if (opts.gapAfter) y -= opts.gapAfter;
 	};
 
-	for (const block of blocks) {
+	const drawCodeBlock = (text: string) => {
+		const codeLines = text.split('\n');
+		const size = 9;
+		const lineHeight = 12;
+		const blockHeight = codeLines.length * lineHeight + 16;
+		ensureSpace(blockHeight);
+		page.drawRectangle({
+			x: MARGIN,
+			y: y - blockHeight,
+			width: CONTENT_WIDTH,
+			height: blockHeight,
+			color: rgb(0.96, 0.96, 0.97)
+		});
+		y -= 8;
+		for (const line of codeLines) {
+			const safe = [...line]
+				.map((ch) => {
+					const code = ch.charCodeAt(0);
+					if (code === 9 || code === 10 || code === 13) return ch;
+					if (code >= 32 && code <= 126) return ch;
+					return '?';
+				})
+				.join('');
+			ensureSpace(lineHeight);
+			page.drawText(safe || ' ', {
+				x: MARGIN + 10,
+				y: y - size,
+				size,
+				font: fontMono,
+				color: rgb(0.15, 0.15, 0.18),
+				maxWidth: CONTENT_WIDTH - 20
+			});
+			y -= lineHeight;
+		}
+		y -= 12;
+	};
+
+	for (let blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
+		const block = blocks[blockIndex]!;
 		switch (block.type) {
 			case 'blank':
 				y -= 10;
@@ -210,43 +298,27 @@ export async function run(input: MarkdownToPdfInput): Promise<MarkdownToPdfOutpu
 					gapAfter: 6
 				});
 				break;
-			case 'code': {
-				const codeLines = block.text.split('\n');
-				const size = 9;
-				const lineHeight = 12;
-				const blockHeight = codeLines.length * lineHeight + 16;
-				ensureSpace(blockHeight);
-				page.drawRectangle({
-					x: MARGIN,
-					y: y - blockHeight,
-					width: CONTENT_WIDTH,
-					height: blockHeight,
-					color: rgb(0.96, 0.96, 0.97)
-				});
-				y -= 8;
-				for (const line of codeLines) {
-					const safe = [...line]
-						.map((ch) => {
-							const code = ch.charCodeAt(0);
-							if (code === 9 || code === 10 || code === 13) return ch;
-							if (code >= 32 && code <= 126) return ch;
-							return '?';
-						})
-						.join('');
-					ensureSpace(lineHeight);
-					page.drawText(safe || ' ', {
-						x: MARGIN + 10,
-						y: y - size,
-						size,
-						font: fontMono,
-						color: rgb(0.15, 0.15, 0.18),
-						maxWidth: CONTENT_WIDTH - 20
+			case 'mermaid': {
+				const raster = mermaidImages.get(blockIndex);
+				if (raster) {
+					const pngImage = await doc.embedPng(raster.png);
+					const { drawWidth, drawHeight } = fitImageSize(raster.width, raster.height);
+					ensureSpace(drawHeight + 16);
+					page.drawImage(pngImage, {
+						x: MARGIN + (CONTENT_WIDTH - drawWidth) / 2,
+						y: y - drawHeight,
+						width: drawWidth,
+						height: drawHeight
 					});
-					y -= lineHeight;
+					y -= drawHeight + 16;
+					break;
 				}
-				y -= 12;
+				drawCodeBlock(block.text);
 				break;
 			}
+			case 'code':
+				drawCodeBlock(block.text);
+				break;
 			case 'p':
 			default:
 				drawWrapped(block.text, {
@@ -292,6 +364,7 @@ export const markdownToPdf: ToolDefinition<MarkdownToPdfInput, MarkdownToPdfOutp
 	status: 'stable',
 	tags: ['markdown', 'pdf', 'convert', 'document', 'md'],
 	capabilities: ['download', 'share', 'reset', 'favorite'],
+	file: MARKDOWN_FILE_CONSTRAINTS,
 	// Markdown is not synced into the URL (too large). Presets still set
 	// `?markdown=` once; the UI applies it and immediately strips the param.
 	share: {
@@ -326,7 +399,7 @@ export const markdownToPdf: ToolDefinition<MarkdownToPdfInput, MarkdownToPdfOutp
 		name: 'Markdown to PDF',
 		title: 'Markdown to PDF — Convert MD notes to a PDF online',
 		description:
-			'Convert Markdown to a downloadable PDF in your browser. Supports headings, lists, quotes, and code blocks—no upload required.',
+			'Convert Markdown to a downloadable PDF in your browser. Upload a .md file or paste text — supports headings, lists, quotes, code blocks, and Mermaid diagrams.',
 		keywords: [
 			'markdown to pdf',
 			'md to pdf',
@@ -343,7 +416,7 @@ export const markdownToPdf: ToolDefinition<MarkdownToPdfInput, MarkdownToPdfOutp
 			{
 				question: 'Which Markdown features are supported?',
 				answer:
-					'Headings (#–###), paragraphs, bullet lists, blockquotes, and fenced code blocks. Inline bold/italic/links are flattened to plain text in the PDF.'
+					'Headings (#–###), paragraphs, bullet lists, blockquotes, fenced code blocks, and Mermaid flowcharts (rendered as images). Inline bold/italic/links are flattened to plain text in the PDF.'
 			},
 			{
 				question: 'Can I preview before downloading?',
