@@ -1,8 +1,10 @@
 <script lang="ts">
-	import { untrack } from 'svelte';
+	import type { Action } from 'svelte/action';
+	import { tick, untrack } from 'svelte';
 	import { Alert, Button, Field, Input } from '$ui';
 	import Dropzone from '$ui/tools/Dropzone.svelte';
 	import { setToolShellActions } from '$ui/tools/tool-shell-context';
+	import { toast } from 'svelte-sonner';
 	import { readFileAsDataUrl } from '$lib/utils/file';
 	import { restoreStrokeFromRgba } from '$lib/utils/background-brush';
 	import {
@@ -26,11 +28,45 @@
 	const DEFAULT_COLOR = '#ffffff';
 	const DEFAULT_ERASER_SIZE = 28;
 	const DEFAULT_SPECKLE_SIZE = 128;
+	const HISTORY_MAX = 30;
 	const CHECKERBOARD =
 		'background-color:#fff;background-image:linear-gradient(45deg,#ccc 25%,transparent 25%),linear-gradient(-45deg,#ccc 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#ccc 75%),linear-gradient(-45deg,transparent 75%,#ccc 75%);background-size:16px 16px;background-position:0 0,0 8px,8px -8px,-8px 0';
+	const PREVIEW_MAX_CLASS = 'block max-h-[min(70vh,28rem)] max-w-full';
 
 	type EngineMode = 'ai' | 'color' | 'wand';
 	type ResultTool = 'remove' | 'erase';
+	type PreviewBg = 'checker' | 'black' | 'purple' | 'green';
+
+	const PREVIEW_BACKGROUNDS: { id: PreviewBg; label: string; style: string; swatch: string }[] = [
+		{ id: 'checker', label: 'Checker', style: CHECKERBOARD, swatch: CHECKERBOARD },
+		{
+			id: 'black',
+			label: 'Black',
+			style: 'background-color:#000',
+			swatch: 'background-color:#000'
+		},
+		{
+			id: 'purple',
+			label: 'Light purple',
+			style: 'background-color:#d4b5ff',
+			swatch: 'background-color:#d4b5ff'
+		},
+		{
+			id: 'green',
+			label: 'Bright green',
+			style: 'background-color:#00e676',
+			swatch: 'background-color:#00e676'
+		}
+	];
+
+	const portal: Action<HTMLElement> = (node) => {
+		document.body.appendChild(node);
+		return {
+			destroy() {
+				node.remove();
+			}
+		};
+	};
 
 	let error = $state<string | null>(null);
 	let sourceDataUrl = $state('');
@@ -51,6 +87,10 @@
 	let aiSupported = $state(true);
 	let hint = $state('Pick a mode, then upload. AI is best for photos and products.');
 	let lastFailedAi = $state(false);
+	let previewBg = $state<PreviewBg>('checker');
+	let enlargeOpen = $state(false);
+	let history = $state<ImageData[]>([]);
+	let historyIndex = $state(-1);
 
 	let resultCanvas = $state<HTMLCanvasElement | null>(null);
 	let resultWrap = $state<HTMLDivElement | null>(null);
@@ -64,14 +104,132 @@
 	let paintGen = 0;
 	let lastErase: { x: number; y: number } | null = null;
 	let suppressResultClick = false;
+	let applyingHistory = false;
 
 	const classicMode = $derived(mode === 'color' || mode === 'wand');
-	const canErase = $derived(Boolean(outputDataUrl && sourceImageData));
+	const hasResult = $derived(Boolean(outputDataUrl && resultImageData));
+	const canErase = $derived(Boolean(hasResult && sourceImageData));
+	const canUndo = $derived(historyIndex > 0);
+	const canRedo = $derived(historyIndex >= 0 && historyIndex < history.length - 1);
+	const previewBgStyle = $derived(
+		PREVIEW_BACKGROUNDS.find((b) => b.id === previewBg)?.style ?? CHECKERBOARD
+	);
 	const resultDisplayUrl = $derived.by(() => {
 		if (outputDataUrl) return outputDataUrl;
 		if (mode === 'wand' && sourceDataUrl) return sourceDataUrl;
 		return '';
 	});
+	const showResultStage = $derived(Boolean(resultImageData) || Boolean(resultDisplayUrl));
+
+	function cloneImageData(src: ImageData): ImageData {
+		return new ImageData(new Uint8ClampedArray(src.data), src.width, src.height);
+	}
+
+	function clearHistory() {
+		history = [];
+		historyIndex = -1;
+	}
+
+	function resetHistoryWithCurrent() {
+		if (!resultImageData) {
+			clearHistory();
+			return;
+		}
+		history = [cloneImageData(resultImageData)];
+		historyIndex = 0;
+	}
+
+	/** Keep a baseline snapshot before mutating so Undo has somewhere to go. */
+	function captureHistoryBaseline() {
+		if (!resultImageData) return;
+		if (history.length === 0 || historyIndex < 0) {
+			history = [cloneImageData(resultImageData)];
+			historyIndex = 0;
+		}
+	}
+
+	/** Push the current canvas state as a new undo step (call after an edit). */
+	function commitHistoryStep() {
+		if (!resultImageData) return;
+		if (history.length === 0 || historyIndex < 0) {
+			resetHistoryWithCurrent();
+			return;
+		}
+		const snap = cloneImageData(resultImageData);
+		let next = history.slice(0, historyIndex + 1);
+		next.push(snap);
+		if (next.length > HISTORY_MAX) next = next.slice(next.length - HISTORY_MAX);
+		history = next;
+		historyIndex = history.length - 1;
+	}
+
+	function paintFromResultImageData() {
+		const canvas = resultCanvas;
+		const data = resultImageData;
+		if (!canvas || !data) return;
+		const ctx = canvas.getContext('2d', { willReadFrequently: true });
+		if (!ctx) return;
+		if (canvas.width !== data.width || canvas.height !== data.height) {
+			canvas.width = data.width;
+			canvas.height = data.height;
+		}
+		ctx.putImageData(data, 0, 0);
+	}
+
+	function applyHistoryFrame(index: number) {
+		const frame = history[index];
+		if (!frame || processing || erasing) return;
+		applyingHistory = true;
+		resultImageData = cloneImageData(frame);
+		historyIndex = index;
+		paintFromResultImageData();
+		const canvas = resultCanvas;
+		if (canvas) {
+			revokeIfBlobUrl(outputDataUrl);
+			outputDataUrl = canvas.toDataURL('image/png');
+		}
+		applyingHistory = false;
+		hint = 'Undid or redid a step. Keep editing, or download when ready.';
+	}
+
+	function undo() {
+		if (historyIndex <= 0 || processing || erasing) return;
+		applyHistoryFrame(historyIndex - 1);
+	}
+
+	function redo() {
+		if (historyIndex < 0 || historyIndex >= history.length - 1 || processing || erasing) return;
+		applyHistoryFrame(historyIndex + 1);
+	}
+
+	function closeEnlarge() {
+		enlargeOpen = false;
+	}
+
+	function onGlobalKeydown(event: KeyboardEvent) {
+		if (enlargeOpen && event.key === 'Escape') {
+			event.preventDefault();
+			closeEnlarge();
+			return;
+		}
+		const target = event.target as HTMLElement | null;
+		if (
+			target &&
+			(target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT')
+		) {
+			return;
+		}
+		const mod = event.ctrlKey || event.metaKey;
+		if (!mod || !outputDataUrl) return;
+		const key = event.key.toLowerCase();
+		if (key === 'z' && !event.shiftKey) {
+			event.preventDefault();
+			undo();
+		} else if (key === 'y' || (key === 'z' && event.shiftKey)) {
+			event.preventDefault();
+			redo();
+		}
+	}
 
 	function hintForMode(next: EngineMode, hasImage: boolean): string {
 		if (next === 'ai') {
@@ -94,10 +252,12 @@
 		error = null;
 		lastFailedAi = false;
 		resultTool = 'remove';
+		enlargeOpen = false;
 		hint = hintForMode(value, Boolean(sourceDataUrl));
 		if (!sourceDataUrl) return;
 		cancelBackgroundRemovalJobs();
 		clearOutput();
+		clearHistory();
 		seedX = null;
 		seedY = null;
 		if (value === 'ai') void processAi();
@@ -134,18 +294,31 @@
 		sourceImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 	}
 
-	async function paintResultCanvas(url: string) {
-		const canvas = resultCanvas;
-		if (!canvas || !url) return;
-		const gen = ++paintGen;
+	async function loadResultPixels(url: string): Promise<ImageData | null> {
 		const img = await loadImage(url);
-		if (gen !== paintGen) return;
+		const canvas = document.createElement('canvas');
 		canvas.width = img.naturalWidth;
 		canvas.height = img.naturalHeight;
 		const ctx = canvas.getContext('2d', { willReadFrequently: true });
-		if (!ctx) return;
+		if (!ctx) return null;
 		ctx.drawImage(img, 0, 0);
-		resultImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+		return ctx.getImageData(0, 0, canvas.width, canvas.height);
+	}
+
+	/** Decode result offscreen, then paint onto the visible canvas when it exists. */
+	async function applyResultUrl(url: string): Promise<boolean> {
+		const gen = ++paintGen;
+		const data = await loadResultPixels(url);
+		if (gen !== paintGen || !data) return false;
+		resultImageData = data;
+		await tick();
+		paintFromResultImageData();
+		// Canvas may mount one frame later (first result) — try again.
+		if (!resultCanvas) {
+			await tick();
+			paintFromResultImageData();
+		}
+		return Boolean(resultImageData);
 	}
 
 	function syncOutputFromCanvas() {
@@ -161,9 +334,11 @@
 		if (!canvas || !work || processing) return;
 		const ctx = canvas.getContext('2d', { willReadFrequently: true });
 		if (!ctx) return;
+		captureHistoryBaseline();
 		hint = mutator(work);
 		ctx.putImageData(work, 0, 0);
 		syncOutputFromCanvas();
+		commitHistoryStep();
 	}
 
 	function cleanSpeckles() {
@@ -249,6 +424,7 @@
 		if (!canvas) return;
 		const coords = coordsFromCanvas(event, canvas);
 		if (!coords) return;
+		captureHistoryBaseline();
 		erasing = true;
 		lastErase = null;
 		cursorVisible = true;
@@ -277,6 +453,7 @@
 			canvas.releasePointerCapture(event.pointerId);
 		}
 		syncOutputFromCanvas();
+		commitHistoryStep();
 		hint = 'Eraser restores pixels from the original. Switch to Remove to cut more background.';
 	}
 
@@ -291,6 +468,7 @@
 			hint = hintForMode('wand', true);
 			return;
 		}
+		if (fromResult) captureHistoryBaseline();
 		processing = true;
 		error = null;
 		lastFailedAi = false;
@@ -304,9 +482,18 @@
 				seedX: seedX ?? undefined,
 				seedY: seedY ?? undefined
 			});
-			clearOutput();
+			// Keep previous output visible until the new pixels are ready (avoids blank green flash).
+			const painted = await applyResultUrl(out.dataUrl);
+			if (!painted) {
+				throw new Error('Could not render the result preview');
+			}
+			revokeIfBlobUrl(outputDataUrl);
 			outputDataUrl = out.dataUrl;
 			resultTool = 'remove';
+			await tick();
+			paintFromResultImageData();
+			if (fromResult) commitHistoryStep();
+			else resetHistoryWithCurrent();
 			hint =
 				mode === 'wand'
 					? 'Click leftover patches to remove more, or switch to Eraser to restore areas.'
@@ -318,8 +505,13 @@
 				/* keep last good output */
 			} else {
 				clearOutput();
+				clearHistory();
 			}
-			error = err instanceof Error ? err.message : 'Failed to remove background';
+			const message = err instanceof Error ? err.message : 'Failed to remove background';
+			// Soft interaction tips → toast (bottom-right). Hard failures stay inline with Retry.
+			toast.error(message);
+			error = null;
+			lastFailedAi = false;
 		} finally {
 			processing = false;
 		}
@@ -329,8 +521,9 @@
 		if (!sourceDataUrl) return;
 		if (untrack(() => processing)) return;
 		if (!aiSupported) {
-			error =
-				'On-device AI isn’t available in this browser. Switch to Color key or Magic wand, or try Chrome, Edge, Firefox, or Safari.';
+			toast.error(
+				'On-device AI isn’t available in this browser. Switch to Color key or Magic wand, or try Chrome, Edge, Firefox, or Safari.'
+			);
 			return;
 		}
 
@@ -349,9 +542,17 @@
 				generation,
 				onProgress: onAiProgress
 			});
-			clearOutput();
+			const painted = await applyResultUrl(dataUrl);
+			if (!painted) {
+				throw new Error('Could not render the result preview');
+			}
+			revokeIfBlobUrl(outputDataUrl);
 			outputDataUrl = dataUrl;
 			resultTool = 'remove';
+			clearHistory();
+			await tick();
+			paintFromResultImageData();
+			resetHistoryWithCurrent();
 			progressMessage = 'Background removed';
 			hint = 'Switch to Eraser to restore areas, then download the PNG.';
 		} catch (err) {
@@ -360,6 +561,7 @@
 				return;
 			}
 			clearOutput();
+			clearHistory();
 			error = message;
 			lastFailedAi = true;
 		} finally {
@@ -433,6 +635,7 @@
 		lastFailedAi = false;
 		revokeIfBlobUrl(sourceDataUrl);
 		clearOutput();
+		clearHistory();
 		sourceDataUrl = '';
 		sourceImageData = null;
 		fileName = 'image';
@@ -445,6 +648,8 @@
 		resultTool = 'remove';
 		eraserSize = DEFAULT_ERASER_SIZE;
 		speckleMaxSize = DEFAULT_SPECKLE_SIZE;
+		previewBg = 'checker';
+		enlargeOpen = false;
 		progressMessage = 'Preparing AI…';
 		progressRatio = null;
 		hint = hintForMode('ai', false);
@@ -456,6 +661,8 @@
 		lastFailedAi = false;
 		fileName = file.name.replace(/\.[^.]+$/, '') || 'image';
 		clearOutput();
+		clearHistory();
+		enlargeOpen = false;
 		seedX = null;
 		seedY = null;
 		resultTool = 'remove';
@@ -483,10 +690,27 @@
 		void cacheSourcePixels();
 	});
 
+	/** Re-paint when the canvas remounts (e.g. opening/closing larger view). */
 	$effect(() => {
-		const url = resultDisplayUrl;
-		if (!url || erasing) return;
-		void paintResultCanvas(url);
+		void enlargeOpen;
+		const canvas = resultCanvas;
+		if (!canvas || applyingHistory || erasing) return;
+
+		if (resultImageData) {
+			paintFromResultImageData();
+			return;
+		}
+
+		// Magic wand: show the source on the result canvas until the first removal.
+		if (mode === 'wand' && sourceDataUrl && !outputDataUrl) {
+			const url = sourceDataUrl;
+			void loadResultPixels(url).then((data) => {
+				if (!data || resultCanvas !== canvas) return;
+				if (untrack(() => Boolean(outputDataUrl || resultImageData))) return;
+				resultImageData = data;
+				paintFromResultImageData();
+			});
+		}
 	});
 
 	$effect(() => {
@@ -495,7 +719,12 @@
 		void tolerance;
 		void feather;
 		if (untrack(() => processing)) return;
-		void processClassic(sourceDataUrl);
+		// Defer so onselect can finish sampling color before the first auto-run.
+		const id = window.setTimeout(() => {
+			if (untrack(() => processing || mode !== 'color' || !sourceDataUrl)) return;
+			void processClassic(sourceDataUrl);
+		}, 0);
+		return () => window.clearTimeout(id);
 	});
 
 	$effect(() => {
@@ -509,7 +738,9 @@
 	});
 </script>
 
-<div class="flex max-w-2xl flex-col gap-4">
+<svelte:window onkeydown={onGlobalKeydown} />
+
+<div class="flex max-w-4xl flex-col gap-4">
 	<Field id="br-mode" label="Mode">
 		<select
 			id="br-mode"
@@ -532,9 +763,11 @@
 		disabled={processing}
 		{onselect}
 		onerror={(message) => {
-			error = message;
+			toast.error(message);
+			error = null;
 			cancelBackgroundRemovalJobs();
 			clearOutput();
+			clearHistory();
 			sourceDataUrl = '';
 			sourceImageData = null;
 			hint = hintForMode(mode, false);
@@ -565,7 +798,7 @@
 	{/if}
 
 	{#if sourceDataUrl}
-		{#if canErase}
+		{#if hasResult}
 			<div class="grid gap-3 sm:grid-cols-2">
 				<Field id="br-result-tool" label="Result tool">
 					<select
@@ -575,7 +808,7 @@
 						disabled={processing || erasing}
 					>
 						<option value="remove">Remove (click)</option>
-						<option value="erase">Eraser (paint to restore)</option>
+						<option value="erase" disabled={!canErase}>Eraser (paint to restore)</option>
 					</select>
 				</Field>
 				{#if resultTool === 'erase'}
@@ -587,11 +820,33 @@
 							max="120"
 							step="1"
 							bind:value={eraserSize}
-							disabled={processing}
+							disabled={processing || !canErase}
 							class="w-full accent-fg"
 						/>
 					</Field>
 				{/if}
+			</div>
+
+			<div class="flex flex-wrap items-center gap-2">
+				<Button
+					type="button"
+					size="sm"
+					variant="secondary"
+					disabled={!canUndo || processing || erasing}
+					onclick={undo}
+				>
+					Undo
+				</Button>
+				<Button
+					type="button"
+					size="sm"
+					variant="secondary"
+					disabled={!canRedo || processing || erasing}
+					onclick={redo}
+				>
+					Redo
+				</Button>
+				<span class="text-xs text-muted">Ctrl/Cmd+Z · Ctrl/Cmd+Y</span>
 			</div>
 
 			<div class="rounded-md border border-border bg-bg px-3 py-3">
@@ -622,7 +877,7 @@
 						<Button
 							type="button"
 							size="sm"
-							disabled={processing || erasing}
+							disabled={processing || erasing || !hasResult}
 							onclick={cleanSpeckles}
 						>
 							Clean speckles
@@ -631,7 +886,7 @@
 							type="button"
 							size="sm"
 							variant="secondary"
-							disabled={processing || erasing}
+							disabled={processing || erasing || !hasResult}
 							onclick={sweepKeyColor}
 						>
 							Sweep key color
@@ -751,7 +1006,38 @@
 			</div>
 		{/if}
 
-		<div class="grid gap-4 sm:grid-cols-2">
+		{#if showResultStage}
+			<div class="flex flex-wrap items-center gap-3">
+				<p class="text-sm font-medium text-fg">Check background</p>
+				<div
+					class="flex flex-wrap items-center gap-2"
+					role="radiogroup"
+					aria-label="Preview background"
+				>
+					{#each PREVIEW_BACKGROUNDS as bg (bg.id)}
+						<button
+							type="button"
+							role="radio"
+							aria-checked={previewBg === bg.id}
+							aria-label={bg.label}
+							title={bg.label}
+							class="h-8 w-8 rounded-md border-2 transition-shadow {previewBg === bg.id
+								? 'border-fg ring-2 ring-fg/30'
+								: 'border-border'}"
+							style={bg.swatch}
+							onclick={() => (previewBg = bg.id)}
+						></button>
+					{/each}
+				</div>
+				{#if hasResult}
+					<Button type="button" size="sm" variant="secondary" onclick={() => (enlargeOpen = true)}>
+						View larger
+					</Button>
+				{/if}
+			</div>
+		{/if}
+
+		<div class="grid gap-4 lg:grid-cols-2">
 			<div>
 				<p class="mb-2 text-sm font-medium">
 					{classicMode ? 'Original — click to start over' : 'Original'}
@@ -766,7 +1052,7 @@
 						<img
 							src={sourceDataUrl}
 							alt="Original — click to sample background"
-							class="block max-h-64 max-w-full"
+							class={PREVIEW_MAX_CLASS}
 							draggable="false"
 						/>
 					</button>
@@ -774,7 +1060,7 @@
 					<img
 						src={sourceDataUrl}
 						alt="Original"
-						class="block max-h-64 max-w-full rounded-md border border-border"
+						class="{PREVIEW_MAX_CLASS} rounded-md border border-border"
 						draggable="false"
 					/>
 				{/if}
@@ -793,40 +1079,14 @@
 				</p>
 				{#if processing && mode !== 'ai'}
 					<p class="text-sm text-muted">Removing background…</p>
-				{:else if resultDisplayUrl}
-					<div
-						bind:this={resultWrap}
-						class="relative inline-block max-w-full rounded-md border border-border"
-						style={CHECKERBOARD}
-						onpointerleave={onResultPointerLeave}
-					>
-						<canvas
-							bind:this={resultCanvas}
-							class="block max-h-64 max-w-full touch-none {resultTool === 'erase' && canErase
-								? 'cursor-none'
-								: classicMode
-									? 'cursor-crosshair'
-									: ''}"
-							onclick={onResultCanvasClick}
-							onpointerdown={onResultPointerDown}
-							onpointermove={onResultPointerMove}
-							onpointerup={onResultPointerUp}
-							onpointercancel={onResultPointerUp}
-							onpointerenter={(event) => {
-								if (resultTool === 'erase') {
-									cursorVisible = true;
-									updateEraserCursor(event);
-								}
-							}}
-						></canvas>
-						{#if resultTool === 'erase' && canErase && cursorVisible}
-							<div
-								class="pointer-events-none absolute rounded-full border-2 border-fg shadow-[0_0_0_1px_#fff_inset]"
-								style={`left:${cursorX}px;top:${cursorY}px;width:${cursorDiameter}px;height:${cursorDiameter}px;transform:translate(-50%,-50%);`}
-								aria-hidden="true"
-							></div>
-						{/if}
-					</div>
+				{:else if showResultStage}
+					{#if enlargeOpen}
+						<p class="text-sm text-muted">
+							Editing in the larger view — close it to see the small preview again.
+						</p>
+					{:else}
+						{@render resultStage(PREVIEW_MAX_CLASS)}
+					{/if}
 				{:else}
 					<p class="text-sm text-muted">Preview appears when AI finishes.</p>
 				{/if}
@@ -834,3 +1094,161 @@
 		</div>
 	{/if}
 </div>
+
+{#snippet resultStage(maxClass: string)}
+	<div
+		bind:this={resultWrap}
+		role="group"
+		aria-label="Background removal result"
+		class="relative inline-block max-w-full overflow-hidden rounded-md border border-border shadow-sm"
+		style={previewBgStyle}
+		onpointerleave={onResultPointerLeave}
+	>
+		<canvas
+			bind:this={resultCanvas}
+			class="{maxClass} touch-none {resultTool === 'erase' && canErase
+				? 'cursor-none'
+				: classicMode
+					? 'cursor-crosshair'
+					: ''}"
+			onclick={onResultCanvasClick}
+			onpointerdown={onResultPointerDown}
+			onpointermove={onResultPointerMove}
+			onpointerup={onResultPointerUp}
+			onpointercancel={onResultPointerUp}
+			onpointerenter={(event) => {
+				if (resultTool === 'erase') {
+					cursorVisible = true;
+					updateEraserCursor(event);
+				}
+			}}
+		></canvas>
+		{#if resultTool === 'erase' && canErase && cursorVisible}
+			<div
+				class="pointer-events-none absolute rounded-full border-2 border-fg shadow-[0_0_0_1px_#fff_inset]"
+				style={`left:${cursorX}px;top:${cursorY}px;width:${cursorDiameter}px;height:${cursorDiameter}px;transform:translate(-50%,-50%);`}
+				aria-hidden="true"
+			></div>
+		{/if}
+	</div>
+{/snippet}
+
+{#if enlargeOpen && hasResult}
+	<div use:portal class="fixed inset-0 z-100 flex items-center justify-center p-3 sm:p-4">
+		<button
+			type="button"
+			class="absolute inset-0 bg-black/50 backdrop-blur-[2px]"
+			aria-label="Close larger preview"
+			onclick={closeEnlarge}
+		></button>
+
+		<div
+			class="relative z-10 flex max-h-[min(94vh,60rem)] w-[min(100%,72rem)] flex-col overflow-hidden rounded-2xl border border-border bg-bg-elevated text-fg shadow-2xl"
+			role="dialog"
+			aria-modal="true"
+			aria-label="Larger result preview"
+			tabindex="-1"
+		>
+			<div
+				class="flex flex-wrap items-center justify-between gap-3 border-b border-border px-4 py-3"
+			>
+				<div class="flex min-w-0 flex-1 flex-wrap items-center gap-3">
+					<p class="text-sm font-medium text-fg">Larger preview</p>
+					<div
+						class="flex items-center gap-2"
+						role="radiogroup"
+						aria-label="Large preview background"
+					>
+						{#each PREVIEW_BACKGROUNDS as bg (bg.id)}
+							<button
+								type="button"
+								role="radio"
+								aria-checked={previewBg === bg.id}
+								aria-label={bg.label}
+								title={bg.label}
+								class="h-7 w-7 rounded-md border-2 {previewBg === bg.id
+									? 'border-fg ring-2 ring-fg/30'
+									: 'border-border'}"
+								style={bg.swatch}
+								onclick={() => (previewBg = bg.id)}
+							></button>
+						{/each}
+					</div>
+					{#if classicMode}
+						<select
+							class="rounded-md border border-border bg-bg px-2 py-1 text-xs"
+							bind:value={resultTool}
+							disabled={processing || erasing}
+							aria-label="Result tool"
+						>
+							<option value="remove">Remove (click)</option>
+							<option value="erase">Eraser</option>
+						</select>
+					{:else}
+						<select
+							class="rounded-md border border-border bg-bg px-2 py-1 text-xs"
+							bind:value={resultTool}
+							disabled={processing || erasing}
+							aria-label="Result tool"
+						>
+							<option value="remove">View</option>
+							<option value="erase">Eraser</option>
+						</select>
+					{/if}
+					<div class="flex items-center gap-1">
+						<Button
+							type="button"
+							size="sm"
+							variant="secondary"
+							disabled={!canUndo || processing || erasing}
+							onclick={undo}
+						>
+							Undo
+						</Button>
+						<Button
+							type="button"
+							size="sm"
+							variant="secondary"
+							disabled={!canRedo || processing || erasing}
+							onclick={redo}
+						>
+							Redo
+						</Button>
+					</div>
+				</div>
+				<button
+					type="button"
+					class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-muted transition-colors hover:bg-bg hover:text-fg"
+					aria-label="Close"
+					onclick={closeEnlarge}
+				>
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+						<path
+							d="M6 6l12 12M18 6L6 18"
+							stroke="currentColor"
+							stroke-width="1.75"
+							stroke-linecap="round"
+						/>
+					</svg>
+				</button>
+			</div>
+
+			<p class="shrink-0 border-b border-border px-4 py-2 text-xs text-muted">
+				{#if resultTool === 'erase'}
+					Drag to restore original pixels. Undo/Redo and backgrounds work here too.
+				{:else if classicMode}
+					Click leftover background to remove more — same as the main result preview.
+				{:else}
+					Use Eraser to restore areas. AI removal isn’t click-to-cut; switch mode for that.
+				{/if}
+			</p>
+
+			<!-- Check color only behind the image — not the whole dialog -->
+			<div
+				class="flex min-h-[min(52vh,32rem)] flex-1 items-center justify-center overflow-auto bg-bg p-4 sm:p-6"
+			>
+				{@render resultStage('block h-auto max-h-[min(70vh,46rem)] w-auto max-w-[min(100%,56rem)]')}
+			</div>
+		</div>
+	</div>
+{/if}

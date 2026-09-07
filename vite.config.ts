@@ -24,10 +24,13 @@ export default defineConfig({
 	],
 	ssr: {
 		// Browser WASM/ONNX stack — never execute during SSR.
-		external: ['@imgly/background-removal', 'onnxruntime-web']
+		external: ['@imgly/background-removal', 'onnxruntime-web'],
+		// svelte-sonner ships raw .svelte files; force Vite to process them in SSR.
+		noExternal: ['svelte-sonner']
 	},
 	optimizeDeps: {
-		exclude: ['@imgly/background-removal', 'onnxruntime-web']
+		exclude: ['@imgly/background-removal', 'onnxruntime-web'],
+		include: ['svelte-sonner']
 	},
 	test: {
 		include: [

@@ -44,7 +44,7 @@ export async function run(input: BackgroundRemoverInput): Promise<BackgroundRemo
 
 export const backgroundRemover: ToolDefinition<BackgroundRemoverInput, BackgroundRemoverOutput> = {
 	id: 'background-remover',
-	version: '1.1.0',
+	version: '1.2.0',
 	category: 'image',
 	mode: 'instant',
 	status: 'stable',
@@ -84,7 +84,7 @@ export const backgroundRemover: ToolDefinition<BackgroundRemoverInput, Backgroun
 			'Choose AI, Color key, or Magic wand before you upload',
 			'Upload a PNG, JPEG, GIF, or WebP (up to 5 MB)',
 			'Remove background with clicks; use Clean speckles or Sweep key color for leftover dots',
-			'Download the transparent PNG'
+			'Preview on checker, black, purple, or green; Undo/Redo if needed; download the PNG'
 		],
 		faq: [
 			{
@@ -110,7 +110,7 @@ export const backgroundRemover: ToolDefinition<BackgroundRemoverInput, Backgroun
 			{
 				question: 'Can I undo part of the removal?',
 				answer:
-					'Yes. After background is removed, switch Result tool to Eraser and paint over areas to restore the original pixels from your upload. Adjust eraser size with the slider.'
+					'Yes. Use Undo/Redo (or Ctrl/Cmd+Z / Ctrl/Cmd+Y) for edit steps, or switch Result tool to Eraser and paint to restore original pixels. Check backgrounds (black, light purple, bright green) help spot leftover edges before you download.'
 			},
 			{
 				question: 'Why is Share disabled?',
