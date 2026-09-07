@@ -5,6 +5,7 @@
 	import AdSlot from '$ui/marketing/AdSlot.svelte';
 	import CommandPalette from '$ui/navigation/CommandPalette.svelte';
 	import NavigationProgress from '$ui/navigation/NavigationProgress.svelte';
+	import { Toaster } from 'svelte-sonner';
 	import { site } from '$lib/config/site';
 	import type { LayoutProps } from './$types';
 
@@ -36,6 +37,7 @@
 
 <NavigationProgress />
 <CommandPalette />
+<Toaster position="bottom-right" richColors closeButton />
 
 <div class="flex min-h-dvh flex-col bg-bg">
 	<SkipLink />

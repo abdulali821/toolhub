@@ -57,6 +57,7 @@
 		"pdf-lib": "^1.17.1",
 		"pdfjs-dist": "^6.1.200",
 		"qrcode": "^1.5.4",
+		"svelte-sonner": "^1.2.1",
 		"valibot": "^1.4.2",
 		"yaml": "^2.9.0"
 	},

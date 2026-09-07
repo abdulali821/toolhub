@@ -98,7 +98,7 @@ export const urlParser: ToolDefinition<UrlParserInput, UrlParserOutput> = {
 			'extract query params',
 			'url components'
 		],
-		related: ['query-string-json', 'url-codec'],
+		related: ['query-string-json', 'url-codec', 'url-file-maker'],
 		faq: [
 			{
 				question: 'Why does it say "Invalid URL"?',
