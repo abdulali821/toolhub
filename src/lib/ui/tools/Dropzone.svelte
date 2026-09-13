@@ -7,6 +7,7 @@
 		label?: string;
 		hint?: string;
 		disabled?: boolean;
+		class?: string;
 		onselect: (file: File) => void;
 		onerror?: (message: string) => void;
 	};
@@ -16,6 +17,7 @@
 		label = 'Drop a file here or browse',
 		hint,
 		disabled = false,
+		class: className = '',
 		onselect,
 		onerror
 	}: Props = $props();
@@ -46,11 +48,11 @@
 	role="button"
 	tabindex={disabled ? -1 : 0}
 	aria-disabled={disabled}
-	class="rounded-lg border border-dashed px-4 py-8 text-center transition-colors {dragging
+	class="rounded-lg border border-dashed text-center transition-colors {dragging
 		? 'border-accent bg-accent/5'
 		: 'border-border bg-bg-elevated'} {disabled
 		? 'pointer-events-none opacity-50'
-		: 'cursor-pointer'}"
+		: 'cursor-pointer'} {className || 'px-4 py-8'}"
 	ondragenter={(e) => {
 		e.preventDefault();
 		dragging = true;

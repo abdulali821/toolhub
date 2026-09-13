@@ -7,10 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-Catalog is now **~107 tools** (up from **76** at v1.0.0).
+Catalog is now **~110 tools** (up from **76** at v1.0.0).
 
 ### Added
 
+- MP4 to GIF (`mp4-to-gif`): convert MP4 clips to animated GIF in the browser (FPS + max width)
+- GIF to MP4 (`gif-to-mp4`): convert animated GIF to MP4 video in the browser
+- SVG to GIF (`svg-to-gif`): turn SVG into a GIF with optional pulse loop — browser-local
 - URL File Maker (`url-file-maker`): create Windows `.url` Internet Shortcuts from a link; download locally in the browser
 - Divider Maker (`image-divider`): repeating icon banners for blogs/Carrd (repeat, alternate, sequence, dots, dashes, tilt); default 1200×480 PNG — browser-local
 - Image Splitter (`image-splitter`): split vertically, horizontally, or grid with equal blocks or fixed size, optional overlap, per-piece + ZIP download — browser-local (PineTools-style)
@@ -39,6 +42,7 @@ Catalog is now **~107 tools** (up from **76** at v1.0.0).
 
 ### Changed
 
+- Divider Maker (`image-divider`): animated GIF export with rainbow, scroll, bounce as independent effect switches (still mode stays PNG); edge-to-edge motif packing and an Images-in-row control with visible max
 - Shared UI and major routes use design tokens (`bg-bg`, `text-fg`, `border-border`, …) so light/dark themes stay consistent
 - Homepage / Color & Design pack updated for newer color, CSS, generator, text, data, and image tools
 - Markdown tools (`markdown-preview`, `markdown-to-html`, `markdown-to-pdf`) no longer live-sync document body into the URL; Share copies a short tool link. Presets still apply via a one-shot `?markdown=` that is stripped after load
