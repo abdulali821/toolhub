@@ -69,7 +69,7 @@ export const platformCollections: PlatformCollection[] = [
 		id: 'image-essentials',
 		name: 'Image Essentials',
 		description:
-			'Compress, resize, crop, convert, tile, split, and make divider banners locally—PNG, JPG, WebP, and SVG.',
+			'Compress, resize, crop, convert, tile, split, make dividers, and turn MP4/SVG into GIF locally—PNG, JPG, WebP, SVG, and video.',
 		toolIds: [
 			'image-compressor',
 			'image-resizer',
@@ -83,7 +83,10 @@ export const platformCollections: PlatformCollection[] = [
 			'image-converter',
 			'image-watermark',
 			'image-metadata',
-			'svg-optimizer'
+			'svg-optimizer',
+			'mp4-to-gif',
+			'gif-to-mp4',
+			'svg-to-gif'
 		]
 	},
 	{

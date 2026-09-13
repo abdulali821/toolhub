@@ -107,6 +107,9 @@ import { imageTiler } from './image-tiler';
 import { imageSplitter } from './image-splitter';
 import { imageDivider } from './image-divider';
 import { urlFileMaker } from './url-file-maker';
+import { mp4ToGif } from './mp4-to-gif';
+import { gifToMp4 } from './gif-to-mp4';
+import { svgToGif } from './svg-to-gif';
 
 const tools = [
 	jsonFormatter,
@@ -215,7 +218,10 @@ const tools = [
 	imageTiler,
 	imageSplitter,
 	imageDivider,
-	urlFileMaker
+	urlFileMaker,
+	mp4ToGif,
+	gifToMp4,
+	svgToGif
 ] as const;
 
 // Vite HMR re-executes this module while the engine Map may still hold prior entries.
