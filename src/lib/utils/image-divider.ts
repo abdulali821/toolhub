@@ -5,7 +5,8 @@ export const DIVIDER_PATTERNS = [
 	'icon-dot',
 	'dots',
 	'dashes',
-	'tilt'
+	'tilt',
+	'starbanner'
 ] as const;
 
 export type DividerPattern = (typeof DIVIDER_PATTERNS)[number];
@@ -62,7 +63,7 @@ export function motionFromEffects(effects: DividerEffects): DividerMotion {
 	return 'combo';
 }
 
-export type DividerMotifKind = 'icon' | 'circle' | 'dash';
+export type DividerMotifKind = 'icon' | 'circle' | 'dash' | 'line' | 'star';
 
 export type DividerMotif = {
 	kind: DividerMotifKind;
@@ -86,7 +87,11 @@ export const DIVIDER_SIZE_PRESETS = [
 ] as const;
 
 export function patternNeedsImage(pattern: DividerPattern): boolean {
-	return pattern !== 'dots' && pattern !== 'dashes';
+	return pattern !== 'dots' && pattern !== 'dashes' && pattern !== 'starbanner';
+}
+
+export function isStarbanner(pattern: DividerPattern): boolean {
+	return pattern === 'starbanner';
 }
 
 /** Repeating motif list for a pattern. Icons cycle by upload order. */
@@ -95,6 +100,10 @@ export function motifCycle(pattern: DividerPattern, iconCount: number): DividerM
 
 	if (pattern === 'dots') return [{ kind: 'circle' }];
 	if (pattern === 'dashes') return [{ kind: 'dash' }];
+	// Starbanner uses a dedicated layout (line — ornament — line).
+	if (pattern === 'starbanner') {
+		return count >= 1 ? [{ kind: 'icon', iconIndex: 0 }] : [{ kind: 'star' }];
+	}
 
 	if (count < 1) {
 		if (pattern === 'icon-dot') return [{ kind: 'circle' }];
@@ -135,6 +144,16 @@ export function motifBox(motif: DividerMotif, iconSize: number): { w: number; h:
 			w: Math.max(3, Math.round(size * 0.1)),
 			h: Math.max(12, Math.round(size * 0.55))
 		};
+	}
+	if (motif.kind === 'line') {
+		return {
+			w: Math.max(16, size * 4),
+			h: Math.max(1, Math.round(size * 0.06))
+		};
+	}
+	if (motif.kind === 'star') {
+		const box = Math.round(size);
+		return { w: box, h: box };
 	}
 	const pad = motif.rotateDeg ? 1.18 : 1;
 	const box = Math.round(size * pad);
@@ -222,6 +241,54 @@ export function layoutScrollTile(
 /** @deprecated Use the raw cycle via layoutScrollTile — kept for callers/tests. */
 export function loopSyncCycle(cycle: DividerMotif[]): DividerMotif[] {
 	return [...cycle];
+}
+
+/**
+ * Classic F2U starbanner: horizontal rule — center ornament — horizontal rule.
+ * Uses the first upload when present; otherwise a built-in outline star.
+ */
+export function layoutStarbannerSlots(
+	canvasWidth: number,
+	canvasHeight: number,
+	iconSize: number,
+	gap: number,
+	hasIcon: boolean
+): DividerSlot[] {
+	const center: DividerMotif = hasIcon ? { kind: 'icon', iconIndex: 0 } : { kind: 'star' };
+	const centerBox = motifBox(center, iconSize);
+	const lineH = Math.max(1, Math.round(iconSize * 0.06));
+	const spacing = Math.max(4, Math.round(gap));
+
+	const centerX = Math.round((canvasWidth - centerBox.w) / 2);
+	const leftW = Math.max(8, centerX - spacing);
+	const rightX = centerX + centerBox.w + spacing;
+	const rightW = Math.max(8, canvasWidth - rightX);
+	const lineY = Math.round((canvasHeight - lineH) / 2);
+	const centerY = Math.round((canvasHeight - centerBox.h) / 2);
+
+	return [
+		{
+			x: 0,
+			y: lineY,
+			w: leftW,
+			h: lineH,
+			motif: { kind: 'line' }
+		},
+		{
+			x: centerX,
+			y: centerY,
+			w: centerBox.w,
+			h: centerBox.h,
+			motif: center
+		},
+		{
+			x: rightX,
+			y: lineY,
+			w: rightW,
+			h: lineH,
+			motif: { kind: 'line' }
+		}
+	];
 }
 
 export function layoutDividerSlots(
@@ -397,6 +464,36 @@ function drawMotif(
 			ctx.rect(slot.x, slot.y, slot.w, slot.h);
 		}
 		ctx.fill();
+		return;
+	}
+
+	if (motif.kind === 'line') {
+		ctx.fillStyle = accentColor;
+		ctx.fillRect(slot.x, slot.y, slot.w, Math.max(1, slot.h));
+		return;
+	}
+
+	if (motif.kind === 'star') {
+		const outer = Math.min(slot.w, slot.h) / 2;
+		const inner = outer * 0.42;
+		const stroke = Math.max(1.25, outer * 0.08);
+		ctx.save();
+		ctx.translate(cx, cy);
+		ctx.beginPath();
+		for (let i = 0; i < 10; i++) {
+			const r = i % 2 === 0 ? outer : inner;
+			const a = -Math.PI / 2 + (i * Math.PI) / 5;
+			const x = Math.cos(a) * r;
+			const y = Math.sin(a) * r;
+			if (i === 0) ctx.moveTo(x, y);
+			else ctx.lineTo(x, y);
+		}
+		ctx.closePath();
+		ctx.strokeStyle = accentColor;
+		ctx.lineWidth = stroke;
+		ctx.lineJoin = 'round';
+		ctx.stroke();
+		ctx.restore();
 		return;
 	}
 

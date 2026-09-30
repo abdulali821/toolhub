@@ -56,5 +56,9 @@ export default defineConfig(
 		rules: {
 			'svelte/no-at-html-tags': 'off'
 		}
+	},
+	{
+		// Third-party vendored scripts — do not lint / reformat.
+		ignores: ['src/lib/vendor/**']
 	}
 );

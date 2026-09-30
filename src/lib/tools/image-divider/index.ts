@@ -6,8 +6,10 @@ import {
 	MAX_DIVIDER_UPLOADS,
 	effectsAreAnimated,
 	encodeDividerGif,
+	isStarbanner,
 	layoutDividerSlots,
 	layoutScrollTile,
+	layoutStarbannerSlots,
 	maxMotifCount,
 	motifCycle,
 	normalizeEffects,
@@ -89,23 +91,42 @@ export async function run(input: ImageDividerInput): Promise<ImageDividerOutput>
 	}
 
 	const effects = effectsFromInput(input);
-	const cycle = motifCycle(input.pattern, icons.length);
 
 	let slots;
 	let unitWidth: number;
 	let cycleLength: number;
 
-	if (effects.scroll) {
-		const tile = layoutScrollTile(cycle, input.height, input.iconSize, input.gap);
-		slots = tile.slots;
-		unitWidth = tile.period;
-		cycleLength = tile.cycleLength;
-	} else {
-		const max = maxMotifCount(input.width, cycle, input.iconSize, input.gap);
-		const count = input.count ? Math.min(input.count, Math.max(1, max)) : undefined;
-		slots = layoutDividerSlots(input.width, input.height, cycle, input.iconSize, input.gap, count);
-		cycleLength = Math.max(1, cycle.length);
+	if (isStarbanner(input.pattern)) {
+		slots = layoutStarbannerSlots(
+			input.width,
+			input.height,
+			input.iconSize,
+			input.gap,
+			icons.length >= 1
+		);
 		unitWidth = input.width;
+		cycleLength = slots.length;
+	} else {
+		const cycle = motifCycle(input.pattern, icons.length);
+		if (effects.scroll) {
+			const tile = layoutScrollTile(cycle, input.height, input.iconSize, input.gap);
+			slots = tile.slots;
+			unitWidth = tile.period;
+			cycleLength = tile.cycleLength;
+		} else {
+			const max = maxMotifCount(input.width, cycle, input.iconSize, input.gap);
+			const count = input.count ? Math.min(input.count, Math.max(1, max)) : undefined;
+			slots = layoutDividerSlots(
+				input.width,
+				input.height,
+				cycle,
+				input.iconSize,
+				input.gap,
+				count
+			);
+			cycleLength = Math.max(1, cycle.length);
+			unitWidth = input.width;
+		}
 	}
 
 	if (effectsAreAnimated(effects)) {
@@ -150,7 +171,7 @@ export async function run(input: ImageDividerInput): Promise<ImageDividerOutput>
 
 export const imageDivider: ToolDefinition<ImageDividerInput, ImageDividerOutput> = {
 	id: 'image-divider',
-	version: '1.2.0',
+	version: '1.3.0',
 	category: 'image',
 	mode: 'upload',
 	status: 'stable',
@@ -158,6 +179,7 @@ export const imageDivider: ToolDefinition<ImageDividerInput, ImageDividerOutput>
 		'image',
 		'divider',
 		'banner',
+		'starbanner',
 		'repeat',
 		'pattern',
 		'carrd',
@@ -184,14 +206,16 @@ export const imageDivider: ToolDefinition<ImageDividerInput, ImageDividerOutput>
 			'gif divider',
 			'rainbow divider',
 			'repeating icon banner',
+			'starbanner',
+			'f2u divider',
 			'pixel divider',
 			'tumblr divider'
 		],
 		related: ['image-tiler', 'background-remover', 'image-resizer', 'crop-image'],
 		howTo: [
 			'Upload one or more small icons (PNG with a transparent background works best) — up to 8 max',
-			'Pick a pattern — repeat, alternate, sequence, dots, dashes, or tilted',
-			'Set how many images appear in the row (max depends on strip size)',
+			'Pick a pattern — repeat, alternate, sequence, dots, dashes, tilted, or Starbanner',
+			'Set how many images appear in the row (max depends on strip size; Starbanner is always line — ornament — line)',
 			'Toggle rainbow, scroll, and/or bounce on or off',
 			'Download a PNG (still) or GIF (when any effect is on)'
 		],
@@ -207,14 +231,19 @@ export const imageDivider: ToolDefinition<ImageDividerInput, ImageDividerOutput>
 					'Yes. Flip on Rainbow, Scroll, and/or Bounce — mix any combo. Animated exports are GIFs. With all effects off you get a PNG.'
 			},
 			{
+				question: 'What is Starbanner?',
+				answer:
+					'A classic F2U-style strip: horizontal line, center ornament, horizontal line. Upload an icon for the center, or leave it empty for a built-in outline star. Accent color tints the lines (and the star when unused).'
+			},
+			{
 				question: 'How do I control how many icons show?',
 				answer:
-					'Use Images in row. The max is calculated from strip width, icon size, and minimum spacing so motifs stay edge-to-edge without empty side gutters.'
+					'Use Images in row. The max is calculated from strip width, icon size, and minimum spacing so motifs stay edge-to-edge without empty side gutters. Starbanner always uses one center ornament.'
 			},
 			{
 				question: 'Do I need more than one image?',
 				answer:
-					'No. One icon is enough for Repeat, Tilted, or Icon + dots. Upload several if you want them to take turns.'
+					'No. One icon is enough for Repeat, Tilted, or Icon + dots. Dots, dashes, and Starbanner work with no upload. Upload several if you want them to take turns.'
 			},
 			{
 				question: 'Are images uploaded to a server?',
