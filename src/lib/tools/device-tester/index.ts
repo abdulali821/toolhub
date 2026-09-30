@@ -134,7 +134,7 @@ export const deviceTester: ToolDefinition<DeviceTesterInput, DeviceTesterOutput>
 	tags: ['microphone', 'camera', 'webcam', 'device', 'test'],
 	capabilities: ['reset', 'favorite'],
 	workflow: {
-		next: ['keyboard-tester']
+		next: ['screen-recorder', 'keyboard-tester']
 	},
 	metadata: {
 		name: 'Mic and Camera Tester',
@@ -148,7 +148,7 @@ export const deviceTester: ToolDefinition<DeviceTesterInput, DeviceTesterOutput>
 			'microphone test',
 			'test my microphone and camera'
 		],
-		related: ['keyboard-tester', 'qr-code-generator'],
+		related: ['screen-recorder', 'keyboard-tester', 'qr-code-generator'],
 		faq: [
 			{
 				question: 'Does this upload my audio or video anywhere?',

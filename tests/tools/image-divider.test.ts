@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import {
+	isStarbanner,
 	layoutDividerSlots,
 	layoutScrollTile,
+	layoutStarbannerSlots,
 	loopSyncCycle,
 	maxMotifCount,
 	motifCycle,
@@ -16,6 +18,9 @@ describe('image-divider helpers', () => {
 		expect(patternNeedsImage('tilt')).toBe(true);
 		expect(patternNeedsImage('dots')).toBe(false);
 		expect(patternNeedsImage('dashes')).toBe(false);
+		expect(patternNeedsImage('starbanner')).toBe(false);
+		expect(isStarbanner('starbanner')).toBe(true);
+		expect(isStarbanner('repeat')).toBe(false);
 	});
 
 	it('treats only non-none motions as animated', () => {
@@ -64,6 +69,24 @@ describe('image-divider helpers', () => {
 			[1, 20],
 			[2, -20]
 		]);
+	});
+
+	it('starbanner uses a star by default, or the first upload', () => {
+		expect(motifCycle('starbanner', 0)).toEqual([{ kind: 'star' }]);
+		expect(motifCycle('starbanner', 2)).toEqual([{ kind: 'icon', iconIndex: 0 }]);
+	});
+
+	it('lays out starbanner as line — ornament — line', () => {
+		const noIcon = layoutStarbannerSlots(1200, 120, 48, 24, false);
+		expect(noIcon).toHaveLength(3);
+		expect(noIcon[0]!.motif.kind).toBe('line');
+		expect(noIcon[0]!.x).toBe(0);
+		expect(noIcon[1]!.motif.kind).toBe('star');
+		expect(noIcon[2]!.motif.kind).toBe('line');
+		expect(noIcon[2]!.x + noIcon[2]!.w).toBe(1200);
+
+		const withIcon = layoutStarbannerSlots(1200, 120, 48, 24, true);
+		expect(withIcon[1]!.motif).toEqual({ kind: 'icon', iconIndex: 0 });
 	});
 
 	it('loop-sync keeps the raw cycle (period trailing-gap is the real seam fix)', () => {
@@ -115,6 +138,7 @@ describe('image-divider tool', () => {
 		expect(imageDivider.category).toBe('image');
 		expect(imageDivider.capabilities).toContain('download');
 		expect(imageDivider.tags).toContain('gif');
-		expect(imageDivider.version).toBe('1.2.0');
+		expect(imageDivider.tags).toContain('starbanner');
+		expect(imageDivider.version).toBe('1.3.0');
 	});
 });

@@ -158,3 +158,41 @@ export async function convertGifToMp4(options: GifToMp4Options): Promise<Blob> {
 	const out = data instanceof Uint8Array ? data : new TextEncoder().encode(String(data));
 	return new Blob([Uint8Array.from(out)], { type: 'video/mp4' });
 }
+
+/**
+ * Remux a MediaRecorder WebM with stream-copy so Duration + cues exist.
+ * Players (VLC, Edge, Windows) can then show a working progress / seek bar.
+ */
+export async function remuxWebmSeekable(
+	blob: Blob,
+	onProgress?: (progress: FfmpegProgress) => void
+): Promise<Blob> {
+	const type = blob.type || 'video/webm';
+	const ff = await getFFmpeg(onProgress);
+	const inputName = 'rec-in.webm';
+	const outputName = 'rec-out.webm';
+	const bytes = new Uint8Array(await blob.arrayBuffer());
+
+	await ff.writeFile(inputName, bytes);
+	const code = await ff.exec([
+		'-fflags',
+		'+genpts',
+		'-i',
+		inputName,
+		'-c',
+		'copy',
+		'-y',
+		outputName
+	]);
+	if (code !== 0) {
+		await ff.deleteFile(inputName).catch(() => undefined);
+		throw new Error('Failed to remux recording');
+	}
+
+	const data = await ff.readFile(outputName);
+	await ff.deleteFile(inputName).catch(() => undefined);
+	await ff.deleteFile(outputName).catch(() => undefined);
+
+	const out = data instanceof Uint8Array ? data : new TextEncoder().encode(String(data));
+	return new Blob([Uint8Array.from(out)], { type });
+}

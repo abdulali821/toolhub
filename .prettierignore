@@ -5,6 +5,9 @@ yarn.lock
 bun.lock
 bun.lockb
 
+# Vendored third-party (do not reformat)
+src/lib/vendor/
+
 # Miscellaneous
 /static/
 .tmp/

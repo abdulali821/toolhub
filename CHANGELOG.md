@@ -7,10 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-Catalog is now **~110 tools** (up from **76** at v1.0.0).
+Catalog is now **~111 tools** (up from **76** at v1.0.0).
 
 ### Added
 
+- Screen Recorder (`screen-recorder`): record a tab, window, or screen in the browser with optional mic; download WebM/MP4 locally — nothing uploaded
 - MP4 to GIF (`mp4-to-gif`): convert MP4 clips to animated GIF in the browser (FPS + max width)
 - GIF to MP4 (`gif-to-mp4`): convert animated GIF to MP4 video in the browser
 - SVG to GIF (`svg-to-gif`): turn SVG into a GIF with optional pulse loop — browser-local
@@ -42,7 +43,7 @@ Catalog is now **~110 tools** (up from **76** at v1.0.0).
 
 ### Changed
 
-- Divider Maker (`image-divider`): animated GIF export with rainbow, scroll, bounce as independent effect switches (still mode stays PNG); edge-to-edge motif packing and an Images-in-row control with visible max
+- Divider Maker (`image-divider`): Starbanner pattern (line — center ornament — line; optional upload or built-in outline star); animated GIF export with rainbow, scroll, bounce as independent effect switches (still mode stays PNG); edge-to-edge motif packing and an Images-in-row control with visible max
 - Shared UI and major routes use design tokens (`bg-bg`, `text-fg`, `border-border`, …) so light/dark themes stay consistent
 - Homepage / Color & Design pack updated for newer color, CSS, generator, text, data, and image tools
 - Markdown tools (`markdown-preview`, `markdown-to-html`, `markdown-to-pdf`) no longer live-sync document body into the URL; Share copies a short tool link. Presets still apply via a one-shot `?markdown=` that is stripped after load

@@ -102,6 +102,7 @@ import { csvViewer } from './csv-viewer';
 import { keyboardTester } from './keyboard-tester';
 import { glassmorphismGenerator } from './glassmorphism-generator';
 import { deviceTester } from './device-tester';
+import { screenRecorder } from './screen-recorder';
 import { backgroundRemover } from './background-remover';
 import { imageTiler } from './image-tiler';
 import { imageSplitter } from './image-splitter';
@@ -214,6 +215,7 @@ const tools = [
 	keyboardTester,
 	glassmorphismGenerator,
 	deviceTester,
+	screenRecorder,
 	backgroundRemover,
 	imageTiler,
 	imageSplitter,

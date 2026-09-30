@@ -145,7 +145,7 @@ export const platformCollections: PlatformCollection[] = [
 		id: 'generators-pack',
 		name: 'Generators Pack',
 		description:
-			'QR codes, barcodes, cron schedules, passwords, NanoIDs, URL shortcuts, fake data, timezone meeting planner, and device testers.',
+			'QR codes, barcodes, cron schedules, passwords, NanoIDs, URL shortcuts, fake data, timezone meeting planner, device testers, and screen recorder.',
 		toolIds: [
 			'qr-code-generator',
 			'barcode-generator',
@@ -157,7 +157,8 @@ export const platformCollections: PlatformCollection[] = [
 			'lorem-ipsum',
 			'timezone-meeting-planner',
 			'keyboard-tester',
-			'device-tester'
+			'device-tester',
+			'screen-recorder'
 		]
 	}
 ];

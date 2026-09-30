@@ -10,8 +10,10 @@
 		MAX_DIVIDER_UPLOADS,
 		effectsAreAnimated,
 		encodeDividerGif,
+		isStarbanner,
 		layoutDividerSlots,
 		layoutScrollTile,
+		layoutStarbannerSlots,
 		maxMotifCount,
 		motifCycle,
 		normalizeEffects,
@@ -34,7 +36,12 @@
 		{ value: 'icon-dot', title: 'Icon + dots', hint: 'Each icon, then a matching circle' },
 		{ value: 'dots', title: 'Dots', hint: 'Just circles — no upload needed' },
 		{ value: 'dashes', title: 'Dashes', hint: 'Just dashes — no upload needed' },
-		{ value: 'tilt', title: 'Tilted', hint: 'All icons, alternating lean' }
+		{ value: 'tilt', title: 'Tilted', hint: 'All icons, alternating lean' },
+		{
+			value: 'starbanner',
+			title: 'Starbanner',
+			hint: 'Line — ornament — line (upload optional)'
+		}
 	];
 
 	const EFFECT_SWITCHES: {
@@ -75,7 +82,9 @@
 	const animated = $derived(effectsAreAnimated(effects));
 	const iconSizeMax = $derived(Math.max(16, Math.min(160, height)));
 	const effectiveIconSize = $derived(Math.min(iconSize, iconSizeMax));
+	const starbanner = $derived(isStarbanner(pattern));
 	const motifMax = $derived.by(() => {
+		if (isStarbanner(pattern)) return 1;
 		const cycle = motifCycle(pattern, icons.length);
 		if (!cycle.length) return 1;
 		return Math.min(
@@ -178,6 +187,21 @@
 	}
 
 	function layoutForCurrent(loaded: Awaited<ReturnType<typeof loadIcons>>) {
+		if (isStarbanner(pattern)) {
+			const slots = layoutStarbannerSlots(
+				width,
+				height,
+				effectiveIconSize,
+				gap,
+				loaded.length >= 1
+			);
+			return {
+				slots,
+				unitWidth: width,
+				cycleLength: slots.length
+			};
+		}
+
 		const cycle = motifCycle(pattern, loaded.length);
 
 		if (effects.scroll) {
@@ -567,7 +591,12 @@
 			/>
 			<p class="mt-1 text-sm text-muted">Capped to strip height ({height}px).</p>
 		</Field>
-		<Field id="div-gap" label="Min spacing ({Math.round(gap)}px)">
+		<Field
+			id="div-gap"
+			label={starbanner
+				? `Ornament gap (${Math.round(gap)}px)`
+				: `Min spacing (${Math.round(gap)}px)`}
+		>
 			<input
 				id="div-gap"
 				type="range"
@@ -578,31 +607,36 @@
 				class="w-full accent-fg"
 			/>
 			<p class="mt-1 text-sm text-muted">
-				Used to calculate the max count; row still fills edge-to-edge.
+				{starbanner
+					? 'Space between each line and the center ornament.'
+					: 'Used to calculate the max count; row still fills edge-to-edge.'}
 			</p>
 		</Field>
 	</div>
 
-	<Field id="div-count" label="Images in row ({effectiveCount} / max {motifMax})">
-		<input
-			id="div-count"
-			type="range"
-			min="1"
-			max={motifMax}
-			step="1"
-			value={effectiveCount}
-			oninput={(e) => {
-				motifCount = Number((e.currentTarget as HTMLInputElement).value);
-			}}
-			class="w-full accent-fg"
-		/>
-		<p class="mt-1 text-sm text-muted">
-			How many icons (or dots/dashes) across the strip. Max depends on size, icon size, and spacing.
-		</p>
-	</Field>
+	{#if !starbanner}
+		<Field id="div-count" label="Images in row ({effectiveCount} / max {motifMax})">
+			<input
+				id="div-count"
+				type="range"
+				min="1"
+				max={motifMax}
+				step="1"
+				value={effectiveCount}
+				oninput={(e) => {
+					motifCount = Number((e.currentTarget as HTMLInputElement).value);
+				}}
+				class="w-full accent-fg"
+			/>
+			<p class="mt-1 text-sm text-muted">
+				How many icons (or dots/dashes) across the strip. Max depends on size, icon size, and
+				spacing.
+			</p>
+		</Field>
+	{/if}
 
-	{#if pattern === 'icon-dot' || pattern === 'dots' || pattern === 'dashes' || (pattern === 'alternate' && icons.length < 2)}
-		<Field id="div-accent" label="Dot / dash color">
+	{#if pattern === 'icon-dot' || pattern === 'dots' || pattern === 'dashes' || pattern === 'starbanner' || (pattern === 'alternate' && icons.length < 2)}
+		<Field id="div-accent" label={starbanner ? 'Line / star color' : 'Dot / dash color'}>
 			<input
 				id="div-accent"
 				class="h-10 w-full rounded-md border border-border bg-bg px-2"
@@ -617,7 +651,7 @@
 
 	{#if needsImage && !icons.length}
 		<p class="text-sm text-muted">
-			Add an icon to preview this pattern. Dots and dashes work without one.
+			Add an icon to preview this pattern. Dots, dashes, and Starbanner work without one.
 		</p>
 	{/if}
 
