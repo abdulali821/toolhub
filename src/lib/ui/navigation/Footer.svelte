@@ -112,8 +112,7 @@
 							href={site.links.github}
 							target="_blank"
 							rel="noopener noreferrer"
-							class="text-muted no-underline transition-colors hover:text-fg"
-							>GitHub — add a tool</a
+							class="text-muted no-underline transition-colors hover:text-fg">GitHub — add a tool</a
 						>
 					</li>
 					<li>
