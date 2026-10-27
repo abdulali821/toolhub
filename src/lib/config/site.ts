@@ -8,7 +8,12 @@
 export const site = {
 	name: 'HeyTools',
 	tagline: 'Premium tools for focused work.',
-	defaultTitleTemplate: '%s | HeyTools'
+	defaultTitleTemplate: '%s | HeyTools',
+	/** Public community + contribution links (shown in header/footer). */
+	links: {
+		discord: 'https://discord.gg/wbvM2k6bve',
+		github: 'https://github.com/abdulali821/toolhub'
+	}
 } as const;
 
 export const categories = [

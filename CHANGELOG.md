@@ -7,10 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-Catalog is now **~111 tools** (up from **76** at v1.0.0).
+Catalog is now **~112 tools** (up from **76** at v1.0.0).
 
 ### Added
 
+- Image Effects (`image-effects`): rainbow + mood + aesthetic overlays (sunset, vaporwave, cyberpunk, light leak, scanlines, …), look filters, intensity presets, blend modes, chromatic / pixelate / posterize / vignette / grain — browser-local PNG; custom textures supported
 - Screen Recorder (`screen-recorder`): record a tab, window, or screen in the browser with optional mic; download WebM/MP4 locally — nothing uploaded
 - MP4 to GIF (`mp4-to-gif`): convert MP4 clips to animated GIF in the browser (FPS + max width)
 - GIF to MP4 (`gif-to-mp4`): convert animated GIF to MP4 video in the browser
@@ -43,6 +44,7 @@ Catalog is now **~111 tools** (up from **76** at v1.0.0).
 
 ### Changed
 
+- Favicon Generator (`favicon-generator`): modern multi-platform UI (desktop / iOS / PWA) with live previews, per-platform margin & background, maskable icons, `site.webmanifest`, SVG favicon support, and a full ZIP bundle
 - Divider Maker (`image-divider`): Starbanner pattern (line — center ornament — line; optional upload or built-in outline star); animated GIF export with rainbow, scroll, bounce as independent effect switches (still mode stays PNG); edge-to-edge motif packing and an Images-in-row control with visible max
 - Shared UI and major routes use design tokens (`bg-bg`, `text-fg`, `border-border`, …) so light/dark themes stay consistent
 - Homepage / Color & Design pack updated for newer color, CSS, generator, text, data, and image tools

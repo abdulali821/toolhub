@@ -93,6 +93,7 @@ import { queryStringJson } from './query-string-json';
 import { tipCalculator } from './tip-calculator';
 import { bmiCalculator } from './bmi-calculator';
 import { imageWatermark } from './image-watermark';
+import { imageEffects } from './image-effects';
 import { markdownToPdf } from './markdown-to-pdf';
 import { cssAnimationGenerator } from './css-animation-generator';
 import { faviconGenerator } from './favicon-generator';
@@ -206,6 +207,7 @@ const tools = [
 	tipCalculator,
 	bmiCalculator,
 	imageWatermark,
+	imageEffects,
 	markdownToPdf,
 	cssAnimationGenerator,
 	faviconGenerator,
